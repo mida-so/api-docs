@@ -1,0 +1,107 @@
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(400px, 460px);
+  gap: 1.25rem;
+  align-items: start;
+}
+
+.left {
+  min-width: 0;
+}
+
+.headerCard {
+  border: 1px solid var(--docs-border);
+  border-radius: 14px;
+  padding: 1.2rem 1.2rem 1rem;
+  background: var(--docs-card-bg);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
+}
+
+.title {
+  margin: 0 0 0.55rem;
+  font-size: 2rem;
+  line-height: 1.15;
+}
+
+.endpointRow {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+}
+
+.methodBadge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  min-width: 60px;
+  text-align: center;
+  padding: 0.35rem 0.45rem;
+  border-radius: 999px;
+  color: var(--ifm-font-color-base);
+  border: 1px solid var(--docs-border);
+  background: var(--docs-field-bg);
+}
+
+.methodGET {
+  background: var(--ifm-background-surface-color);
+}
+
+.methodPOST {
+  background: var(--ifm-background-surface-color);
+}
+
+.methodPATCH {
+  background: var(--ifm-background-surface-color);
+}
+
+.methodPUT {
+  background: var(--ifm-background-surface-color);
+}
+
+.endpointPath {
+  padding: 0.3rem 0.5rem;
+  border-radius: 8px;
+  border: 1px solid var(--docs-border);
+  background: var(--docs-field-bg);
+  font-size: 0.82rem;
+}
+
+.description {
+  margin: 0;
+  color: var(--ifm-color-emphasis-700);
+}
+
+.contentCard {
+  margin-top: 1rem;
+  border: 1px solid var(--docs-border);
+  border-radius: 14px;
+  padding: 1rem 1.2rem;
+  background: var(--docs-card-bg);
+}
+
+.right {
+  min-width: 0;
+  width: 100%;
+}
+
+.stickyBox {
+  position: sticky;
+  top: calc(var(--ifm-navbar-height) + 0.8rem);
+  width: 100%;
+}
+
+@media (max-width: 1320px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr) minmax(400px, 430px);
+  }
+}
+
+@media (max-width: 1120px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+  .stickyBox {
+    position: static;
+  }
+}

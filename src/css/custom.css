@@ -1,0 +1,182 @@
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+/* You can override the default Infima variables here. */
+:root {
+  --ifm-color-primary: #171717;
+  --ifm-color-primary-dark: #171717;
+  --ifm-color-primary-darker: #171717;
+  --ifm-color-primary-darkest: #171717;
+  --ifm-color-primary-light: #171717;
+  --ifm-color-primary-lighter: #171717;
+  --ifm-color-primary-lightest: #171717;
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+  --ifm-background-surface-color: #f8f9fa;
+  --ifm-background-color: #f8f9fa;
+  --ifm-font-color-base: #171717;
+  --ifm-color-emphasis-100: #fafafa;
+  --ifm-color-emphasis-200: #d4d4d4;
+  --ifm-color-emphasis-300: #d4d4d4;
+  --ifm-color-emphasis-400: #d4d4d4;
+  --ifm-color-emphasis-700: #171717;
+  --ifm-navbar-background-color: rgba(255, 255, 255, 0.96);
+  --docs-sidebar-bg: #ffffff;
+  --ifm-code-background: #ffffff;
+  --docs-card-bg: #ffffff;
+  --docs-field-bg: #ffffff;
+  --docs-border: #d4d4d4;
+}
+
+/* For readability concerns, you should choose a lighter palette in dark mode. */
+[data-theme='dark'] {
+  --ifm-color-primary: #171717;
+  --ifm-color-primary-dark: #171717;
+  --ifm-color-primary-darker: #171717;
+  --ifm-color-primary-darkest: #171717;
+  --ifm-color-primary-light: #171717;
+  --ifm-color-primary-lighter: #171717;
+  --ifm-color-primary-lightest: #171717;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+  --ifm-background-surface-color: #10141a;
+  --ifm-background-color: #0a0b0e;
+  --ifm-font-color-base: #d7dbe0;
+  --ifm-heading-color: #eceff3;
+  --ifm-font-color-secondary: #aeb4bb;
+  --ifm-color-emphasis-100: #10141a;
+  --ifm-color-emphasis-200: #1f2630;
+  --ifm-color-emphasis-300: #2b3542;
+  --ifm-color-emphasis-400: #4c5a6c;
+  --ifm-color-emphasis-700: #aeb4bb;
+  --ifm-navbar-background-color: rgba(10, 11, 14, 0.96);
+  --docs-sidebar-bg: #10141a;
+  --ifm-code-background: #0d1117;
+  --docs-card-bg: #10141a;
+  --docs-field-bg: #0d1117;
+  --docs-border: #1f2630;
+}
+
+body {
+  background: var(--ifm-background-color);
+}
+
+.navbar {
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.theme-doc-sidebar-container {
+  background: var(--docs-sidebar-bg);
+  border-right: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.menu__link {
+  border-radius: 8px;
+}
+
+.sidebar-method .menu__link,
+.menu__link.sidebar-method {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.sidebar-method .menu__link::after,
+.menu__link.sidebar-method::after {
+  flex-shrink: 0;
+  padding: 0;
+  font-size: 0.7rem;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: 0.04em;
+}
+
+.sidebar-method--get .menu__link::after,
+.menu__link.sidebar-method--get::after {
+  content: 'GET';
+  color: #59c7a0;
+}
+
+.sidebar-method--post .menu__link::after,
+.menu__link.sidebar-method--post::after {
+  content: 'POST';
+  color: #6aa9ff;
+}
+
+.sidebar-method--patch .menu__link::after,
+.menu__link.sidebar-method--patch::after {
+  content: 'PATCH';
+  color: #f1b35d;
+}
+
+.sidebar-method--del .menu__link::after,
+.menu__link.sidebar-method--del::after {
+  content: 'DEL';
+  color: #f08a98;
+}
+
+.menu__link--active {
+  font-weight: 700;
+  background: var(--ifm-background-surface-color);
+  border: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.pagination-nav__link {
+  color: var(--ifm-font-color-base);
+}
+
+.pagination-nav__label,
+.pagination-nav__sublabel {
+  color: inherit;
+}
+
+[data-theme='dark'] .menu__link--active,
+[data-theme='dark'] .menu__link--active:hover,
+[data-theme='dark'] .menu__link--active:focus {
+  color: #eceff3;
+  background: #1f2630;
+  border-color: #2b3542;
+}
+
+[data-theme='dark'] .navbar__link,
+[data-theme='dark'] .navbar__brand,
+[data-theme='dark'] .navbar__title,
+[data-theme='dark'] .pagination-nav__link,
+[data-theme='dark'] .pagination-nav__label,
+[data-theme='dark'] .pagination-nav__sublabel {
+  color: #eceff3;
+}
+
+[data-theme='dark'] .navbar__link--active,
+[data-theme='dark'] .navbar__link:hover,
+[data-theme='dark'] .menu__link:hover {
+  color: #ffffff;
+}
+
+.theme-doc-markdown {
+  max-width: none;
+}
+
+.theme-doc-markdown pre,
+.theme-doc-markdown table {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.theme-doc-markdown h1 {
+  font-size: 2rem;
+  margin-bottom: 0.4rem;
+}
+
+.theme-doc-markdown h2 {
+  margin-top: 2rem;
+}
+
+.theme-doc-markdown h2,
+.theme-doc-markdown h3 {
+  letter-spacing: -0.01em;
+}
