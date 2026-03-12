@@ -19,7 +19,7 @@ export default function ApiEndpointLayout({
         <header className={styles.headerCard}>
           <div className={styles.titleRow}>
             <h1 className={styles.title}>{title}</h1>
-            <AskAiButton pageTitle={title} />
+            <AskAiButton pageTitle={title} method={method} endpoint={endpoint} description={description} />
           </div>
           <div className={styles.endpointRow}>
             <span className={`${styles.methodBadge} ${styles[`method${method.toUpperCase()}`]}`}>

@@ -53,17 +53,7 @@ function ExternalLinkIcon() {
 
 function CopyIcon() {
   return (
-    <svg
-      width="14"
-      height="14"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
       <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
     </svg>
@@ -72,23 +62,12 @@ function CopyIcon() {
 
 function CheckIcon() {
   return (
-    <svg
-      width="14"
-      height="14"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <polyline points="20 6 9 17 4 12" />
     </svg>
   );
 }
 
-// Official OpenAI / ChatGPT logo path
 function ChatGPTIcon() {
   return (
     <svg width="16" height="16" viewBox="0 0 41 41" fill="currentColor" aria-hidden="true">
@@ -97,7 +76,6 @@ function ChatGPTIcon() {
   );
 }
 
-// Anthropic Claude logo (stylised A)
 function ClaudeIcon() {
   return (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -106,37 +84,264 @@ function ClaudeIcon() {
   );
 }
 
-// ── AI providers config ────────────────────────────────────────────────────────
+// ── Prompt engineering ─────────────────────────────────────────────────────────
+//
+// Returns an array of { heading, items } blocks that describe what this
+// endpoint covers so the AI is pre-loaded with the right context.
+
+function getContextBlocks(title, method, endpoint) {
+  const t = (title || '').toLowerCase();
+  const e = (endpoint || '').toLowerCase();
+
+  // Create / update experiment — most complex endpoint
+  if ((t.includes('create') || t.includes('update')) && t.includes('experiment')) {
+    return [
+      {
+        heading: 'Variants',
+        items: [
+          'Code-based variants: inject CSS and JavaScript that run on the page',
+          'Visual DOM variants: target a CSS selector and change innerHTML, style, or attributes',
+          'Control the variant name, traffic weight, and whether it\'s the control group',
+        ],
+      },
+      {
+        heading: 'Targeting',
+        items: [
+          'URL conditions: exact match, contains, wildcard (*), or regex',
+          'Device conditions: desktop, mobile, tablet',
+          'Geolocation: country or region targeting',
+          'Visitor properties: new vs returning, UTM params, custom JS expression',
+          'Combine multiple conditions with AND / OR logic',
+        ],
+      },
+      {
+        heading: 'Goals (conversion events)',
+        items: [
+          'clickOnElement / clickOnText — CSS selector or text string that triggers a conversion',
+          'pageview / pageviewExact / pageviewWildcard / pageviewRegex — URL-based goals',
+          'formSubmit — fires when a matching form is submitted',
+          'script — custom JavaScript expression evaluated on each page load',
+          'Goals can be primary (determines winner) or secondary (tracked only)',
+        ],
+      },
+      {
+        heading: 'Experiment configuration',
+        items: [
+          'Traffic allocation: percentage of visitors included in the test',
+          'Confidence interval threshold: default 95 %, customisable',
+          'Multi-armed bandit (MAB): auto-adjusts traffic toward winning variant',
+          'Bayesian statistics mode: alternative to frequentist significance testing',
+          'Autopilot: automatically deploys the winner when significance is reached',
+          'Mutual exclusion groups: prevent visitors from entering overlapping tests',
+        ],
+      },
+      {
+        heading: 'Other',
+        items: [
+          'Idempotency key: pass X-Idempotency-Key to safely retry without duplicate creation',
+          'Draft vs live status: experiments start as draft; use the status endpoint to launch',
+        ],
+      },
+    ];
+  }
+
+  // Read-only experiment endpoints
+  if (t.includes('experiment')) {
+    return [
+      {
+        heading: 'Experiment data',
+        items: [
+          'Status values: draft, live, ended, archived',
+          'Variant performance: visitors, conversions, conversion rate, uplift',
+          'Statistical significance and confidence intervals',
+          'Winner detection and autopilot state',
+        ],
+      },
+      {
+        heading: 'Filtering & pagination',
+        items: [
+          'Filter by status, date range, or experiment name',
+          'Paginate with limit / offset parameters',
+        ],
+      },
+    ];
+  }
+
+  // Create / update event
+  if ((t.includes('create') || t.includes('update')) && t.includes('event')) {
+    return [
+      {
+        heading: 'Event configuration',
+        items: [
+          'event_name: unique identifier used in API calls and goal rules',
+          'event_type: pageview, click, custom, or form_submit',
+          'Selector: CSS selector or URL pattern that triggers the event',
+          'Properties: arbitrary key-value metadata attached to each event',
+          'Deduplication: Redis MD5 hash prevents double-counting within a session',
+        ],
+      },
+      {
+        heading: 'Using events in experiments',
+        items: [
+          'Reference event_name in a goal\'s script field to track it as a conversion',
+          'Events can be shared across multiple experiments simultaneously',
+        ],
+      },
+    ];
+  }
+
+  // List / get event
+  if (t.includes('event')) {
+    return [
+      {
+        heading: 'Event fields',
+        items: [
+          'event_name, event_type, selector, properties',
+          'created_at, updated_at timestamps',
+          'Usage: how many active experiments reference this event',
+        ],
+      },
+      {
+        heading: 'Pagination',
+        items: ['limit (default 20, max 100) and offset for paging through results'],
+      },
+    ];
+  }
+
+  // Create / update goal
+  if ((t.includes('create') || t.includes('update')) && t.includes('goal')) {
+    return [
+      {
+        heading: 'Goal types',
+        items: [
+          'clickOnElement: fires when a visitor clicks a CSS selector',
+          'clickOnText: fires when a visitor clicks any element containing the specified text',
+          'pageview / pageviewExact / pageviewWildcard / pageviewRegex: URL-based conversion',
+          'formSubmit: fires on submission of a form matching the selector',
+          'script: evaluates a JS expression — return true to record a conversion',
+        ],
+      },
+      {
+        heading: 'Goal configuration',
+        items: [
+          'goal_name: display label shown in the experiment results dashboard',
+          'goal_key: stable programmatic identifier (snake_case recommended)',
+          'element_url: URL where the goal element lives (required for click/form goals)',
+          'goal_value: optional monetary value assigned to each conversion',
+          'is_primary: marks this as the primary metric that determines the winning variant',
+        ],
+      },
+    ];
+  }
+
+  // List / get / delete goal
+  if (t.includes('goal')) {
+    return [
+      {
+        heading: 'Goal data',
+        items: [
+          'goal_key, goal_name, goal_type, goal_value',
+          'conversion count and rate per variant',
+          'linked experiment IDs',
+        ],
+      },
+    ];
+  }
+
+  // Fallback for any other endpoint
+  return [
+    {
+      heading: 'What to ask about',
+      items: [
+        'Required and optional request fields',
+        'Constructing a valid API request with the correct headers and body',
+        'Interpreting the response structure and error codes',
+        'Common mistakes and how to avoid them',
+      ],
+    },
+  ];
+}
+
+/**
+ * Builds the full prompt that is sent to the AI or copied to clipboard.
+ *
+ * @param {string} aiName        - "ChatGPT" | "Claude" | null (null = generic copy)
+ * @param {string} pageUrl       - current page URL
+ * @param {string} title         - endpoint title, e.g. "Create Experiment"
+ * @param {string} method        - HTTP method, e.g. "POST"
+ * @param {string} endpoint      - path, e.g. "/v2/project/{project_key}/create-experiment"
+ * @param {string} description   - one-line endpoint description
+ */
+function buildPrompt({ aiName, pageUrl, title, method, endpoint, description }) {
+  const greeting = aiName ? `Hi ${aiName}! ` : '';
+  const blocks = getContextBlocks(title, method, endpoint);
+
+  const lines = [];
+
+  // Opening
+  lines.push(
+    `${greeting}I'm building with the **Mida A/B testing API** and need help with the **${title}** endpoint.`,
+  );
+  lines.push('');
+
+  // Link to docs
+  lines.push(`Please read the full documentation here: ${pageUrl}`);
+  lines.push('');
+
+  // Endpoint signature + description
+  if (method && endpoint) {
+    lines.push(`Endpoint: \`${method.toUpperCase()} ${endpoint}\``);
+  }
+  if (description) {
+    lines.push(description);
+  }
+  lines.push('');
+
+  // Context blocks — what the AI should be ready to help with
+  lines.push('After reading the page, please be ready to help me with:');
+  lines.push('');
+  for (const block of blocks) {
+    lines.push(`**${block.heading}**`);
+    for (const item of block.items) {
+      lines.push(`- ${item}`);
+    }
+    lines.push('');
+  }
+
+  // Closing
+  lines.push("Once you've read the docs, I'll describe what I want to build and you can help me construct the API request.");
+
+  return lines.join('\n');
+}
+
+// ── AI providers ──────────────────────────────────────────────────────────────
 
 const AI_PROVIDERS = [
   {
     id: 'chatgpt',
     label: 'ChatGPT',
     Icon: ChatGPTIcon,
-    buildUrl(pageUrl, pageTitle) {
-      const msg = `Hi ChatGPT! Can you please read [${pageTitle}](${pageUrl}) and prepare to answer questions about it?`;
-      return `https://chatgpt.com/?q=${encodeURIComponent(msg)}`;
+    buildUrl(prompt) {
+      return `https://chatgpt.com/?q=${encodeURIComponent(prompt)}`;
     },
   },
   {
     id: 'claude',
     label: 'Claude',
     Icon: ClaudeIcon,
-    buildUrl(pageUrl, pageTitle) {
-      const msg = `Hi Claude! Can you please read [${pageTitle}](${pageUrl}) and prepare to answer questions about it?`;
-      return `https://claude.ai/new?q=${encodeURIComponent(msg)}`;
+    buildUrl(prompt) {
+      return `https://claude.ai/new?q=${encodeURIComponent(prompt)}`;
     },
   },
 ];
 
-// ── Component ──────────────────────────────────────────────────────────────────
+// ── Component ─────────────────────────────────────────────────────────────────
 
-export default function AskAiButton({ pageTitle }) {
+export default function AskAiButton({ pageTitle, method, endpoint, description }) {
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const wrapperRef = useRef(null);
 
-  // Close on outside click
   useEffect(() => {
     function onClickOutside(e) {
       if (wrapperRef.current && !wrapperRef.current.contains(e.target)) {
@@ -159,24 +364,28 @@ export default function AskAiButton({ pageTitle }) {
     return '';
   }
 
-  function getTitle() {
-    if (pageTitle) return pageTitle;
-    if (typeof document !== 'undefined') return document.title;
-    return 'this page';
+  function makePrompt(aiName) {
+    return buildPrompt({
+      aiName,
+      pageUrl: getPageUrl(),
+      title: pageTitle || (typeof document !== 'undefined' ? document.title : 'this page'),
+      method,
+      endpoint,
+      description,
+    });
   }
 
   function handleAiClick(provider) {
-    const url = provider.buildUrl(getPageUrl(), getTitle());
-    window.open(url, '_blank', 'noopener,noreferrer');
+    const prompt = makePrompt(provider.label);
+    window.open(provider.buildUrl(prompt), '_blank', 'noopener,noreferrer');
     setOpen(false);
   }
 
   async function handleCopy() {
-    const prompt = `Hi! Can you please read [${getTitle()}](${getPageUrl()}) and prepare to answer questions about it?`;
+    const prompt = makePrompt(null);
     try {
       await navigator.clipboard.writeText(prompt);
     } catch {
-      // Fallback for browsers that block clipboard API
       const el = document.createElement('textarea');
       el.value = prompt;
       el.style.cssText = 'position:fixed;opacity:0;pointer-events:none';
