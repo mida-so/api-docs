@@ -91,15 +91,19 @@ curl "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experiment/1234/r
 |---|---|---|
 | `test_id` | integer | Unique experiment ID |
 | `test_name` | string | Experiment name |
-| `status` | string | `live`, `draft`, or `inactive` |
-| `status_code` | integer | Raw status value (`1`=live, `9`=draft, `0`=inactive) |
-| `start_date` | string | When the experiment was created |
-| `end_date` | string \| null | When the experiment was concluded, or `null` if still running |
-| `days_running` | integer | Number of days the experiment has been running |
+| `status` | string | Human-readable label: `"draft"`, `"live"`, or `"inactive"` |
+| `status_code` | integer | Numeric status: `9`=draft, `1`=live, `0`=inactive |
+| `start_date` | string | When the experiment was created (ISO 8601) |
+| `end_date` | string \| null | The date the experiment was formally concluded, or `null`. See note below. |
+| `days_running` | integer | Days since creation. If the experiment is concluded, counts to the `end_date`; otherwise counts to now. |
 | `primary_goal` | object \| null | Primary conversion goal definition, or `null` if none set |
 | `total_visitors` | integer | Total visitors across all variants |
 | `total_conversions` | integer | Total conversions across all variants |
 | `variants` | array | Per-variant result objects (control listed first) |
+
+:::info About `end_date` and `is_completed`
+`end_date` is only populated when the experiment has been **formally concluded** from the Mida dashboard (marked as complete). Deactivating an experiment via the API (`status: 0`) stops data collection but does **not** set `end_date` — it remains `null`. The `days_running` calculation uses `end_date` if set, otherwise counts to the current time.
+:::
 
 ### Variant fields
 
@@ -120,5 +124,9 @@ curl "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experiment/1234/r
 | `400` | Invalid `test_id`, or date parameters are malformed / out of order |
 | `401` | Invalid or missing API key |
 | `404` | Experiment not found or belongs to a different project |
+
+:::tip Next step
+Done reviewing results? You can [deactivate the experiment](./update-experiment-status) (`status: 0`) or [get a public share link](./get-experiment-share-link) to send to stakeholders.
+:::
 
 </ApiEndpointLayout>

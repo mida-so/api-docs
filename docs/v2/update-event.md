@@ -67,4 +67,12 @@ curl -X PATCH "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/event/98
 }
 ```
 
+## Error responses
+
+| Status | Meaning |
+|---|---|
+| `400` | Invalid field values or malformed request body |
+| `401` | Invalid or missing API key |
+| `404` | Event not found or belongs to a different project |
+
 </ApiEndpointLayout>

@@ -40,15 +40,19 @@ curl "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experiments?limit
       "test_id": 1234,
       "test_name": "Homepage CTA Button Color Test",
       "url": "https://example.com/",
-      "status": 9,
-      "created_at": "2024-01-15T10:30:00.000Z"
+      "status": 1,
+      "is_completed": 0,
+      "created_at": "2024-01-15T10:30:00.000Z",
+      "updated_at": "2024-01-20T14:22:00.000Z"
     },
     {
       "test_id": 1235,
       "test_name": "Pricing Page Hero Copy Test",
       "url": "https://example.com/pricing",
-      "status": 4,
-      "created_at": "2024-02-01T08:00:00.000Z"
+      "status": 0,
+      "is_completed": 1,
+      "created_at": "2024-02-01T08:00:00.000Z",
+      "updated_at": "2024-03-01T09:00:00.000Z"
     }
   ]
 }
@@ -63,17 +67,18 @@ curl "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experiments?limit
 | `experiments[].test_name` | string | Display name |
 | `experiments[].url` | string | The page URL being tested |
 | `experiments[].status` | integer | Numeric status (see table below) |
+| `experiments[].is_completed` | integer | `1` if the experiment was formally concluded via the dashboard, `0` otherwise. Deactivating via API (`status: 0`) does not set this — it is only set from the Mida dashboard. |
 | `experiments[].created_at` | string | ISO 8601 creation timestamp |
+| `experiments[].updated_at` | string | ISO 8601 last-updated timestamp |
 | `count` | integer | Total number of experiments returned |
 
 ### Status values
 
 | Value | Meaning |
 |---|---|
-| `1` | Draft — created but not yet started |
-| `9` | Live — actively running |
-| `3` | Paused — temporarily stopped |
-| `4` | Ended — completed |
+| `9` | Draft — created but not yet started |
+| `1` | Live — actively running |
+| `0` | Inactive — deactivated or paused |
 
 ## Pagination
 
@@ -84,5 +89,15 @@ Increment `offset` by `limit` to retrieve the next page.
 curl "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experiments?limit=20&offset=20" \
   -H "Authorization: Bearer YOUR_GENERATED_API_KEY"
 ```
+
+## Error responses
+
+| Status | Meaning |
+|---|---|
+| `401` | Invalid or missing API key |
+
+:::tip Next step
+Use the `test_id` from this response to call [Get Experiment Details](./get-experiment-details) or [Get Experiment Result](./get-experiment-result).
+:::
 
 </ApiEndpointLayout>

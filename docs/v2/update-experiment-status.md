@@ -9,10 +9,10 @@ import ApiEndpointLayout from '@site/src/components/ApiEndpointLayout';
   title="Update Experiment Status"
   method="PATCH"
   endpoint="/v2/project/{project_key}/experiment/{test_id}/status"
-  description="Start, pause, or end an experiment by updating its status. This is the primary way to control an experiment's lifecycle via the API."
+  description="Start, pause, or deactivate an experiment by updating its status. This is the primary way to control an experiment's lifecycle via the API."
   playgroundUrl="https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experiment/YOUR_EXPERIMENT_ID/status"
   defaultHeaders={{Authorization: 'Bearer YOUR_GENERATED_API_KEY', 'Content-Type': 'application/json'}}
-  defaultBody={{status: 'live'}}
+  defaultBody={{status: 1}}
 >
 
 ## Path parameters
@@ -24,14 +24,13 @@ import ApiEndpointLayout from '@site/src/components/ApiEndpointLayout';
 
 ## Status values
 
-Pass `status` as a string:
+Pass `status` as an integer:
 
 | Value | Action |
 |---|---|
-| `"live"` | Start or resume the experiment. Visitors will be bucketed into variants. |
-| `"paused"` | Pause the experiment. No new data is collected, but existing data is preserved. |
-| `"ended"` | End the experiment permanently. Cannot be restarted after this. |
-| `"draft"` | Move back to draft (only valid from paused). |
+| `1` | Start or resume the experiment. Visitors will be bucketed into variants. |
+| `0` | Deactivate the experiment. No new data is collected, but existing data is preserved. Can be restarted. |
+| `9` | Move back to draft (only valid from inactive). |
 
 ## Example: start an experiment
 
@@ -39,25 +38,25 @@ Pass `status` as a string:
 curl -X PATCH "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experiment/1234/status" \
   -H "Authorization: Bearer YOUR_GENERATED_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{"status": "live"}'
+  -d '{"status": 1}'
 ```
 
-## Example: pause a running experiment
+## Example: deactivate a running experiment
 
 ```bash
 curl -X PATCH "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experiment/1234/status" \
   -H "Authorization: Bearer YOUR_GENERATED_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{"status": "paused"}'
+  -d '{"status": 0}'
 ```
 
-## Example: end an experiment
+## Example: move back to draft
 
 ```bash
 curl -X PATCH "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experiment/1234/status" \
   -H "Authorization: Bearer YOUR_GENERATED_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{"status": "ended"}'
+  -d '{"status": 9}'
 ```
 
 ## Success response
@@ -66,7 +65,7 @@ curl -X PATCH "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experime
 {
   "success": true,
   "test_id": 1234,
-  "status": "live"
+  "status": 1
 }
 ```
 
@@ -74,12 +73,12 @@ curl -X PATCH "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experime
 
 | Status | Meaning |
 |---|---|
-| `400` | Invalid status value |
+| `400` | Invalid status value — must be `0`, `1`, or `9` |
 | `401` | Invalid or missing API key |
 | `404` | Experiment not found |
 
-:::warning Ending an experiment is permanent
-Once a status of `"ended"` is set, the experiment cannot be restarted. Use `"paused"` if you may want to resume it later.
+:::tip Next step
+Once your experiment is live and collecting data, use [Get Experiment Result](./get-experiment-result) to track per-variant conversion rates and improvement.
 :::
 
 </ApiEndpointLayout>

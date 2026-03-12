@@ -88,8 +88,20 @@ curl -X PATCH "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experime
 }
 ```
 
+## Error responses
+
+| Status | Meaning |
+|---|---|
+| `400` | Invalid field values or malformed request body |
+| `401` | Invalid or missing API key |
+| `404` | Experiment not found or belongs to a different project |
+
 :::info Variants cannot be updated via this endpoint
-To change variant CSS, JS, or visual editor changes, use the Mida dashboard. This endpoint is for metadata and configuration changes only.
+Variant CSS, JS, and visual editor mutations (`data`) cannot be modified after creation via the API. To change variant content, delete the experiment and recreate it with the updated variants, or use the Mida dashboard's visual editor. This endpoint is for metadata and configuration changes only.
+:::
+
+:::tip Next step
+To start, pause, or end the experiment, use [Update Experiment Status](./update-experiment-status).
 :::
 
 </ApiEndpointLayout>

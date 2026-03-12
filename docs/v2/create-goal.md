@@ -97,7 +97,19 @@ curl -X POST "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/goal" \
 | `goal_key` | string | The slug identifier for this goal |
 
 :::tip Reference goals in experiments
-After creating a goal, you can attach it to a new experiment using `goal_key` in the `primary_goal.goal_key` field of [Create Experiment](./create-experiment), rather than redefining the goal inline each time.
+After creating a goal, attach it to a new experiment using `primary_goal_key: "your-goal-key"` in [Create Experiment](./create-experiment), rather than redefining the goal inline each time. This lets you reuse the same goal across multiple experiments.
+:::
+
+## Error responses
+
+| Status | Meaning |
+|---|---|
+| `400` | Missing required field (`goal_name`, `goal_type`, or `goal_value`) or invalid `goal_type` value |
+| `401` | Invalid or missing API key |
+| `406` | A goal with the same `goal_key` already exists for this project |
+
+:::tip Next step
+Now create an experiment that tracks this goal. Use [Create Experiment](./create-experiment) and pass `"primary_goal_key": "your-goal-key"`.
 :::
 
 </ApiEndpointLayout>

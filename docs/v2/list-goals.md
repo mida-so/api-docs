@@ -71,4 +71,14 @@ curl "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/goals?limit=50&of
 | `goals[].element_url` | string\|null | Optional page URL associated with the goal element |
 | `count` | integer | Total number of goals returned |
 
+## Error responses
+
+| Status | Meaning |
+|---|---|
+| `401` | Invalid or missing API key |
+
+:::tip Next step
+Use the `goal_key` from this list to reference an existing goal when [creating an experiment](./create-experiment) — pass it as `primary_goal_key` instead of defining the goal inline.
+:::
+
 </ApiEndpointLayout>

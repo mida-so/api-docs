@@ -83,4 +83,14 @@ curl "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/events?start_date
 | `events[].created_at` | string | ISO 8601 creation timestamp |
 | `count` | integer | Total number of events returned |
 
+## Error responses
+
+| Status | Meaning |
+|---|---|
+| `401` | Invalid or missing API key |
+
+:::tip Next step
+Use the `event_id` from this list to call [Get Event Details](./get-event-details), [Update Event](./update-event), or [Delete Event](./delete-event).
+:::
+
 </ApiEndpointLayout>

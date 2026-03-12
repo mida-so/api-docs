@@ -81,7 +81,7 @@ curl "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experiment/1234" 
 | Field | Type | Description |
 |---|---|---|
 | `experiment.test_id` | integer | Unique experiment ID |
-| `experiment.status` | integer | `1`=draft, `9`=live, `3`=paused, `4`=ended |
+| `experiment.status` | integer | `9`=draft, `1`=live, `0`=inactive |
 | `experiment.variants` | array | All variant objects including CSS/JS changes |
 | `experiment.configuration` | object | Traffic allocation and confidence interval settings |
 | `experiment.targeting` | object | Device, browser, country rules (empty array = all) |
@@ -93,5 +93,13 @@ curl "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experiment/1234" 
 |---|---|
 | `401` | Invalid or missing API key |
 | `404` | Experiment not found or belongs to a different project |
+
+:::info About targeting in the response
+The `targeting.devices`, `targeting.browsers`, and `targeting.countries` fields return flat string arrays (e.g. `["desktop"]`, `["US", "CA"]`). An empty array means "all" — no restriction. These are the stored values as applied by the Mida tracking script.
+:::
+
+:::tip Next step
+Ready to see how the experiment is performing? Use [Get Experiment Result](./get-experiment-result) to retrieve per-variant conversion data.
+:::
 
 </ApiEndpointLayout>

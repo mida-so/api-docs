@@ -72,4 +72,15 @@ curl -X POST "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/event" \
 The `script` field in the response contains a ready-to-use JavaScript snippet you can add to your website to fire this event from client-side code. Copy it directly into your page or tag manager.
 :::
 
+## Error responses
+
+| Status | Meaning |
+|---|---|
+| `400` | Missing `event_text` or invalid field values |
+| `401` | Invalid or missing API key |
+
+:::tip Next step
+To use this event as a conversion goal in an experiment, create a goal with `goal_type: "script"` and set `goal_value` to the event name (e.g. `"Pricing CTA Clicked"`). See [Create Goal](./create-goal).
+:::
+
 </ApiEndpointLayout>

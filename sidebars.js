@@ -40,6 +40,7 @@ const apiDoc = (id, method) => ({
 const sidebars = {
   tutorialSidebar: [
     'intro',
+    'quickstart',
     {
       type: 'category',
       label: 'Experiments',

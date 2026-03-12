@@ -61,4 +61,11 @@ Share links provide a read-only view of your experiment's live results — varia
 If `is_public` is `false`, the share link is disabled and the URL will not load. Enable sharing from the experiment's settings in the Mida dashboard before distributing the link.
 :::
 
+## Error responses
+
+| Status | Meaning |
+|---|---|
+| `401` | Invalid or missing API key |
+| `404` | Experiment not found or belongs to a different project |
+
 </ApiEndpointLayout>
