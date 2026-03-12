@@ -4,20 +4,106 @@
  */
 
 .heroBanner {
-  padding: 4rem 0;
+  padding: 5.5rem 0 4.5rem;
   text-align: center;
   position: relative;
   overflow: hidden;
+  background: var(--ifm-background-surface-color);
+  color: #171717;
+}
+
+.heroBanner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: transparent;
+  pointer-events: none;
 }
 
 @media screen and (max-width: 996px) {
   .heroBanner {
-    padding: 2rem;
+    padding: 3.5rem 1.5rem 3rem;
   }
+}
+
+.heroEyebrow {
+  display: inline-flex;
+  margin-bottom: 1rem;
+  padding: 0.35rem 0.8rem;
+  border: 1px solid #d4d4d4;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.heroTitle {
+  margin-bottom: 1rem;
+  font-size: clamp(2.75rem, 7vw, 4.5rem);
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+  color: #171717;
+}
+
+.heroSubtitle {
+  max-width: 720px;
+  margin: 0 auto;
+  font-size: 1.15rem;
+  line-height: 1.7;
+  color: #52525b;
 }
 
 .buttons {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: 2rem;
+}
+
+.buttons :global(.button) {
+  border-color: #171717;
+  background: #171717;
+  color: #ffffff;
+}
+
+.buttons :global(.button:hover) {
+  background: #2a2a2a;
+  border-color: #2a2a2a;
+}
+
+[data-theme='dark'] .heroBanner {
+  background: #0A0B0E;
+  color: #eceff3;
+}
+[data-theme='dark'] .heroEyebrow {
+  border-color: #2b3542;
+  background: rgba(16, 20, 26, 0.85);
+  color: #d7dbe0;
+}
+
+[data-theme='dark'] .heroTitle {
+  color: #eceff3;
+}
+
+[data-theme='dark'] .heroSubtitle {
+  color: #aeb4bb;
+}
+
+[data-theme='dark'] .buttons :global(.button) {
+  border-color: #eceff3;
+  background: #eceff3;
+  color: #0a0b0e;
+}
+
+[data-theme='dark'] .buttons :global(.button:hover) {
+  border-color: #ffffff;
+  background: #ffffff;
+}
+
+@media screen and (max-width: 996px) {
+  .heroSubtitle {
+    font-size: 1rem;
+  }
 }

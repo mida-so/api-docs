@@ -1,19 +1,21 @@
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
 import styles from './index.module.css';
 
 function HomepageHeader() {
-  const {siteConfig} = useDocusaurusContext();
   return (
     <header className={clsx('hero hero--primary', styles.heroBanner)}>
       <div className="container">
-        <Heading as="h1" className="hero__title">
-          {siteConfig.title}
+        <span className={styles.heroEyebrow}>Mida Developer Platform</span>
+        <Heading as="h1" className={styles.heroTitle}>
+          Ship faster with the Mida API
         </Heading>
-        <p className="hero__subtitle">{siteConfig.tagline}</p>
+        <p className={styles.heroSubtitle}>
+          Clear reference docs for experiments, goals, events, and reporting so
+          your team can integrate with confidence.
+        </p>
         <div className={styles.buttons}>
           <Link
             className="button button--secondary button--lg"
@@ -27,11 +29,10 @@ function HomepageHeader() {
 }
 
 export default function Home() {
-  const {siteConfig} = useDocusaurusContext();
   return (
     <Layout
       title="V2 API Docs"
-      description="Public V2 API documentation for experiment endpoints">
+      description="Developer-friendly Mida API documentation for experiments, goals, events, and reporting endpoints.">
       <HomepageHeader />
     </Layout>
   );

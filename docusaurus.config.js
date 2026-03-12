@@ -11,7 +11,7 @@ import {themes as prismThemes} from 'prism-react-renderer';
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'Mida API Docs',
-  tagline: 'Clean, simple, maintainable API documentation',
+  tagline: 'Developer-friendly docs for the Mida API',
   favicon: 'img/mida-logo-square.png',
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
@@ -71,7 +71,8 @@ const config = {
     ({
       // Replace with your project's social card
       colorMode: {
-        respectPrefersColorScheme: true,
+        defaultMode: 'light',
+        respectPrefersColorScheme: false,
       },
       navbar: {
         title: 'Mida API Docs',
