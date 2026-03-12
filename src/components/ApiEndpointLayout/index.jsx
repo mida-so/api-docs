@@ -1,5 +1,6 @@
 import React from 'react';
 import ApiPlayground from '@site/src/components/ApiPlayground';
+import AskAiButton from '@site/src/components/AskAiButton';
 import styles from './styles.module.css';
 
 export default function ApiEndpointLayout({
@@ -16,7 +17,10 @@ export default function ApiEndpointLayout({
     <div className={styles.layout}>
       <div className={styles.left}>
         <header className={styles.headerCard}>
-          <h1 className={styles.title}>{title}</h1>
+          <div className={styles.titleRow}>
+            <h1 className={styles.title}>{title}</h1>
+            <AskAiButton pageTitle={title} />
+          </div>
           <div className={styles.endpointRow}>
             <span className={`${styles.methodBadge} ${styles[`method${method.toUpperCase()}`]}`}>
               {method.toUpperCase()}
