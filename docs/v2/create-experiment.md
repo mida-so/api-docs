@@ -17,8 +17,7 @@ import ApiEndpointLayout from '@site/src/components/ApiEndpointLayout';
     status: 9,
     url: 'https://example.com/',
     variants: [
-      { name: 'Control', data: [] },
-      { name: 'Variant 1 — Red Button', customCSS: '.cta-button { background-color: #FF5733 !important; }', customJS: '', data: [] }
+      { name: 'Variant 1 - Red Button', customCSS: '.cta-button { background-color: #FF5733 !important; }', customJS: '', data: [] }
     ],
     primary_goal: {
       goal_name: 'CTA Button Click',
@@ -38,11 +37,11 @@ import ApiEndpointLayout from '@site/src/components/ApiEndpointLayout';
 |---|---|---|
 | `test_name` | string | Display name for the experiment |
 | `url` | string | The page URL being tested |
-| `variants` | array | At least two variant objects — one Control and at least one treatment (see Variants section) |
+| `variants` | array | One or more treatment variant objects — **do not include a "Control" entry** (see Variants section) |
 
 ## Variants
 
-Each variant in the `variants` array represents a treatment arm. The **Control is always the first variant** (the original page, shown unchanged). Every additional object is a treatment you want to test against the Control.
+The `variants` array contains only your **treatment variants** — the variations you want to test. **Do not include a "Control" entry.** The Control (the original, unmodified page) is always added automatically by the platform. Including a Control entry causes a duplicate Control to appear in the experiment setup UI.
 
 :::info `data` is always required
 Every variant object must include `"data": []`. For code-based experiments, pass an empty array. Only visual editor experiments populate the `data` array with DOM mutations.
@@ -55,11 +54,7 @@ Use `customCSS` and/or `customJS` to inject changes. Pass `data` as an empty arr
 ```json
 [
   {
-    "name": "Control",
-    "data": []
-  },
-  {
-    "name": "Variant 1 — Red Button",
+    "name": "Variant 1 - Red Button",
     "customCSS": ".cta-button { background-color: #FF5733 !important; color: #fff !important; }",
     "customJS": "document.querySelector('.cta').textContent = 'Get Started Free';",
     "data": []
@@ -244,11 +239,7 @@ curl --request POST \
     "url": "https://example.com/",
     "variants": [
       {
-        "name": "Control",
-        "data": []
-      },
-      {
-        "name": "Variant 1 — Red Button",
+        "name": "Variant 1 - Red Button",
         "customCSS": ".cta-button { background-color: #FF5733 !important; color: #fff !important; }",
         "customJS": "",
         "data": []
