@@ -160,7 +160,7 @@ Or reference existing goals by key array:
     "completion_stats_significant_flag": 1,
     "is_autopilot": 0,
     "is_mab": 0,
-    "bayesian": 0
+    "bayesian": 1
   }
 }
 ```
@@ -177,7 +177,7 @@ Or reference existing goals by key array:
 | `completion_stats_significant_flag` | `0` | `1` = auto-stop when statistical significance is reached |
 | `is_autopilot` | `0` | `1` = enable autopilot (Mida auto-allocates traffic to the winning variant) |
 | `is_mab` | `0` | `1` = enable Multi-Armed Bandit mode |
-| `bayesian` | `0` | `1` = use Bayesian statistics instead of frequentist |
+| `bayesian` | `1` | `1` = use Bayesian statistics; `0` = use frequentist statistics |
 
 ### Targeting
 
@@ -225,6 +225,17 @@ Pass `idempotency_key` (or the `x-idempotency-key` header) to safely retry reque
 ```json
 { "idempotency_key": "deploy-2026-04-01-homepage-cta" }
 ```
+
+## Plan limits (free &amp; Agency Lite) {#public-v2-plan-limits}
+
+For accounts on **Sandbox** (`paid_plan` **300**) or **Agency Lite** (`paid_plan` **305**), the API applies the same caps as the Mida app (specific internal company IDs may be exempt).
+
+| Limit | Value | When it applies |
+|---|---|---|
+| Concurrent **live** experiments | **2** per project | Experiments with `status: 1`, `is_completed: 0`, and not deploy experiments (`is_deploy` not set). Counted when you create as live (`status: 1`) or when you [activate](./update-experiment-status) an experiment. Draft (`9`) or inactive (`0`) experiments do not count until they are live. |
+| Goals per project | **2** goal profiles | Creating **new** goals via inline `primary_goal` / `secondary_goals`, or any insert that would add another row to the project’s goal library. Referencing existing goals by key does not consume additional slots. |
+
+Paid plans above these tiers are not limited by these checks in the Public API.
 
 ## Example
 
@@ -283,8 +294,8 @@ If you omit `primary_goal` and `primary_goal_key`, the experiment is still creat
 |---|---|
 | `400` | Missing required field (`test_name`, `url`, or `variants`), invalid `status` value, or malformed request body |
 | `401` | Invalid or missing API key |
-| `403` | Plan limit reached — upgrade your plan to create more experiments |
-| `406` | Idempotency key conflict — a different experiment was already created with this key |
+| `403` | [Plan limit](#public-v2-plan-limits) — too many concurrent **live** experiments for the project, or too many **goals** when creating new goal profiles |
+| `404` | Project not found |
 | `500` | Server error |
 
 :::tip Next step

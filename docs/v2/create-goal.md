@@ -100,12 +100,19 @@ curl -X POST "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/goal" \
 After creating a goal, attach it to a new experiment using `primary_goal_key: "your-goal-key"` in [Create Experiment](./create-experiment), rather than redefining the goal inline each time. This lets you reuse the same goal across multiple experiments.
 :::
 
+## Plan limits (free &amp; Agency Lite) {#public-v2-plan-limits}
+
+On **Sandbox** (`paid_plan` **300**) or **Agency Lite** (`paid_plan` **305**), each project may have at most **2** goal profiles. This endpoint returns **`403`** if that limit is already reached.
+
+See [Create Experiment — Plan limits](./create-experiment#public-v2-plan-limits) for full detail (including concurrent live experiment limits).
+
 ## Error responses
 
 | Status | Meaning |
 |---|---|
 | `400` | Missing required field (`goal_name`, `goal_type`, or `goal_value`) or invalid `goal_type` value |
 | `401` | Invalid or missing API key |
+| `403` | [Plan limit](./create-experiment#public-v2-plan-limits) — maximum goals per project reached |
 | `406` | A goal with the same `goal_key` already exists for this project |
 
 :::tip Next step

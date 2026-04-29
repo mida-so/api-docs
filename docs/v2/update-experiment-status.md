@@ -69,12 +69,21 @@ curl -X PATCH "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experime
 }
 ```
 
+## Plan limits (free &amp; Agency Lite) {#public-v2-plan-limits}
+
+Activating an experiment (`status: 1`) counts toward the same **concurrent live experiment** limit as the Mida app (**2** per project) for **Sandbox** (`paid_plan` **300**) and **Agency Lite** (`paid_plan` **305**). If two other experiments are already live for this project, the API returns **`403`**.
+
+This check applies when moving **from** draft or inactive **to** live. If the experiment is already live, updating status to `1` again does not re-check the cap.
+
+See [Create Experiment — Plan limits](./create-experiment#public-v2-plan-limits).
+
 ## Error responses
 
 | Status | Meaning |
 |---|---|
 | `400` | Invalid status value — must be `0`, `1`, or `9` |
 | `401` | Invalid or missing API key |
+| `403` | [Plan limit](./create-experiment#public-v2-plan-limits) — maximum concurrent live experiments per project reached |
 | `404` | Experiment not found |
 
 :::tip Next step
