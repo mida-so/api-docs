@@ -43,6 +43,17 @@ const sidebars = {
     'quickstart',
     {
       type: 'category',
+      label: 'Projects',
+      items: [
+        apiDoc('v2/list-projects', 'GET'),
+        apiDoc('v2/get-project-details', 'GET'),
+        apiDoc('v2/create-project', 'POST'),
+        apiDoc('v2/update-project', 'PATCH'),
+        apiDoc('v2/delete-project', 'DEL'),
+      ],
+    },
+    {
+      type: 'category',
       label: 'Experiments',
       items: [
         apiDoc('v2/create-experiment', 'POST'),
@@ -50,6 +61,7 @@ const sidebars = {
         apiDoc('v2/get-experiment-details', 'GET'),
         apiDoc('v2/get-experiment-result', 'GET'),
         apiDoc('v2/get-experiment-share-link', 'GET'),
+        apiDoc('v2/get-experiment-preview-urls', 'GET'),
         apiDoc('v2/update-experiment', 'PATCH'),
         apiDoc('v2/update-experiment-status', 'PATCH'),
       ],
