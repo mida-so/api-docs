@@ -29,15 +29,15 @@ import ApiEndpointLayout from '@site/src/components/ApiEndpointLayout';
 | `end_date` | string | Filter conversions through this date. Format: `YYYY-MM-DD`. |
 | `goal_key` | string | Drill into a specific primary or secondary goal by `goal_key`. If omitted, the experiment primary goal is used. |
 | `goal_profile_id` | string | Drill into a specific goal by internal goal ID. Prefer `goal_key` when available. |
-| `filterBy` / `filter_by` | string | Dashboard preset segment filter such as `mobile`, `desktop`, `new`, `returning`, `paid`, `search`, `direct`, or `country-US`. |
+| `filter_by` | string | Dashboard preset segment filter such as `mobile`, `desktop`, `new`, `returning`, `paid`, `search`, `direct`, or `country-US`. |
 | `custom_filter` | string \| array | Dashboard custom segment rules in the same nested rule shape used by the dashboard segment builder. |
-| `breakdownBy` / `breakdown_by` | string | Segment results by a dashboard-supported dimension. See [Supported breakdowns](#supported-breakdowns). |
+| `breakdown_by` | string | Segment results by a dashboard-supported dimension. See [Supported breakdowns](#supported-breakdowns). |
 | `event_attribute` | array | Dashboard event attribute filters for event, revenue, and script goals. Use the dashboard nested condition shape. See [Event attribute filters](#event-attribute-filters). |
-| `minCount` | number | Minimum matching event count per visitor for event-backed goals. Defaults to `1`. |
-| `timeframeDays` | number | Event conversion window in days after test entry for event-backed goals. |
+| `min_count` | number | Minimum matching event count per visitor for event-backed goals. Defaults to `1`. |
+| `timeframe_days` | number | Event conversion window in days after test entry for event-backed goals. |
 | `tz` | string | Dashboard timezone hour offset used for date filtering. Defaults to `0`. |
 
-All query parameters are optional. Counts and conversion rates are produced by the same backend route as the Mida dashboard (`/abtest/conversion`). Date filters can be one-sided: if only `start_date` is supplied, results are filtered from that date through the current server date; if only `end_date` is supplied, results are filtered from the experiment creation date through that date. The previous Public V2 structured `filters` object is rejected for parity; use `filterBy`/`filter_by` or `custom_filter`.
+All query parameters are optional. Counts and conversion rates are produced by the same backend route as the Mida dashboard (`/abtest/conversion`). Date filters can be one-sided: if only `start_date` is supplied, results are filtered from that date through the current server date; if only `end_date` is supplied, results are filtered from the experiment creation date through that date. The previous Public V2 structured `filters` object is rejected for parity; use `filter_by` or `custom_filter`.
 
 ### Supported breakdowns
 
@@ -51,7 +51,7 @@ UTM values are public aliases. Public V2 validates them against this allowlist, 
 
 Use the same filter inputs as the dashboard:
 
-- `filterBy` / `filter_by` for preset segments, for example `mobile`, `desktop`, `new`, `returning`, `paid`, `search`, `direct`, or `country-US`.
+- `filter_by` for preset segments, for example `mobile`, `desktop`, `new`, `returning`, `paid`, `search`, `direct`, or `country-US`.
 - `custom_filter` for saved/custom segment rules, for example `[[{"criteria":"device","operator":"==","value":"mobile"}]]`.
 
 ### Event attribute filters
@@ -79,7 +79,7 @@ Filtered to mobile traffic:
 ```bash
 curl -G "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experiment/1234/result" \
   -H "Authorization: Bearer YOUR_GENERATED_API_KEY" \
-  --data-urlencode 'filterBy=mobile'
+  --data-urlencode 'filter_by=mobile'
 ```
 
 Breakdown by device:

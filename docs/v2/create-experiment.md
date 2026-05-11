@@ -300,13 +300,13 @@ Segment conditions use the same grouped shape. `criteria` can be built-ins such 
     "rule": "equal",
     "name": "signup_completed",
     "attributes": [[{ "key": "plan", "operand": "=", "value": "pro" }]],
-    "minCount": 1,
-    "timeframeDays": 30
+    "min_count": 1,
+    "timeframe_days": 30
   }
 ]
 ```
 
-`attributes` is OR-of-AND groups. Use event names returned by [List Events](./list-events). `minCount` defaults to `1`; `timeframeDays` of `0` or omitted means lifetime.
+`attributes` is OR-of-AND groups. Use event names returned by [List Events](./list-events). `min_count` defaults to `1`; `timeframe_days` of `0` or omitted means lifetime.
 
 Supported attribute operands are `=`, `!=`, `>`, `<`, `>=`, and `<=`.
 
@@ -314,10 +314,10 @@ Supported attribute operands are `=`, `!=`, `>`, `<`, `>=`, and `<=`.
 
 ```json
 {
-  "scheduleGroups": [
+  "schedule_groups": [
     {
       "days": ["monday", "tuesday", "wednesday", "thursday", "friday"],
-      "timeRanges": [{ "start": "09:00", "end": "17:00" }]
+      "time_ranges": [{ "start": "09:00", "end": "17:00" }]
     }
   ]
 }

@@ -29,16 +29,16 @@ import ApiEndpointLayout from '@site/src/components/ApiEndpointLayout';
 | `end_date` | string | Filter chart rows through this date. Format: `YYYY-MM-DD`. |
 | `goal_key` | string | Drill into a specific primary or secondary goal by `goal_key`. If omitted, the experiment primary goal is used. |
 | `goal_profile_id` | string | Drill into a specific goal by internal goal ID. Prefer `goal_key` when available. |
-| `filterBy` / `filter_by` | string | Dashboard preset segment filter such as `mobile`, `desktop`, `new`, `returning`, `paid`, `search`, `direct`, or `country-US`. |
+| `filter_by` | string | Dashboard preset segment filter such as `mobile`, `desktop`, `new`, `returning`, `paid`, `search`, `direct`, or `country-US`. |
 | `custom_filter` | string \| array | Dashboard custom segment rules in the same nested rule shape used by the dashboard segment builder. |
 | `event_attribute` | array | Dashboard event attribute filters for event, revenue, and script goals. Use the dashboard nested condition shape. |
-| `minCount` | number | Minimum matching event count per visitor for event-backed goals. Defaults to `1`. |
-| `timeframeDays` | number | Event conversion window in days after test entry for event-backed goals. |
+| `min_count` | number | Minimum matching event count per visitor for event-backed goals. Defaults to `1`. |
+| `timeframe_days` | number | Event conversion window in days after test entry for event-backed goals. |
 | `tz` | string | Dashboard timezone hour offset used for date filtering. Defaults to `0`. |
 
 All query parameters are optional. Rows are produced by the same backend route as the Mida dashboard chart (`/abtest/raw`). Date filters can be one-sided: if only `start_date` is supplied, Public V2 expands the request through the current server date before calling `/abtest/raw`; if only `end_date` is supplied, Public V2 expands the request from the experiment creation date through that date.
 
-The previous Public V2 structured `filters` object is rejected for dashboard parity. Use `filterBy`/`filter_by` or `custom_filter`.
+The previous Public V2 structured `filters` object is rejected for dashboard parity. Use `filter_by` or `custom_filter`.
 
 ## Examples
 
@@ -54,7 +54,7 @@ Filtered to mobile traffic:
 ```bash
 curl -G "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experiment/1234/timeseries" \
   -H "Authorization: Bearer YOUR_GENERATED_API_KEY" \
-  --data-urlencode 'filterBy=mobile'
+  --data-urlencode 'filter_by=mobile'
 ```
 
 Specific goal with event attribute filters:
@@ -132,7 +132,7 @@ This endpoint wraps `/abtest/raw` and does not recalculate chart math in Public 
 
 ### Filter safety
 
-Public V2 validates `event_attribute`, `filterBy`/`filter_by`, `custom_filter`, numeric frequency settings, and `tz` before forwarding to the dashboard raw route. Unsupported legacy `filters` are rejected with `400`.
+Public V2 validates `event_attribute`, `filter_by`, `custom_filter`, numeric frequency settings, and `tz` before forwarding to the dashboard raw route. Unsupported legacy `filters` are rejected with `400`.
 
 ## Error responses
 

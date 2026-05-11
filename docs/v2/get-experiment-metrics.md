@@ -29,15 +29,15 @@ import ApiEndpointLayout from '@site/src/components/ApiEndpointLayout';
 | `goal_keys` | string \| array | Goal keys to retrieve as secondary metrics. Alias for `metric_keys` when goals are known. |
 | `start_date` | string | Filter conversions from this date. Format: `YYYY-MM-DD`. |
 | `end_date` | string | Filter conversions through this date. Format: `YYYY-MM-DD`. |
-| `filterBy` / `filter_by` | string | Dashboard preset segment filter such as `mobile`, `desktop`, `new`, `returning`, `paid`, `search`, `direct`, or `country-US`. |
+| `filter_by` | string | Dashboard preset segment filter such as `mobile`, `desktop`, `new`, `returning`, `paid`, `search`, `direct`, or `country-US`. |
 | `custom_filter` | string \| array | Dashboard custom segment rules in the same nested rule shape used by the dashboard segment builder. |
 | `metric_batch` | string \| array | Optional zero-based dashboard metric indexes to compute. |
 | `tz` | string | Dashboard timezone hour offset used for date filtering. Defaults to `0`. |
 
-All query parameters are optional. When `metric_keys` and `goal_keys` are omitted, Mida reads the experiment's attached secondary metrics from `test.metric`. Metric rows are produced by the same backend route as the Mida dashboard (`/abtest/metrics`). Metrics supports date range filters, single-sided dates, `filterBy`/`filter_by`, `custom_filter`, `metric_keys`/`goal_keys`, and `metric_batch`.
+All query parameters are optional. When `metric_keys` and `goal_keys` are omitted, Mida reads the experiment's attached secondary metrics from `test.metric`. Metric rows are produced by the same backend route as the Mida dashboard (`/abtest/metrics`). Metrics supports date range filters, single-sided dates, `filter_by`, `custom_filter`, `metric_keys`/`goal_keys`, and `metric_batch`.
 
 :::info Metrics breakdowns
-The dashboard metrics engine does not support `breakdown_by` yet. Requests that include `breakdown_by` or `breakdownBy` return `400`.
+The dashboard metrics engine does not support `breakdown_by` yet. Requests that include `breakdown_by` return `400`.
 :::
 
 ## Examples
@@ -64,7 +64,7 @@ Filter secondary metrics to mobile traffic:
 ```bash
 curl -G "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experiment/1234/metrics" \
   -H "Authorization: Bearer YOUR_GENERATED_API_KEY" \
-  --data-urlencode 'filterBy=mobile'
+  --data-urlencode 'filter_by=mobile'
 ```
 
 ## Success response
@@ -115,7 +115,7 @@ curl -G "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experiment/123
 | `metric_count` | integer | Number of metric definitions requested |
 | `metric_definitions` | array | Metric definitions used to build the dashboard `/metrics` request |
 | `metrics` | array | Dashboard metric rows. Each row includes `variant_id`, `total`, and `result_N` fields for requested metric indexes. |
-| `filterBy` | string | Applied dashboard preset filter, present when used |
+| `filter_by` | string | Applied dashboard preset filter, present when used |
 | `custom_filter` | string \| array | Applied dashboard custom segment rules, present when used |
 | `warnings` | array | Non-fatal warnings for unsupported or missing metric definitions |
 
