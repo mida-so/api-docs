@@ -115,6 +115,8 @@ curl -G "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experiment/123
     "goal_type": "clickOnElement",
     "goal_value": ".cta-button"
   },
+  "stats_engine": "bayesian",
+  "confidence_threshold_percent": 95,
   "total_visitors": 2980,
   "total_conversions": 268,
   "variants": [
@@ -150,6 +152,8 @@ curl -G "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experiment/123
 | `start_date` | string | When the experiment was created (ISO 8601) |
 | `end_date` | string \| null | The date the experiment was formally concluded, or `null`. See note below. |
 | `days_running` | integer | Days since creation. If the experiment is concluded, counts to the `end_date`; otherwise counts to now. |
+| `stats_engine` | string | Statistical framework configured for this test: `"bayesian"` or `"frequentist"`. Mirrors the dashboard's per-test stats mode. Consumers (AI agents, dashboards, custom integrations) should speak in the matching framework — chance-to-beat-Control / expected loss for Bayesian tests, p-values / confidence intervals for Frequentist tests. |
+| `confidence_threshold_percent` | number | Per-test deploy threshold (e.g. `95`). For Bayesian tests this is the chance-to-beat-Control needed to call a winner; for Frequentist tests this is the significance level (winners require `p < 1 - threshold/100`). |
 | `primary_goal` | object \| null | Primary conversion goal definition, or `null` if none set |
 | `total_visitors` | integer | Total visitors across all variants |
 | `total_conversions` | integer | Total conversions across all variants |

@@ -119,7 +119,8 @@ If your VS Code MCP client does not support remote OAuth yet, use Cursor/Claude 
 | `get_experiment` | Gets detailed experiment information by `test_id`. |
 | `create_experiment` | Creates a draft A/B test, personalization, split URL test, or multivariate test. It requires a test name, URL, and at least one treatment variant. |
 | `update_experiment_status` | Changes an experiment status using labels such as `live`, `inactive`, `paused`, or `draft`. |
-| `get_experiment_result` | Gets visitors, conversions, conversion rates, and improvement versus Control when available. |
+| `get_experiment_result` | Gets visitors, conversions, conversion rates, and improvement versus Control when available. Also reports the experiment's configured `stats_engine` (Bayesian or Frequentist) and attaches matching statistical insights when `include_insights` is on. |
+| `compute_experiment_statistics` | Computes the same Bayesian or Frequentist insights as `get_experiment_result` from arbitrary aggregate counts. Use it to roll up timeseries rows, custom date ranges, or manually summed segments into a single decision summary that matches the dashboard. |
 
 ### Goals and events
 
