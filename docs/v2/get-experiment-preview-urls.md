@@ -40,7 +40,7 @@ curl "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experiment/1234/p
     {
       "variant_id": 0,
       "name": "Control",
-      "preview_url": "https://example.com/?test-preview=1234&test-variant=Control"
+      "preview_url": "https://example.com/?test-preview=1234&test-variant=0"
     },
     {
       "variant_id": 1,
@@ -70,9 +70,27 @@ Each link appends two query parameters to the experiment's page URL:
 | Parameter | Value |
 |---|---|
 | `test-preview` | The numeric `test_id` |
-| `test-variant` | The variant name with spaces replaced by `_` (e.g. `Variant A` → `Variant_A`) |
+| `test-variant` | `0` for Control, or the treatment name with spaces replaced by `_` (for example `Variant 1` becomes `Variant_1`) |
 
-When the Mida script loads on a page with these parameters, it bypasses normal traffic allocation, segment rules, and country/device targeting — and renders the requested variant directly. Control is rendered through the experiment's `control_attr` (it isn't stored as a row in `test.data`, but it's always available as `variant_id=0`).
+When the Mida script loads on a page with these parameters, it bypasses normal traffic allocation, segment rules, and country/device targeting, then renders the requested variant directly. Control is rendered through the experiment's `control_attr` and is always available as `variant_id=0`.
+
+Treatment tokens are based on the fixed API variant name, not the nickname:
+
+| Variant name | Preview token |
+|---|---|
+| `Control` | `0` |
+| `Variant 1` | `Variant_1` |
+| `Variant 12` | `Variant_12` |
+
+## Base URL rules
+
+A/B tests and personalization previews use the experiment URL as the base URL. If the experiment URL contains wildcards, replace them with concrete path values before opening the preview link.
+
+For split URL tests, the Control preview uses the experiment URL. Treatment previews use the treatment redirect URL from `variants[].data[0].url`.
+
+:::info Preview session
+The Mida script must be installed on the previewed page. Preview state persists in `sessionStorage` and `window.name` for the same tab; close the tab or clear `sessionStorage` to exit preview mode.
+:::
 
 ## Error responses
 

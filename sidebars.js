@@ -41,6 +41,7 @@ const sidebars = {
   tutorialSidebar: [
     'intro',
     'quickstart',
+    'mcp-integration',
     {
       type: 'category',
       label: 'Projects',
@@ -60,6 +61,7 @@ const sidebars = {
         apiDoc('v2/list-experiments', 'GET'),
         apiDoc('v2/get-experiment-details', 'GET'),
         apiDoc('v2/get-experiment-result', 'GET'),
+        apiDoc('v2/get-experiment-metrics', 'GET'),
         apiDoc('v2/get-experiment-share-link', 'GET'),
         apiDoc('v2/get-experiment-preview-urls', 'GET'),
         apiDoc('v2/update-experiment', 'PATCH'),

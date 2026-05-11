@@ -5,7 +5,7 @@ hide_table_of_contents: false
 
 # Quickstart: Create and Launch an Experiment
 
-This guide walks you through the full experiment lifecycle using the Mida API — from creation to reading results. Copy-paste the curl commands and replace the placeholder values.
+This guide walks you through the full experiment lifecycle using the Mida API: create a draft, launch it, read results, and stop it when you are done. Copy-paste the curl commands and replace the placeholder values.
 
 **You'll need:**
 - Your **Project Key** — from Dashboard → Settings → API
@@ -28,11 +28,8 @@ curl --request POST \
     "url": "https://example.com/",
     "variants": [
       {
-        "name": "Control",
-        "data": []
-      },
-      {
-        "name": "Red CTA Button",
+        "name": "Variant 1",
+        "nickname": "Red CTA Button",
         "customCSS": ".cta-button { background-color: #FF5733 !important; color: #fff !important; }",
         "customJS": "",
         "data": []
@@ -67,9 +64,9 @@ curl --request POST \
 **Save the `test_id`** — you'll use it in every subsequent step.
 
 :::info Variants explained
-- The **first variant is always the Control** (the original, unmodified page). Its `data` array must be empty.
-- Add one object per variant you want to test. Use `customCSS` and/or `customJS` to inject changes.
-- `data: []` is required on every variant (even if empty). It holds visual editor DOM changes.
+- **Do not include Control in `variants`.** The original page is added automatically.
+- Treatment variant names must be exact: `Variant 1`, `Variant 2`, and so on. Use `nickname` for human-friendly labels like `"Red CTA Button"`.
+- Use `customCSS` and/or `customJS` for code-based changes. Keep `data: []` unless you are sending visual-editor DOM changes.
 :::
 
 ---
@@ -131,7 +128,8 @@ curl "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experiment/28222/
     },
     {
       "variant_id": "1",
-      "name": "Red CTA Button",
+      "name": "Variant 1",
+      "nickname": "Red CTA Button",
       "visitors": 1480,
       "conversions": 148,
       "conversion_rate": 10.0,
@@ -142,7 +140,7 @@ curl "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experiment/28222/
 }
 ```
 
-The `improvement` field shows relative lift vs the control. Here, the Red CTA Button variant converts 25% better than Control.
+The `improvement` field shows relative lift vs the control. Here, Variant 1 converts 25% better than Control.
 
 ---
 
@@ -182,12 +180,26 @@ If you've already created a goal and have its key, reference it directly:
   "test_name": "Pricing Page Headline Test",
   "url": "https://example.com/pricing",
   "variants": [
-    { "name": "Control", "data": [] },
-    { "name": "Variant 1", "customCSS": "h1 { font-size: 2.5rem; }", "data": [] }
+    {
+      "name": "Variant 1",
+      "nickname": "Larger headline",
+      "customCSS": "h1 { font-size: 2.5rem; }",
+      "data": []
+    }
   ],
   "primary_goal_key": "cta_button_click"
 }'
 ```
+
+### Preview before launch
+
+Use the [Preview URLs](./v2/get-experiment-preview-urls) endpoint to generate QA links for Control and each treatment. The preview URL format is:
+
+```text
+https://example.com/?test-preview=28222&test-variant=Variant_1
+```
+
+Control uses `test-variant=0`. Treatment variants use their fixed name with spaces replaced by underscores, such as `Variant_1` or `Variant_12`.
 
 ### Create experiment and launch immediately
 
@@ -238,12 +250,15 @@ When setting a `primary_goal` inline, use one of these `goal_type` values:
 | `pageviewExact` | Exact URL match | `https://example.com/thank-you` |
 | `pageviewWildcard` | URL with `*` wildcards | `/products/*/confirm` |
 | `pageviewRegex` | Regex URL pattern | `^/checkout/.+/success$` |
-| `script` | Custom JS event trigger | `purchase_complete` |
+| `event` | Custom event name | `signup_completed` |
+| `revenue` | Purchase or order event | `Purchase` |
+| `script` | Manual trigger identifier | `purchase_complete` |
 
 ---
 
 ## What's next
 
+- **[MCP Integration](./mcp-integration)** — connect Mida to AI assistants with dashboard OAuth
 - **[Create Experiment](./v2/create-experiment)** — full reference for all fields including targeting, secondary goals, and advanced configuration
 - **[Update Experiment Status](./v2/update-experiment-status)** — all status transitions and constraints
 - **[Get Experiment Result](./v2/get-experiment-result)** — full result response schema

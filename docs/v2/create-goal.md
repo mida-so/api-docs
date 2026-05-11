@@ -9,7 +9,7 @@ import ApiEndpointLayout from '@site/src/components/ApiEndpointLayout';
   title="Create Goal"
   method="POST"
   endpoint="/v2/project/{project_key}/goal"
-  description="Create a goal profile for the selected project. Goals define what counts as a conversion — clicks, page views, form submissions, or custom events."
+  description="Create a goal profile for the selected project. Goals define what counts as a conversion: page visits, clicks, forms, scroll depth, events, revenue, or manual triggers."
   playgroundUrl="https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/goal"
   defaultHeaders={{Authorization: 'Bearer YOUR_GENERATED_API_KEY', 'Content-Type': 'application/json'}}
   defaultBody={{
@@ -31,16 +31,26 @@ import ApiEndpointLayout from '@site/src/components/ApiEndpointLayout';
 
 ## Goal types
 
-| `goal_type` | Tracks | `goal_value` example |
+Choose the goal type that matches the conversion behavior you want to measure. `goal_value` is interpreted differently for each type:
+
+| `goal_type` | Tracks | `goal_value` guidance |
 |---|---|---|
-| `clickOnElement` | Clicks on a CSS selector | `.cta-button`, `#hero-cta`, `[data-testid="buy-now"]` |
-| `clickOnText` | Clicks on any element matching visible text | `Start Free Trial` |
-| `formSubmit` | Form submissions matching a selector | `form#signup`, `form.checkout-form` |
-| `pageview` | Visits to a URL (partial match) | `https://example.com/pricing` |
-| `pageviewExact` | Visits where the full URL matches exactly | `https://example.com/pricing?plan=pro` |
-| `pageviewWildcard` | Visits matching a wildcard URL pattern | `https://example.com/blog/*` |
-| `pageviewRegex` | Visits matching a regular expression | `^https://example\.com/blog/.+$` |
-| `script` | Manual trigger from custom JavaScript code | `signup_completed` |
+| `pageview` | URL or path partial match | URL/path such as `/thank-you` |
+| `pageviewExact` | Exact URL match | Full exact URL such as `https://example.com/thank-you` |
+| `pageviewWildcard` | URL wildcard match | Wildcard URL such as `/products/*/confirm` |
+| `pageviewRegex` | Regex URL match | Regex such as `^/checkout/.+/success$` |
+| `clickOnElement` | Clicks on a CSS selector | CSS selector such as `.cta-button` |
+| `clickOnText` | Clicks on visible text | Text such as `Start Free Trial` |
+| `externalLink` | Clicks to an external link | href substring or domain such as `stripe.com` |
+| `formSubmit` | Form submissions | Form CSS selector such as `form#signup` |
+| `elementAppears` | Element appears on the page | CSS selector such as `.success-message` |
+| `scrolling` | Scroll depth reached | Percentage such as `75` |
+| `duration` | Time on page | Seconds such as `30` |
+| `event` | Custom event | Event name such as `signup_completed` |
+| `revenue` | Purchase/order revenue event | Purchase or order event name such as `Purchase` or `order_processed` |
+| `script` | Manual trigger | Manual trigger identifier; prefer `event` for named events |
+
+For ecommerce revenue tracking, use the event name your integration or site sends for successful orders. Do not invent a new revenue event name unless your site also sends it.
 
 ## Optional fields
 
