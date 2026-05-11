@@ -51,8 +51,32 @@ UTM values are public aliases. Public V2 validates them against this allowlist, 
 
 Use the same filter inputs as the dashboard:
 
-- `filter_by` for preset segments, for example `mobile`, `desktop`, `new`, `returning`, `paid`, `search`, `direct`, or `country-US`.
-- `custom_filter` for saved/custom segment rules, for example `[[{"criteria":"device","operator":"==","value":"mobile"}]]`.
+- `filter_by` for preset segments, for example `mobile`, `desktop`, `new`, `returning`, `paid`, `search`, `direct`, or `country-US`. Comma-separating different dimensions is AND (`desktop,country-US` = Desktop AND US); comma-separating multiple `country-XX` tokens is OR within country (`desktop,country-US,country-CA` = Desktop AND (US OR CA)).
+- `custom_filter` for the dashboard's segment-builder rules in the same nested array shape: inner arrays are OR groups, outer arrays are AND groups.
+
+#### `custom_filter` criteria
+
+These are the same criteria the dashboard's Custom Segment form exposes:
+
+| Criteria | Notes |
+| --- | --- |
+| `landing_page`, `ref_page`, `user_agent` | URL/string match against the visitor's landing page, referrer, or user-agent. |
+| `queryparam` | Requires `key` (the query-string param name). |
+| `source` | Fixed values: `direct`, `referral`, `social`, `search`, `nonpaid`, `paid`, `email`. |
+| `device` | Fixed values: `mobile`, `desktop`, `tablet`. |
+| `browser` | Fixed values: `chrome`, `firefox`, `safari`, `edge_chromium`, `edge_legacy`, `opera`, `ie`, `brave`, `vivaldi`, `yandex`, `chromium`, `samsung`, `uc`, `duckduckgo`, `silk`, `facebook`, `instagram`, `other`. |
+| `os` | Fixed values: `windows`, `macos`, `ios`, `linux`. |
+| `dayofweek` | Integer `0` (Monday) – `6` (Sunday). Also supports `>`, `>=`, `<`, `<=`. |
+| `hourofday` | Integer `0` – `23`. Also supports `>`, `>=`, `<`, `<=`. |
+| `visitor_type` | Fixed values: `new`, `returning`. |
+| `country` | ISO 3166-1 alpha-2 uppercase (e.g. `US`, `GB`). Only `==`, `!=`, `**`, `!*`. |
+| `v.visitor_id`, `v.uuid` | Visitor identifiers. 1–80 chars of `[A-Za-z0-9_-]`. Only `==`, `!=`, `**`, `!*`. |
+| `attribute` | Visitor attribute. Requires `key`; supports extended operators including `gt`, `gte`, `lt`, `lte`, `bt`, `bf`, `days_gt`, `days_gte`, `days_lt`, `days_lte`. |
+| `utm` | Requires `key` (the UTM param name). |
+
+Operators (unless otherwise noted): `==`, `!=`, `**` (contains), `!*` (does not contain), `ex` (exists), `nx` (does not exist).
+
+`region` and `city` are **not** `custom_filter` criteria — use a `filter_by` regional preset (`northamerica`, `europe`, `asiapacific`, `latinamerica`, `africa`, `middleeast`) or `breakdown_by=region`/`breakdown_by=city` to split results by them.
 
 ### Event attribute filters
 
@@ -80,6 +104,14 @@ Filtered to mobile traffic:
 curl -G "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experiment/1234/result" \
   -H "Authorization: Bearer YOUR_GENERATED_API_KEY" \
   --data-urlencode 'filter_by=mobile'
+```
+
+Custom segment — Desktop AND (US OR Canada) AND Chrome:
+
+```bash
+curl -G "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experiment/1234/result" \
+  -H "Authorization: Bearer YOUR_GENERATED_API_KEY" \
+  --data-urlencode 'custom_filter=[[{"criteria":"country","operator":"==","value":"US"},{"criteria":"country","operator":"==","value":"CA"}],[{"criteria":"device","operator":"==","value":"desktop"}],[{"criteria":"browser","operator":"==","value":"chrome"}]]'
 ```
 
 Breakdown by device:

@@ -40,6 +40,11 @@ All query parameters are optional. Rows are produced by the same backend route a
 
 The previous Public V2 structured `filters` object is rejected for dashboard parity. Use `filter_by` or `custom_filter`.
 
+### Supported filters
+
+- `filter_by`: dashboard preset segments. Comma-separated tokens across dimensions are AND; multiple `country-XX` tokens are OR within country (`desktop,country-US,country-CA` = Desktop AND (US OR CA)).
+- `custom_filter`: same nested AND/OR shape as the dashboard's Custom Segment form. See [Get experiment result › `custom_filter` criteria](./get-experiment-result.md#custom_filter-criteria) for the full criteria/operator table. Common criteria: `landing_page`, `ref_page`, `queryparam`, `source`, `os`, `browser`, `user_agent`, `device`, `dayofweek`, `hourofday`, `visitor_type`, `country` (ISO-2 uppercase), `v.visitor_id`, `v.uuid`, `attribute`, `utm`.
+
 ## Examples
 
 With date filtering:
@@ -55,6 +60,14 @@ Filtered to mobile traffic:
 curl -G "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experiment/1234/timeseries" \
   -H "Authorization: Bearer YOUR_GENERATED_API_KEY" \
   --data-urlencode 'filter_by=mobile'
+```
+
+Custom segment — Desktop AND US:
+
+```bash
+curl -G "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experiment/1234/timeseries" \
+  -H "Authorization: Bearer YOUR_GENERATED_API_KEY" \
+  --data-urlencode 'custom_filter=[[{"criteria":"device","operator":"==","value":"desktop"}],[{"criteria":"country","operator":"==","value":"US"}]]'
 ```
 
 Specific goal with event attribute filters:

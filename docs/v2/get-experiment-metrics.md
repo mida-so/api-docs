@@ -40,6 +40,11 @@ All query parameters are optional. When `metric_keys` and `goal_keys` are omitte
 The dashboard metrics engine does not support `breakdown_by` yet. Requests that include `breakdown_by` return `400`.
 :::
 
+### Supported filters
+
+- `filter_by`: dashboard preset segments. Comma-separated tokens across dimensions are AND; multiple `country-XX` tokens are OR within country (`desktop,country-US,country-CA` = Desktop AND (US OR CA)).
+- `custom_filter`: same nested AND/OR shape as the dashboard's Custom Segment form. See [Get experiment result › `custom_filter` criteria](./get-experiment-result.md#custom_filter-criteria) for the full criteria/operator table. Common criteria: `landing_page`, `ref_page`, `queryparam`, `source`, `os`, `browser`, `user_agent`, `device`, `dayofweek`, `hourofday`, `visitor_type`, `country` (ISO-2 uppercase), `v.visitor_id`, `v.uuid`, `attribute`, `utm`.
+
 ## Examples
 
 Get all attached secondary metrics:
@@ -65,6 +70,14 @@ Filter secondary metrics to mobile traffic:
 curl -G "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experiment/1234/metrics" \
   -H "Authorization: Bearer YOUR_GENERATED_API_KEY" \
   --data-urlencode 'filter_by=mobile'
+```
+
+Filter secondary metrics to Desktop AND US visitors:
+
+```bash
+curl -G "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experiment/1234/metrics" \
+  -H "Authorization: Bearer YOUR_GENERATED_API_KEY" \
+  --data-urlencode 'custom_filter=[[{"criteria":"device","operator":"==","value":"desktop"}],[{"criteria":"country","operator":"==","value":"US"}]]'
 ```
 
 ## Success response
