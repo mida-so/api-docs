@@ -10,13 +10,11 @@ Mida MCP lets AI assistants work with your Mida projects through the Model Conte
 Unlike API-key based integrations, Mida MCP uses remote OAuth through the Mida dashboard. During normal setup you do not paste a Mida API key or project key into your AI client.
 
 :::info MCP endpoint
-Use this endpoint for production:
+Use this endpoint:
 
 ```text
 https://mcp.mida.so/mcp
 ```
-
-Staging and self-hosted deployments should use their deployed MCP URL, usually `https://<your-mida-mcp-domain>/mcp`.
 :::
 
 ---
