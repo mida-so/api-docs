@@ -108,6 +108,7 @@ If your VS Code MCP client does not support remote OAuth yet, use Cursor/Claude 
 | `get_mida_api_context` | Returns Mida-specific guidance for experiment lifecycle, variant naming, goal types, targeting, preview URLs, and result fields. Use this when the assistant needs exact Mida behavior. |
 | `list_projects` | Lists the Mida projects available to your connected dashboard account. |
 | `select_project` | Switches the active project for future MCP calls in the current session. |
+| `get_project_configuration` | Returns Global Settings for the active project: default primary goal, secondary metrics, stats engine, and confidence threshold. |
 
 ### Experiments
 
@@ -117,7 +118,7 @@ If your VS Code MCP client does not support remote OAuth yet, use Cursor/Claude 
 | `get_experiment` | Gets detailed experiment information by `test_id`. |
 | `create_experiment` | Creates a draft A/B test, personalization, split URL test, or multivariate test. It requires a test name, URL, and at least one treatment variant. |
 | `update_experiment_status` | Changes an experiment status using labels such as `live`, `inactive`, `paused`, or `draft`. |
-| `get_experiment_result` | Gets visitors, conversions, conversion rates, and improvement versus Control when available. Also reports the experiment's configured `stats_engine` (Bayesian or Frequentist) and attaches matching statistical insights when `include_insights` is on. |
+| `get_experiment_result` | Gets visitors, conversions, conversion rates, and improvement versus Control when available. If the experiment has no attached goal, uses the project's global primary goal from Global Settings. Also reports `stats_engine` and attaches statistical insights by default. |
 | `compute_experiment_statistics` | Computes the same Bayesian or Frequentist insights as `get_experiment_result` from arbitrary aggregate counts. Use it to roll up timeseries rows, custom date ranges, or manually summed segments into a single decision summary that matches the dashboard. |
 
 ### Goals and events
@@ -138,6 +139,7 @@ If your VS Code MCP client does not support remote OAuth yet, use Cursor/Claude 
 - "Create a draft A/B test on `https://example.com/pricing` that changes the hero CTA copy to `Start free trial`, and use my existing signup goal."
 - "Create a personalization for mobile visitors in the United States that shows a shorter hero section. Keep it as a draft."
 - "Generate preview URLs for test `12345`, including Control and Variant 1."
+- "What is my project's default primary goal?"
 - "Analyze the results for test `12345` and summarize the conversion rate and lift versus Control."
 - "Create a pageview goal for `/thank-you` named `Signup completed`."
 - "Record an event named `DemoBooked` for the visitor with email `customer@example.com`."

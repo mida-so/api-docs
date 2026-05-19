@@ -27,7 +27,7 @@ import ApiEndpointLayout from '@site/src/components/ApiEndpointLayout';
 |---|---|---|
 | `start_date` | string | Filter conversions from this date. Format: `YYYY-MM-DD`. |
 | `end_date` | string | Filter conversions through this date. Format: `YYYY-MM-DD`. |
-| `goal_key` | string | Drill into a specific primary or secondary goal by `goal_key`. If omitted, the experiment primary goal is used. |
+| `goal_key` | string | Drill into a specific primary or secondary goal by `goal_key`. If omitted, the experiment's attached primary goal is used when present; otherwise the project's global primary goal from [Get Project Configuration](./get-project-configuration) is used. |
 | `goal_profile_id` | string | Drill into a specific goal by internal goal ID. Prefer `goal_key` when available. |
 | `filter_by` | string | Dashboard preset segment filter such as `mobile`, `desktop`, `new`, `returning`, `paid`, `search`, `direct`, or `country-US`. |
 | `custom_filter` | string \| array | Dashboard custom segment rules in the same nested rule shape used by the dashboard segment builder. |
