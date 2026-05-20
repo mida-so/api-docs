@@ -3,15 +3,33 @@ sidebar_position: 1
 hide_table_of_contents: true
 ---
 
-# Mida API V2
+# Mida Developer Docs
 
-Mida is an A/B testing and conversion rate optimization (CRO) platform. Customers install a JavaScript snippet on their website, create experiments with visual or code-based variants, and Mida tracks conversions against goals such as clicks, form submissions, and pageviews.
+Mida is an A/B testing and CRO platform. This site covers everything you need to integrate Mida programmatically — whether you're testing changes on a webpage or running experiments inside your backend, API, or mobile app.
 
-This site documents the **public V2 API** — a REST API for managing experiments, events, and goals programmatically. Everything you can do in the Mida dashboard can be done via this API.
+## Choose your integration path
 
-:::tip New here? Start with the Quickstart
-The **[Quickstart Guide](./quickstart)** walks you through creating and launching your first experiment end-to-end in under five minutes.
+| I want to… | Use | How |
+|---|---|---|
+| Test CSS, copy, or layout on a webpage | **Client-side** | Install Mida script → use this REST API or dashboard |
+| Test backend logic, pricing, APIs, or mobile rendering | **Server-side** | Create experiment in dashboard → install an [SDK](./server-side/sdks) |
+| Manage experiments from Claude, Cursor, or ChatGPT | **MCP** | [Connect Mida MCP](./mcp-integration) — no API key needed |
+
+:::tip Testing changes on a website?
+The **[Client-side Quickstart](./quickstart)** walks you through creating and launching your first experiment via the REST API in under five minutes.
 :::
+
+:::tip Running logic in your backend or mobile app?
+The **[Server-side Quickstart](./server-side/quickstart)** covers SDK setup, variant assignment, and goal tracking — no browser required.
+:::
+
+---
+
+## REST API V2 reference
+
+The REST API is a **control plane** — use it to create, configure, and read results for client-side experiments. It is also used for managing goals and events shared across both client-side and server-side experiments.
+
+Server-side experiments are created in the dashboard and run through [SDKs](./server-side/sdks). The REST API can read their results and manage their goals, but does not assign variants at request time.
 
 ---
 

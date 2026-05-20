@@ -3,7 +3,11 @@ sidebar_position: 2
 hide_table_of_contents: false
 ---
 
-# Quickstart: Create and Launch an Experiment
+# Client-side Quickstart
+
+:::info This quickstart is for client-side (website) experiments
+Mida runs variant CSS and JavaScript in the visitor's browser via the Mida script. If you want to run experiments in your backend, mobile app, or API, see the **[Server-side Quickstart](./server-side/quickstart)** and **[SDK catalog](./server-side/sdks)** instead.
+:::
 
 This guide walks you through the full experiment lifecycle using the Mida API: create a draft, launch it, read results, and stop it when you are done. Copy-paste the curl commands and replace the placeholder values.
 

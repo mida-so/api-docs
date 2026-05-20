@@ -4,6 +4,11 @@ hide_table_of_contents: true
 hide_title: true
 ---
 import ApiEndpointLayout from '@site/src/components/ApiEndpointLayout';
+import Admonition from '@theme/Admonition';
+
+<Admonition type="info" title="Client-side experiments only">
+  This endpoint creates <strong>client-side</strong> experiments — Mida applies variant CSS/JS in the visitor's browser via the Mida script. For experiments that run in your backend, mobile app, or API, create the experiment in the dashboard and integrate a <a href="/docs/server-side/sdks">Server-side SDK</a> instead.
+</Admonition>
 
 <ApiEndpointLayout
   title="Create Experiment"

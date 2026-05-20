@@ -10,8 +10,8 @@ import {themes as prismThemes} from 'prism-react-renderer';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'Mida API Docs',
-  tagline: 'Developer-friendly docs for the Mida API',
+  title: 'Mida Developer Docs',
+  tagline: 'REST API, Server-side SDKs, and MCP integration',
   favicon: 'img/mida-logo-square.png',
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
@@ -75,9 +75,9 @@ const config = {
         respectPrefersColorScheme: false,
       },
       navbar: {
-        title: 'Mida API Docs',
+        title: 'Mida Developer Docs',
         logo: {
-          alt: 'Mida API Docs Logo',
+          alt: 'Mida Developer Docs Logo',
           src: 'img/mida-logo-square.png',
         },
         items: [
@@ -85,7 +85,12 @@ const config = {
             type: 'docSidebar',
             sidebarId: 'tutorialSidebar',
             position: 'left',
-            label: 'V2 API',
+            label: 'Docs',
+          },
+          {
+            href: 'https://github.com/mida-so',
+            label: 'SDKs on GitHub',
+            position: 'right',
           },
           {
             type: 'search',

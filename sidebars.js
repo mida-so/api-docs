@@ -39,9 +39,26 @@ const apiDoc = (id, method) => ({
  */
 const sidebars = {
   tutorialSidebar: [
-    'intro',
-    'quickstart',
-    'mcp-integration',
+    {
+      type: 'category',
+      label: 'Getting Started',
+      collapsed: false,
+      items: [
+        'intro',
+        'quickstart',
+        'mcp-integration',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Server-side SDKs',
+      collapsed: false,
+      items: [
+        'server-side/overview',
+        'server-side/quickstart',
+        'server-side/sdks',
+      ],
+    },
     {
       type: 'category',
       label: 'Projects',
