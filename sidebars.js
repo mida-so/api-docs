@@ -101,6 +101,10 @@ const sidebars = {
     },
     // ── Secondary: other integrations ─────────────────────────────────────────
     {
+      type: 'html',
+      value: '<hr style="margin: 12px 0; border-color: var(--ifm-toc-border-color);" />',
+    },
+    {
       type: 'category',
       label: 'Server-side SDKs',
       collapsed: true,
