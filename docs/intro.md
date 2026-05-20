@@ -7,20 +7,13 @@ hide_table_of_contents: true
 
 Mida is an A/B testing and CRO platform. This site covers everything you need to integrate Mida programmatically — whether you're testing changes on a webpage or running experiments inside your backend, API, or mobile app.
 
-## Choose your integration path
-
-| I want to… | Use | How |
-|---|---|---|
-| Test CSS, copy, or layout on a webpage | **Client-side** | Install Mida script → use this REST API or dashboard |
-| Test backend logic, pricing, APIs, or mobile rendering | **Server-side** | Create experiment in dashboard → install an [SDK](./server-side/sdks) |
-| Manage experiments from Claude, Cursor, or ChatGPT | **MCP** | [Connect Mida MCP](./mcp-integration) — no API key needed |
-
-:::tip Testing changes on a website?
-The **[Client-side Quickstart](./quickstart)** walks you through creating and launching your first experiment via the REST API in under five minutes.
+:::tip New here? Start with the Quickstart
+The **[Quickstart Guide](./quickstart)** walks you through creating and launching your first experiment end-to-end in under five minutes.
 :::
 
-:::tip Running logic in your backend or mobile app?
-The **[Server-side Quickstart](./server-side/quickstart)** covers SDK setup, variant assignment, and goal tracking — no browser required.
+:::info Need something more specific?
+- **[Server-side SDKs](./server-side/overview)** — for backend, API, or mobile app experiments (Node.js, Python, PHP, Ruby, Flutter)
+- **[MCP Integration](./mcp-integration)** — connect Claude, Cursor, or ChatGPT to manage experiments from your AI assistant
 :::
 
 ---

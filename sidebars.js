@@ -39,6 +39,7 @@ const apiDoc = (id, method) => ({
  */
 const sidebars = {
   tutorialSidebar: [
+    // ── Primary: REST API ──────────────────────────────────────────────────────
     {
       type: 'category',
       label: 'Getting Started',
@@ -46,17 +47,6 @@ const sidebars = {
       items: [
         'intro',
         'quickstart',
-        'mcp-integration',
-      ],
-    },
-    {
-      type: 'category',
-      label: 'Server-side SDKs',
-      collapsed: false,
-      items: [
-        'server-side/overview',
-        'server-side/quickstart',
-        'server-side/sdks',
       ],
     },
     {
@@ -108,6 +98,22 @@ const sidebars = {
         apiDoc('v2/update-goal', 'PATCH'),
         apiDoc('v2/delete-goal', 'DEL'),
       ],
+    },
+    // ── Secondary: other integrations ─────────────────────────────────────────
+    {
+      type: 'category',
+      label: 'Server-side SDKs',
+      collapsed: true,
+      items: [
+        'server-side/overview',
+        'server-side/quickstart',
+        'server-side/sdks',
+      ],
+    },
+    {
+      type: 'doc',
+      id: 'mcp-integration',
+      label: 'MCP Integration',
     },
   ],
 };
