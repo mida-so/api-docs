@@ -86,6 +86,8 @@ curl "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experiment/1234" 
 | `experiment.configuration` | object | Traffic allocation and confidence interval settings |
 | `experiment.targeting` | object | Device, browser, country rules (empty array = all) |
 | `experiment.primary_goal` | object | The primary conversion goal definition |
+| `experiment.serving_variant_id` | string \| null | When set, the variant id currently served at 100% after Set winner & serve |
+| `experiment.is_deploy` | integer | Legacy deploy flag (`1` = old separate deploy campaign). New deployments use `serving_variant_id` instead. |
 
 ## Error responses
 

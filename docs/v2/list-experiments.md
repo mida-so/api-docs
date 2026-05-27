@@ -70,6 +70,8 @@ curl "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experiments?limit
 | `experiments[].is_completed` | integer | `1` if the experiment was formally concluded via the dashboard, `0` otherwise. Deactivating via API (`status: 0`) does not set this — it is only set from the Mida dashboard. |
 | `experiments[].created_at` | string | ISO 8601 creation timestamp |
 | `experiments[].updated_at` | string | ISO 8601 last-updated timestamp |
+| `experiments[].serving_variant_id` | string \| null | Present when the experiment is serving a winner at 100% on the same test |
+| `experiments[].is_deploy` | integer | Legacy deploy flag; prefer `serving_variant_id` for unified serving |
 | `count` | integer | Total number of experiments returned |
 
 ### Status values

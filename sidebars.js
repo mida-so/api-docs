@@ -71,6 +71,8 @@ const sidebars = {
         apiDoc('v2/get-experiment-result', 'GET'),
         apiDoc('v2/get-experiment-timeseries', 'GET'),
         apiDoc('v2/get-experiment-metrics', 'GET'),
+        apiDoc('v2/serve-experiment-winner', 'POST'),
+        apiDoc('v2/stop-experiment-serving', 'POST'),
         apiDoc('v2/get-experiment-share-link', 'GET'),
         apiDoc('v2/get-experiment-preview-urls', 'GET'),
         apiDoc('v2/update-experiment', 'PATCH'),

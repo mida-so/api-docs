@@ -51,7 +51,7 @@ curl "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experiment/1234/s
 
 ## About share links
 
-Share links provide a read-only view of your experiment's live results — variant performance, conversion rates, and statistical significance — without requiring the viewer to have a Mida account. They are useful for:
+Share links provide a read-only view of your experiment's **pre-deploy** results — variant performance, conversion rates, and statistical significance from the A/B test period — without requiring the viewer to have a Mida account. Post-deploy serving stats are not included on share links (the API always uses `report_phase=pre_deploy` for shared sessions). They are useful for:
 
 - Sharing results with stakeholders or clients
 - Embedding result URLs in reports or dashboards

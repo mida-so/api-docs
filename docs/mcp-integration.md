@@ -118,7 +118,11 @@ If your VS Code MCP client does not support remote OAuth yet, use Cursor/Claude 
 | `get_experiment` | Gets detailed experiment information by `test_id`. |
 | `create_experiment` | Creates a draft A/B test, personalization, split URL test, or multivariate test. It requires a test name, URL, and at least one treatment variant. |
 | `update_experiment_status` | Changes an experiment status using labels such as `live`, `inactive`, `paused`, or `draft`. |
-| `get_experiment_result` | Gets visitors, conversions, conversion rates, and improvement versus Control when available. If the experiment has no attached goal, uses the project's global primary goal from Global Settings. Also reports `stats_engine` and attaches statistical insights by default. |
+| `serve_experiment_winner` | Sets winner and serves at 100% on the same experiment (`variant_id` required). Same as dashboard Set winner & serve. |
+| `stop_experiment_serving` | Stops 100% winner serving and clears `serving_variant_id`. |
+| `get_experiment_result` | Gets visitors, conversions, conversion rates, and improvement versus Control when available. Supports `report_phase` (`pre_deploy`, `post_deploy`, `all_time`) for experiments that are serving a winner. If the experiment has no attached goal, uses the project's global primary goal from Global Settings. Also reports `stats_engine` and attaches statistical insights by default. |
+| `get_experiment_timeseries` | Daily chart rows from the dashboard raw engine. Supports the same `report_phase` filter as results. |
+| `get_experiment_metrics` | Secondary metric rows. Supports `report_phase` and dashboard-compatible filters. |
 | `compute_experiment_statistics` | Computes the same Bayesian or Frequentist insights as `get_experiment_result` from arbitrary aggregate counts. Use it to roll up timeseries rows, custom date ranges, or manually summed segments into a single decision summary that matches the dashboard. |
 
 ### Goals and events
@@ -141,6 +145,8 @@ If your VS Code MCP client does not support remote OAuth yet, use Cursor/Claude 
 - "Generate preview URLs for test `12345`, including Control and Variant 1."
 - "What is my project's default primary goal?"
 - "Analyze the results for test `12345` and summarize the conversion rate and lift versus Control."
+- "Serve variant 1 as the winner on test `12345` at 100% traffic."
+- "Show post-deploy results for test `12345` after we served the winner."
 - "Create a pageview goal for `/thank-you` named `Signup completed`."
 - "Record an event named `DemoBooked` for the visitor with email `customer@example.com`."
 
@@ -151,6 +157,8 @@ For complex creation prompts, include the target URL, desired change, conversion
 ## Safety notes
 
 - Create experiments as `draft` by default. Ask explicitly before launching an experiment as `live`.
+- Ask explicitly before calling `serve_experiment_winner` or `stop_experiment_serving` — these change live visitor experience.
+- Public share links always show `pre_deploy` results only; use authenticated result tools with `report_phase=post_deploy` for post-deploy analysis.
 - Control is implicit. Do not add Control to the `variants` array when creating experiments.
 - Treatment names must be `Variant 1`, `Variant 2`, and so on. Put human-friendly labels such as `Blue CTA` or `Short Hero` in `nickname`.
 - Preview URLs use `test-variant=0` for Control. Treatment preview tokens replace spaces with underscores, such as `Variant_1` or `Variant_2`.

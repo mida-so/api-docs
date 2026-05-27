@@ -36,6 +36,7 @@ import ApiEndpointLayout from '@site/src/components/ApiEndpointLayout';
 | `min_count` | number | Minimum matching event count per visitor for event-backed goals. Defaults to `1`. |
 | `timeframe_days` | number | Event conversion window in days after test entry for event-backed goals. |
 | `tz` | string | Dashboard timezone hour offset used for date filtering. Defaults to `0`. |
+| `report_phase` | string | Which conversion period to include: `pre_deploy` (experiment split only), `post_deploy` (after [Set winner & serve](./serve-experiment-winner)), or `all_time` (both). Defaults to `pre_deploy` when the experiment is actively serving a winner. |
 
 All query parameters are optional. Counts and conversion rates are produced by the same backend route as the Mida dashboard (`/abtest/conversion`). Date filters can be one-sided: if only `start_date` is supplied, results are filtered from that date through the current server date; if only `end_date` is supplied, results are filtered from the experiment creation date through that date. The previous Public V2 structured `filters` object is rejected for parity; use `filter_by` or `custom_filter`.
 
@@ -121,6 +122,13 @@ curl "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experiment/1234/r
   -H "Authorization: Bearer YOUR_GENERATED_API_KEY"
 ```
 
+Post-deploy results (after serving a winner):
+
+```bash
+curl "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experiment/1234/result?report_phase=post_deploy" \
+  -H "Authorization: Bearer YOUR_GENERATED_API_KEY"
+```
+
 Specific goal with event attribute filters:
 
 ```bash
@@ -149,6 +157,9 @@ curl -G "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experiment/123
   },
   "stats_engine": "bayesian",
   "confidence_threshold_percent": 95,
+  "serving_variant_id": "1",
+  "is_serving": true,
+  "report_phase": "pre_deploy",
   "total_visitors": 2980,
   "total_conversions": 268,
   "variants": [
@@ -186,6 +197,9 @@ curl -G "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experiment/123
 | `days_running` | integer | Days since creation. If the experiment is concluded, counts to the `end_date`; otherwise counts to now. |
 | `stats_engine` | string | Statistical framework configured for this test: `"bayesian"` or `"frequentist"`. Mirrors the dashboard's per-test stats mode. Consumers (AI agents, dashboards, custom integrations) should speak in the matching framework — chance-to-beat-Control / expected loss for Bayesian tests, p-values / confidence intervals for Frequentist tests. |
 | `confidence_threshold_percent` | number | Per-test deploy threshold (e.g. `95`). For Bayesian tests this is the chance-to-beat-Control needed to call a winner; for Frequentist tests this is the significance level (winners require `p < 1 - threshold/100`). |
+| `serving_variant_id` | string \| null | When set, the variant id served at 100% after [Set winner & serve](./serve-experiment-winner). Omitted when not serving. |
+| `is_serving` | boolean | `true` when `serving_variant_id` is set on the experiment. |
+| `report_phase` | string | Echoes the `report_phase` query used (`pre_deploy`, `post_deploy`, or `all_time`). |
 | `primary_goal` | object \| null | Primary conversion goal definition, or `null` if none set |
 | `total_visitors` | integer | Total visitors across all variants |
 | `total_conversions` | integer | Total conversions across all variants |
@@ -221,8 +235,12 @@ Each breakdown item includes `criteria`, totals, conversion rate, and `variants`
 | `401` | Invalid or missing API key |
 | `404` | Experiment not found or belongs to a different project |
 
+:::info Serving a winner
+To deploy a winning variant at 100% on the **same** experiment (without creating a separate deploy test), use [Serve Experiment Winner](./serve-experiment-winner). Then query with `report_phase=post_deploy` to read post-deploy stats, or `report_phase=all_time` for the full timeline.
+:::
+
 :::tip Next step
-Need secondary goal results? Use [Get Experiment Metrics](./get-experiment-metrics). Done reviewing results? You can [deactivate the experiment](./update-experiment-status) (`status: 0`) or [get a public share link](./get-experiment-share-link) to send to stakeholders.
+Need secondary goal results? Use [Get Experiment Metrics](./get-experiment-metrics). Done reviewing results? You can [deactivate the experiment](./update-experiment-status) (`status: 0`), [serve the winner](./serve-experiment-winner), or [get a public share link](./get-experiment-share-link) to send to stakeholders.
 :::
 
 </ApiEndpointLayout>

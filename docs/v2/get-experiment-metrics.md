@@ -33,6 +33,7 @@ import ApiEndpointLayout from '@site/src/components/ApiEndpointLayout';
 | `custom_filter` | string \| array | Dashboard custom segment rules in the same nested rule shape used by the dashboard segment builder. |
 | `metric_batch` | string \| array | Optional zero-based dashboard metric indexes to compute. |
 | `tz` | string | Dashboard timezone hour offset used for date filtering. Defaults to `0`. |
+| `report_phase` | string | Which conversion period to include: `pre_deploy`, `post_deploy`, or `all_time`. Same semantics as [Get Experiment Result](./get-experiment-result#query-parameters). |
 
 All query parameters are optional. When `metric_keys` and `goal_keys` are omitted, Mida reads the experiment's attached secondary metrics from `test.metric`. Metric rows are produced by the same backend route as the Mida dashboard (`/abtest/metrics`). Metrics supports date range filters, single-sided dates, `filter_by`, `custom_filter`, `metric_keys`/`goal_keys`, and `metric_batch`.
 

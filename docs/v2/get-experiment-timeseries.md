@@ -35,6 +35,7 @@ import ApiEndpointLayout from '@site/src/components/ApiEndpointLayout';
 | `min_count` | number | Minimum matching event count per visitor for event-backed goals. Defaults to `1`. |
 | `timeframe_days` | number | Event conversion window in days after test entry for event-backed goals. |
 | `tz` | string | Dashboard timezone hour offset used for date filtering. Defaults to `0`. |
+| `report_phase` | string | Which conversion period to include: `pre_deploy`, `post_deploy`, or `all_time`. Same semantics as [Get Experiment Result](./get-experiment-result#query-parameters). |
 
 All query parameters are optional. Rows are produced by the same backend route as the Mida dashboard chart (`/abtest/raw`). Date filters can be one-sided: if only `start_date` is supplied, Public V2 expands the request through the current server date before calling `/abtest/raw`; if only `end_date` is supplied, Public V2 expands the request from the experiment creation date through that date.
 
