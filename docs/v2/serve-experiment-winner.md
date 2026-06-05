@@ -27,6 +27,7 @@ import ApiEndpointLayout from '@site/src/components/ApiEndpointLayout';
 | Field | Type | Required | Description |
 |---|---|---|---|
 | `variant_id` | string | Yes | Winning variant id (e.g. `"1"` for Variant 1). Same id as in [Get Experiment Result](./get-experiment-result) variant rows. Alias: `serving_variant_id`. |
+| `traffic_allocation` | number | No | Rollout percentage `0`–`100` of **eligible** visitors who receive the winner (deterministic bucketing). Omit to keep the experiment's existing `traffic_allocation`. |
 
 ## Example
 
@@ -34,7 +35,7 @@ import ApiEndpointLayout from '@site/src/components/ApiEndpointLayout';
 curl -X POST "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experiment/1234/serve-winner" \
   -H "Authorization: Bearer YOUR_GENERATED_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{"variant_id": "1"}'
+  -d '{"variant_id": "1", "traffic_allocation": 25}'
 ```
 
 ## Success response
@@ -44,8 +45,9 @@ curl -X POST "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experimen
   "success": true,
   "test_id": 1234,
   "serving_variant_id": "1",
+  "traffic_allocation": 25,
   "is_serving": true,
-  "message": "Winner is now served at 100% to eligible traffic on the same experiment."
+  "message": "Winner is now served to eligible traffic at the configured rollout percentage on the same experiment."
 }
 ```
 
@@ -54,9 +56,16 @@ curl -X POST "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experimen
 | Field | Type | Description |
 |---|---|---|
 | `serving_variant_id` | string | Variant now served at 100% |
+| `traffic_allocation` | number | Rollout % applied to eligible visitors |
 | `is_serving` | boolean | Always `true` on success |
 
 After serving, conversions are tagged in the `goal` table with `is_serving=1`. Use `report_phase=post_deploy` on [Get Experiment Result](./get-experiment-result), [Get Experiment Timeseries](./get-experiment-timeseries), and [Get Experiment Metrics](./get-experiment-metrics) to read post-deploy stats.
+
+To change rollout after serve without re-picking the winner, use [Update Serving Rollout](./update-serving-rollout).
+
+:::info Multi-day ramp-up
+Scheduled ramp-up over several days (automatic daily increases) is not available via API yet. Use a fixed `traffic_allocation` and call [Update Serving Rollout](./update-serving-rollout) when you want to increase exposure manually.
+:::
 
 ## Error responses
 

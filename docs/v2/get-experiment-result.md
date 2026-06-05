@@ -160,6 +160,9 @@ curl -G "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experiment/123
   "serving_variant_id": "1",
   "is_serving": true,
   "report_phase": "pre_deploy",
+  "traffic_allocation": 100,
+  "distribution_mode": "equal",
+  "is_mab": false,
   "total_visitors": 2980,
   "total_conversions": 268,
   "variants": [
@@ -169,6 +172,8 @@ curl -G "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experiment/123
       "visitors": 1500,
       "conversions": 120,
       "conversion_rate": 8.0,
+      "traffic_weight": 50,
+      "variant_status": "active",
       "is_control": true
     },
     {
@@ -178,6 +183,8 @@ curl -G "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experiment/123
       "conversions": 148,
       "conversion_rate": 10.0,
       "improvement": 25.0,
+      "traffic_weight": 50,
+      "variant_status": "active",
       "is_control": false
     }
   ]
@@ -201,6 +208,9 @@ curl -G "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experiment/123
 | `is_serving` | boolean | `true` when `serving_variant_id` is set on the experiment. |
 | `report_phase` | string | Echoes the `report_phase` query used (`pre_deploy`, `post_deploy`, or `all_time`). |
 | `primary_goal` | object \| null | Primary conversion goal definition, or `null` if none set |
+| `traffic_allocation` | number | Percent of eligible site visitors included in the experiment (0–100) |
+| `distribution_mode` | string | Configured split mode: `"equal"`, `"custom"`, or `"mab"` |
+| `is_mab` | boolean | `true` when smart optimization (MAB) is enabled |
 | `total_visitors` | integer | Total visitors across all variants |
 | `total_conversions` | integer | Total conversions across all variants |
 | `variants` | array | Per-variant result objects (control listed first) |
@@ -221,6 +231,8 @@ curl -G "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experiment/123
 | `conversions` | integer | Number of visitors who converted |
 | `conversion_rate` | number | Conversion rate as a percentage (e.g. `10.0` = 10%) |
 | `improvement` | number | Relative lift vs the control in percent (e.g. `25.0` = +25%). Only present on non-control variants when the control has data. |
+| `traffic_weight` | number \| null | Configured share of experiment traffic for this arm (0–100). `null` when `is_mab` is `true`. |
+| `variant_status` | string | `"active"` or `"paused"` (configured weight is 0) |
 | `is_control` | boolean | Whether this is the control variant |
 
 ### Breakdown fields
@@ -240,7 +252,7 @@ To deploy a winning variant at 100% on the **same** experiment (without creating
 :::
 
 :::tip Next step
-Need secondary goal results? Use [Get Experiment Metrics](./get-experiment-metrics). Done reviewing results? You can [deactivate the experiment](./update-experiment-status) (`status: 0`), [serve the winner](./serve-experiment-winner), or [get a public share link](./get-experiment-share-link) to send to stakeholders.
+Need only configured traffic splits without result stats? Use [Get Experiment Distribution](./get-experiment-distribution). Need secondary goal results? Use [Get Experiment Metrics](./get-experiment-metrics). Done reviewing results? You can [deactivate the experiment](./update-experiment-status) (`status: 0`), [serve the winner](./serve-experiment-winner), or [get a public share link](./get-experiment-share-link) to send to stakeholders.
 :::
 
 </ApiEndpointLayout>

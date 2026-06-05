@@ -101,7 +101,7 @@ The `targeting.devices`, `targeting.browsers`, and `targeting.countries` fields 
 :::
 
 :::tip Next step
-Ready to see how the experiment is performing? Use [Get Experiment Result](./get-experiment-result) to retrieve per-variant conversion data.
+Need configured traffic splits without the full experiment payload? Use [Get Experiment Distribution](./get-experiment-distribution). Ready to see how the experiment is performing? Use [Get Experiment Result](./get-experiment-result) to retrieve per-variant conversion data.
 :::
 
 </ApiEndpointLayout>

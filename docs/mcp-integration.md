@@ -116,11 +116,13 @@ If your VS Code MCP client does not support remote OAuth yet, use Cursor/Claude 
 |---|---|
 | `list_experiments` | Lists experiments for the active project with user-friendly statuses such as `draft`, `live`, and `inactive`. |
 | `get_experiment` | Gets detailed experiment information by `test_id`. |
+| `get_experiment_distribution` | Gets configured per-variant traffic splits (`traffic_weight`, `variant_status`) without the full experiment payload. |
 | `create_experiment` | Creates a draft A/B test, personalization, split URL test, or multivariate test. It requires a test name, URL, and at least one treatment variant. |
 | `update_experiment_status` | Changes an experiment status using labels such as `live`, `inactive`, `paused`, or `draft`. |
-| `serve_experiment_winner` | Sets winner and serves at 100% on the same experiment (`variant_id` required). Same as dashboard Set winner & serve. |
-| `stop_experiment_serving` | Stops 100% winner serving and clears `serving_variant_id`. |
-| `get_experiment_result` | Gets visitors, conversions, conversion rates, and improvement versus Control when available. Supports `report_phase` (`pre_deploy`, `post_deploy`, `all_time`) for experiments that are serving a winner. If the experiment has no attached goal, uses the project's global primary goal from Global Settings. Also reports `stats_engine` and attaches statistical insights by default. |
+| `serve_experiment_winner` | Sets winner and serves on the same experiment (`variant_id` required, optional `traffic_allocation` 0-100 for rollout %). |
+| `update_serving_rollout` | Changes rollout % (`traffic_allocation`) while a winner is already being served. |
+| `stop_experiment_serving` | Stops winner serving and clears `serving_variant_id`. |
+| `get_experiment_result` | Gets visitors, conversions, conversion rates, improvement versus Control when available, and configured `traffic_weight` / `variant_status` per variant. Supports `report_phase` (`pre_deploy`, `post_deploy`, `all_time`) for experiments that are serving a winner. If the experiment has no attached goal, uses the project's global primary goal from Global Settings. Also reports `stats_engine` and attaches statistical insights by default. |
 | `get_experiment_timeseries` | Daily chart rows from the dashboard raw engine. Supports the same `report_phase` filter as results. |
 | `get_experiment_metrics` | Secondary metric rows. Supports `report_phase` and dashboard-compatible filters. |
 | `compute_experiment_statistics` | Computes the same Bayesian or Frequentist insights as `get_experiment_result` from arbitrary aggregate counts. Use it to roll up timeseries rows, custom date ranges, or manually summed segments into a single decision summary that matches the dashboard. |
