@@ -165,6 +165,12 @@ curl -G "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experiment/123
   "is_mab": false,
   "total_visitors": 2980,
   "total_conversions": 268,
+  "has_revenue": true,
+  "total_revenue": 12450.00,
+  "total_orders": 312,
+  "rpv": 4.18,
+  "aov": 39.90,
+  "currency": "USD",
   "variants": [
     {
       "variant_id": "0",
@@ -172,6 +178,11 @@ curl -G "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experiment/123
       "visitors": 1500,
       "conversions": 120,
       "conversion_rate": 8.0,
+      "revenue": 5800.00,
+      "orders": 145,
+      "rpv": 3.87,
+      "aov": 40.00,
+      "currency": "USD",
       "traffic_weight": 50,
       "variant_status": "active",
       "is_control": true
@@ -183,6 +194,12 @@ curl -G "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experiment/123
       "conversions": 148,
       "conversion_rate": 10.0,
       "improvement": 25.0,
+      "revenue": 6650.00,
+      "orders": 167,
+      "rpv": 4.49,
+      "aov": 39.82,
+      "currency": "USD",
+      "revenue_per_visitor_improvement": 16.02,
       "traffic_weight": 50,
       "variant_status": "active",
       "is_control": false
@@ -213,6 +230,12 @@ curl -G "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experiment/123
 | `is_mab` | boolean | `true` when smart optimization (MAB) is enabled |
 | `total_visitors` | integer | Total visitors across all variants |
 | `total_conversions` | integer | Total conversions across all variants |
+| `has_revenue` | boolean | `true` when revenue data is present for the selected goal (Purchase/order events with a revenue property). When `false`, revenue fields are omitted. |
+| `total_revenue` | number | Currency-normalized total revenue across all variants. Present when `has_revenue` is `true`. |
+| `total_orders` | integer | Total order count across all variants. Present when `has_revenue` is `true`. |
+| `rpv` | number | Revenue per visitor (`total_revenue / total_visitors`). Present when `has_revenue` is `true`. |
+| `aov` | number | Average order value (`total_revenue / total_orders`). Present when `has_revenue` is `true`. |
+| `currency` | string | Project reporting currency code (e.g. `"USD"`). Present when `has_revenue` is `true`. |
 | `variants` | array | Per-variant result objects (control listed first) |
 | `breakdown_by` | string | Present when `breakdown_by` is requested |
 | `breakdowns` | array | Per-segment totals and variant results, present when `breakdown_by` is requested |
@@ -231,13 +254,23 @@ curl -G "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experiment/123
 | `conversions` | integer | Number of visitors who converted |
 | `conversion_rate` | number | Conversion rate as a percentage (e.g. `10.0` = 10%) |
 | `improvement` | number | Relative lift vs the control in percent (e.g. `25.0` = +25%). Only present on non-control variants when the control has data. |
+| `revenue` | number | Currency-normalized total revenue for this variant. Present when `has_revenue` is `true`. |
+| `orders` | integer | Order count for this variant. Present when `has_revenue` is `true`. |
+| `rpv` | number | Revenue per visitor (`revenue / visitors`). Present when `has_revenue` is `true`. |
+| `aov` | number | Average order value (`revenue / orders`). Present when `has_revenue` is `true`. |
+| `currency` | string | Project reporting currency code. Present when `has_revenue` is `true`. |
+| `revenue_per_visitor_improvement` | number | Relative RPV lift vs control in percent. Only present on non-control variants when the control has RPV data. |
 | `traffic_weight` | number \| null | Configured share of experiment traffic for this arm (0–100). `null` when `is_mab` is `true`. |
 | `variant_status` | string | `"active"` or `"paused"` (configured weight is 0) |
 | `is_control` | boolean | Whether this is the control variant |
 
 ### Breakdown fields
 
-Each breakdown item includes `criteria`, totals, conversion rate, and `variants` with lift calculated against Control within that segment.
+Each breakdown item includes `criteria`, totals, conversion rate, and `variants` with lift calculated against Control within that segment. When revenue data is present for that segment, breakdown items also include `has_revenue`, `total_revenue`, `total_orders`, `rpv`, `aov`, and `currency`.
+
+:::tip Revenue metrics
+Revenue fields use the same dashboard `/abtest/conversion` engine as the Mida results page RPV view. They appear automatically for revenue-bearing goals (e.g. a Purchase event goal) — no separate revenue-type goal is required. Prefer RPV over conversion rate when `has_revenue` is `true` and AOV differs across variants.
+:::
 
 ## Error responses
 
