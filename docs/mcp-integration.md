@@ -110,6 +110,8 @@ If your VS Code MCP client does not support remote OAuth yet, use Cursor/Claude 
 | `select_project` | Switches the active project for future MCP calls in the current session. |
 | `get_project_configuration` | Returns Global Settings for the active project: default primary goal, secondary metrics, stats engine, and confidence threshold. |
 | `update_project_configuration` | Updates Global Settings — the defaults every new experiment inherits. Partial: send only the fields to change. |
+| `list_team_members` | Lists everyone on the account with role, edit rights, membership kind and last login. Read-only. |
+| `get_my_access` | The caller's own effective role: answers "am I view-only?" for the current connection. |
 | `list_exclusion_groups` | Lists mutually exclusive groups: sets of experiments whose traffic is split so each visitor enters exactly one. |
 | `create_exclusion_group` | Makes overlapping experiments mutually exclusive by traffic split. |
 | `update_exclusion_group` | Changes a group's membership, splits or name. The tests array replaces the whole membership. |

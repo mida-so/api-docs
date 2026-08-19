@@ -84,6 +84,14 @@ const sidebars = {
     },
     {
       type: 'category',
+      label: 'Account',
+      items: [
+        apiDoc('v2/list-team-members', 'GET'),
+        apiDoc('v2/get-my-access', 'GET'),
+      ],
+    },
+    {
+      type: 'category',
       label: 'Exclusion Groups',
       items: [
         apiDoc('v2/list-exclusion-groups', 'GET'),
