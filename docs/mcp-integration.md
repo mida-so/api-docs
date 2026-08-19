@@ -109,6 +109,11 @@ If your VS Code MCP client does not support remote OAuth yet, use Cursor/Claude 
 | `list_projects` | Lists the Mida projects available to your connected dashboard account. |
 | `select_project` | Switches the active project for future MCP calls in the current session. |
 | `get_project_configuration` | Returns Global Settings for the active project: default primary goal, secondary metrics, stats engine, and confidence threshold. |
+| `update_project_configuration` | Updates Global Settings — the defaults every new experiment inherits. Partial: send only the fields to change. |
+| `list_exclusion_groups` | Lists mutually exclusive groups: sets of experiments whose traffic is split so each visitor enters exactly one. |
+| `create_exclusion_group` | Makes overlapping experiments mutually exclusive by traffic split. |
+| `update_exclusion_group` | Changes a group's membership, splits or name. The tests array replaces the whole membership. |
+| `delete_exclusion_group` | Removes a group. Its experiments keep running, they just stop being exclusive. |
 
 ### Experiments
 

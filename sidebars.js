@@ -56,6 +56,7 @@ const sidebars = {
         apiDoc('v2/list-projects', 'GET'),
         apiDoc('v2/get-project-details', 'GET'),
         apiDoc('v2/get-project-configuration', 'GET'),
+        apiDoc('v2/update-project-configuration', 'PATCH'),
         apiDoc('v2/create-project', 'POST'),
         apiDoc('v2/update-project', 'PATCH'),
         apiDoc('v2/delete-project', 'DEL'),
@@ -79,6 +80,16 @@ const sidebars = {
         apiDoc('v2/get-experiment-preview-urls', 'GET'),
         apiDoc('v2/update-experiment', 'PATCH'),
         apiDoc('v2/update-experiment-status', 'PATCH'),
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Exclusion Groups',
+      items: [
+        apiDoc('v2/list-exclusion-groups', 'GET'),
+        apiDoc('v2/create-exclusion-group', 'POST'),
+        apiDoc('v2/update-exclusion-group', 'PATCH'),
+        apiDoc('v2/delete-exclusion-group', 'DEL'),
       ],
     },
     {
