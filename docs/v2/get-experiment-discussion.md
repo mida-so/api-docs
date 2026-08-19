@@ -55,6 +55,8 @@ curl "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experiment/34567/
 }
 ```
 
+Each comment carries a `source`: `user` (a person's own words), `agent` (written by the Mida Agent over MCP), or `routine` (posted automatically by a scheduled Agent routine). Non-`user` comments render in the dashboard with a "via Mida Agent" badge.
+
 `is_you` appears on the caller's own comments when the connection identifies a user (MCP). Plain API keys read the thread anonymously.
 
 </ApiEndpointLayout>

@@ -25,6 +25,7 @@ import ApiEndpointLayout from '@site/src/components/ApiEndpointLayout';
 | Field | Type | Description |
 |---|---|---|
 | `comment` | string | **Required.** Plain text, up to 5000 characters |
+| `source` | string | Optional provenance: `user` (default), `agent`, or `routine`. Non-`user` comments render with a "via Mida Agent" badge and the notification email is attributed to the Agent, never to the person. Honoured only for identity-carrying (MCP) connections |
 
 ## Example
 
