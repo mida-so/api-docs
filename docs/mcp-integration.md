@@ -112,6 +112,9 @@ If your VS Code MCP client does not support remote OAuth yet, use Cursor/Claude 
 | `update_project_configuration` | Updates Global Settings — the defaults every new experiment inherits. Partial: send only the fields to change. |
 | `list_team_members` | Lists everyone on the account with role, edit rights, membership kind and last login. Read-only. |
 | `get_my_access` | The caller's own effective role: answers "am I view-only?" for the current connection. |
+| `get_experiment_discussion` | Reads the Discussion thread on a report — the comments where decisions and caveats are recorded. |
+| `add_experiment_comment` | Posts to a report's Discussion as the connected user; assigned members get the usual email. |
+| `delete_experiment_comment` | Deletes a comment — its author, or an Owner/Admin moderating. |
 | `list_exclusion_groups` | Lists mutually exclusive groups: sets of experiments whose traffic is split so each visitor enters exactly one. |
 | `create_exclusion_group` | Makes overlapping experiments mutually exclusive by traffic split. |
 | `update_exclusion_group` | Changes a group's membership, splits or name. The tests array replaces the whole membership. |
