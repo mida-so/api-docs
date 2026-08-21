@@ -95,6 +95,18 @@ const sidebars = {
     },
     {
       type: 'category',
+      label: 'Personalization',
+      items: [
+        apiDoc('v2/list-personalization-campaigns', 'GET'),
+        apiDoc('v2/get-personalization-campaign', 'GET'),
+        apiDoc('v2/create-personalization-campaign', 'POST'),
+        apiDoc('v2/add-personalization-accounts', 'POST'),
+        apiDoc('v2/personalization-suggested-pages', 'GET'),
+        apiDoc('v2/list-saved-target-accounts', 'GET'),
+      ],
+    },
+    {
+      type: 'category',
       label: 'Exclusion Groups',
       items: [
         apiDoc('v2/list-exclusion-groups', 'GET'),

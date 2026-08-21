@@ -120,6 +120,20 @@ If your VS Code MCP client does not support remote OAuth yet, use Cursor/Claude 
 | `update_exclusion_group` | Changes a group's membership, splits or name. The tests array replaces the whole membership. |
 | `delete_exclusion_group` | Removes a group. Its experiments keep running, they just stop being exclusive. |
 
+### Personalization
+
+Available only on accounts with Personalization switched on.
+
+| Tool | What it does |
+|---|---|
+| `list_target_account_campaigns` | Lists Personalization campaigns with account counts, how many have copy, and whether each is building or launched. |
+| `get_target_account_campaign_status` | One campaign in detail: build stage, accounts researched and written, what failed, whether it still needs a goal. |
+| `create_target_account_campaign` | Builds a new campaign for named companies: researches each on the web and writes copy per account. Never publishes. |
+| `create_persona_campaign` | Builds a new campaign with one version per job role. No company list, no research, and each role gets its own ad URL. |
+| `add_target_accounts` | Adds companies to a campaign that already exists and returns each one's link immediately. The link is final; the copy lands behind it minutes later. On a launched campaign this publishes. |
+| `suggest_pages_to_personalize` | Ranks your own pages by what the target accounts would be evaluating, from real traffic. Call before creating a campaign. |
+| `list_saved_target_accounts` | Companies this project has targeted before. Already researched, so reusing one is cheaper. |
+
 ### Experiments
 
 | Tool | What it does |
