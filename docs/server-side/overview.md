@@ -102,5 +102,5 @@ If the conversion happens on a web page (e.g. reaching a thank-you URL), you can
 ## Next steps
 
 - **[Quickstart →](./quickstart)** — set up your first server-side experiment in 5 steps
-- **[SDK catalog →](./sdks)** — install instructions for Node.js, Python, PHP, Ruby, Flutter, and more
+- **[SDK catalog →](./sdks)** — install instructions for Node.js, Python, PHP, Ruby, iOS, Android, Flutter, and more
 - **[REST API →](/docs/intro)** — manage experiments, goals, and events programmatically

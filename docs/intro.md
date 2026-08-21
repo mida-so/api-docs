@@ -12,7 +12,7 @@ The **[Quickstart Guide](./quickstart)** walks you through creating and launchin
 :::
 
 :::info Need something more specific?
-- **[Server-side SDKs](./server-side/overview)** — for backend, API, or mobile app experiments (Node.js, Python, PHP, Ruby, Flutter)
+- **[Server-side SDKs](./server-side/overview)** — for backend, API, or mobile app experiments (Node.js, Python, PHP, Ruby, iOS, Android, Flutter)
 - **[MCP Integration](./mcp-integration)** — connect Claude, Cursor, or ChatGPT to manage experiments from your AI assistant
 :::
 

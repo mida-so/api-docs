@@ -5,7 +5,7 @@ hide_table_of_contents: false
 
 # SDK Catalog
 
-Mida provides server-side SDKs for all major languages and platforms. Each SDK exposes the same three core methods: `getExperiment`, `setEvent`, and `isFeatureEnabled`.
+Mida provides server-side and native mobile SDKs for experiments and feature flags. Each SDK exposes the same core methods: `getExperiment`, `setEvent`, and `isFeatureEnabled` (plus `setAttribute` where applicable).
 
 All SDKs are open source under the MIT license and hosted in the [mida-so GitHub organization](https://github.com/mida-so).
 
@@ -19,7 +19,47 @@ All SDKs are open source under the MIT license and hosted in the [mida-so GitHub
 | **Python** | `pip install mida-python` | [mida-so/mida-python](https://github.com/mida-so/mida-python) |
 | **PHP** | `composer require mida-so/mida-php` | [mida-so/mida-php](https://github.com/mida-so/mida-php) |
 | **Ruby** | `gem install mida-ruby` | [mida-so/mida-ruby](https://github.com/mida-so/mida-ruby) |
+| **iOS (Swift)** | Swift Package Manager — see README | [mida-so/mida-ios-sdk](https://github.com/mida-so/mida-ios-sdk) |
+| **Android (Kotlin)** | Gradle module — see README | [mida-so/mida-android-sdk](https://github.com/mida-so/mida-android-sdk) |
 | **Flutter** | Add to `pubspec.yaml` — see README | [mida-so/mida-flutter](https://github.com/mida-so/mida-flutter) |
+
+---
+
+## Native mobile (iOS and Android)
+
+Use the **iOS** or **Android** SDK when you run experiments inside a native app (no browser script). Both call the Mida API with the same experiment keys and variant names (`Control`, `Variant 1`, …) as server-side web backends.
+
+### iOS (Swift)
+
+- **Requirements:** Swift 5.7+, iOS 13+ / macOS 10.15+
+- **Install:** In Xcode, **File → Add Package Dependencies…** and add [mida-so/mida-ios-sdk](https://github.com/mida-so/mida-ios-sdk), or add the package by local path in `Package.swift`.
+- **APIs:** `async`/`await` — `getExperiment`, `setEvent`, `setAttribute`, `isFeatureEnabled`, `getFeatureFlags`
+
+```swift
+import Mida
+
+let mida = Mida(projectKey: "YOUR_PROJECT_KEY")
+let variant = await mida.getExperiment(experimentKey: "checkout-flow", distinctId: userId)
+```
+
+### Android (Kotlin)
+
+- **Requirements:** minSdk 21, Kotlin 1.9+, Kotlin coroutines
+- **Install:** Include the `mida` library module from [mida-so/mida-android-sdk](https://github.com/mida-so/mida-android-sdk) in your Gradle project (`implementation(project(":mida"))`). See the repo README for `settings.gradle.kts` setup.
+- **APIs:** `suspend` functions — `getExperiment`, `setEvent`, `setAttribute`, `isFeatureEnabled`, `getFeatureFlags`
+
+```kotlin
+import so.mida.sdk.Mida
+
+val mida = Mida(projectKey = "YOUR_PROJECT_KEY")
+lifecycleScope.launch {
+    val variant = mida.getExperiment("checkout-flow", userId)
+}
+```
+
+:::info Flutter
+For cross-platform apps, use the [Flutter SDK](https://github.com/mida-so/mida-flutter) instead of wiring both native SDKs separately.
+:::
 
 ---
 
