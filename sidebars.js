@@ -83,6 +83,7 @@ const sidebars = {
         apiDoc('v2/delete-experiment-comment', 'DEL'),
         apiDoc('v2/update-experiment', 'PATCH'),
         apiDoc('v2/update-experiment-status', 'PATCH'),
+        apiDoc('v2/delete-experiment', 'DEL'),
       ],
     },
     {

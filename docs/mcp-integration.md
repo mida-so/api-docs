@@ -143,6 +143,7 @@ Available only on accounts with Personalization switched on.
 | `get_experiment_distribution` | Gets configured per-variant traffic splits (`traffic_weight`, `variant_status`) without the full experiment payload. |
 | `create_experiment` | Creates a draft A/B test, personalization, split URL test, or multivariate test. It requires a test name, URL, and at least one treatment variant. |
 | `update_experiment_status` | Changes an experiment status using labels such as `live`, `inactive`, `paused`, or `draft`. |
+| `delete_experiment` | Deletes an experiment. Soft, so the record and results are kept and can be restored — but a running experiment stops being served. |
 | `serve_experiment_winner` | Sets winner and serves on the same experiment (`variant_id` required, optional `traffic_allocation` 0-100 for rollout %). |
 | `update_serving_rollout` | Changes rollout % (`traffic_allocation`) while a winner is already being served. |
 | `stop_experiment_serving` | Stops winner serving and clears `serving_variant_id`. |
