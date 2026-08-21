@@ -40,9 +40,26 @@ import Admonition from '@theme/Admonition';
 
 | Field | Type | Description |
 |---|---|---|
-| `test_name` | string | Display name for the experiment |
-| `url` | string | The page URL being tested |
-| `variants` | array | One or more treatment variant objects — **do not include a "Control" entry** (see Variants section) |
+| `test_name` | string | **Required.** Display name for the experiment |
+| `url` | string | The **editor URL**: the single page the visual editor and every preview link open, e.g. `https://example.com/pricing`. Must be a specific page — a wildcard pattern returns `400`, because a pattern cannot be opened in a browser. Optional when `page_urls` is given, in which case the first entry is used |
+| `page_urls` | array | Optional. Every page the experiment should run on, in full: `["https://example.com/", "https://example.com/lp"]`. Use this instead of a wildcard whenever one change applies to more than one page. Each entry must be a specific page, `url` must be one of them, and at most 50 are accepted |
+| `variants` | array | **Required.** One or more treatment variant objects — **do not include a "Control" entry** (see Variants section) |
+
+### One experiment across several pages
+
+Pass `page_urls`. The experiment then stores each page as a targeting rule and applies the change on whichever of those pages the visitor is on:
+
+```json
+{
+  "test_name": "Homepage H1 - No-Devs Angle",
+  "page_urls": ["https://example.com/", "https://example.com/lp"],
+  "variants": [
+    { "name": "Variant 1", "data": [{ "target": "h1", "innerText": "New headline" }] }
+  ]
+}
+```
+
+`url` is omitted here, so the editor opens the first page. Do **not** try to express this with a wildcard in `url`: that field is the page the editor and previews load, and a pattern there is rejected.
 
 ## Variants
 
