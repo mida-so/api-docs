@@ -379,6 +379,46 @@ Supported attribute operands are `=`, `!=`, `>`, `<`, `>=`, and `<=`.
 `cookie_rule` and `schedule_rule` are evaluated by the browser runtime. Server-side SDK experiments cannot enforce them.
 :::
 
+### Hypothesis
+
+Record why the test exists, in the same call that creates it. A test whose reasoning lives only in
+someone's head is a test nobody can interpret in three months.
+
+Pass a `hypothesis` object to write a new one and attach it:
+
+```json
+{
+  "hypothesis": {
+    "observation": "62% of pricing page visitors on mobile never scroll past the first plan.",
+    "problem": "The plan comparison is three screens tall on a phone.",
+    "solution": "Collapse the comparison into a single card with a plan switcher.",
+    "confidence": 4,
+    "importance": 5,
+    "difficulty": 2
+  }
+}
+```
+
+Or pass `hypothesis_id` to attach one that already exists:
+
+```json
+{ "hypothesis_id": 4021 }
+```
+
+| Parameter | Type | Description |
+|---|---|---|
+| `hypothesis` | object | A new hypothesis to create and attach. Needs at least one of `observation`, `problem` or `solution`. Ratings are 1 to 5. Full field list in [Create Hypothesis](./create-hypothesis) |
+| `hypothesis_id` | integer | An existing hypothesis to attach instead |
+
+Send one or the other. A malformed `hypothesis` is a `400` before anything is created, so you never
+get a half-made experiment. If the experiment is created and the hypothesis cannot be attached
+afterwards, the response still returns the experiment and adds a `warning` saying what failed,
+because the experiment is what you asked for. You can then attach it with [Link Hypothesis to
+Experiment](./link-hypothesis-to-experiment).
+
+The hypothesis comes back on [Get Experiment Details](./get-experiment-details), and its `problem`
+shows up in [List Experiments](./list-experiments).
+
 ### Idempotency
 
 Pass `idempotency_key` (or the `x-idempotency-key` header) to safely retry requests without creating duplicates. The same key returns the original response for 24 hours.

@@ -50,7 +50,7 @@ curl -X DELETE "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experim
 
 ## Notes
 
-- **Deleting a live experiment stops it being served.** Read the experiment first if you are not certain of its status, and prefer [Update Experiment Status](update-experiment-status) to pause something you may want back shortly, or [Conclude Experiment](conclude-experiment) to record a finished test rather than discard it.
+- **Deleting a live experiment stops it being served.** Read the experiment first if you are not certain of its status, and prefer [Update Experiment Status](update-experiment-status) to pause something you may want back shortly, or `PATCH /v2/project/{project_key}/experiment/{test_id}/conclusion` to record what a finished test taught you rather than discard it.
 - The delivery cache is cleared automatically when a live experiment is deleted, so visitors stop receiving it immediately rather than when the cache lapses.
 - An experiment that is already deleted, or belongs to another project, returns `404`. Deleting twice is therefore safe but reports not-found the second time.
 - The experiment is removed from the Experiments list and from every API read. Its recorded results are no longer returned.

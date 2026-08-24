@@ -88,6 +88,18 @@ const sidebars = {
     },
     {
       type: 'category',
+      label: 'Hypotheses',
+      items: [
+        apiDoc('v2/list-hypotheses', 'GET'),
+        apiDoc('v2/get-hypothesis-details', 'GET'),
+        apiDoc('v2/create-hypothesis', 'POST'),
+        apiDoc('v2/update-hypothesis', 'PATCH'),
+        apiDoc('v2/delete-hypothesis', 'DEL'),
+        apiDoc('v2/link-hypothesis-to-experiment', 'POST'),
+      ],
+    },
+    {
+      type: 'category',
       label: 'Account',
       items: [
         apiDoc('v2/list-team-members', 'GET'),

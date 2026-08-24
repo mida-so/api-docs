@@ -152,6 +152,21 @@ Available only on accounts with Personalization switched on.
 | `get_experiment_metrics` | Secondary metric rows. Supports `report_phase` and dashboard-compatible filters. |
 | `compute_experiment_statistics` | Computes the same Bayesian or Frequentist insights as `get_experiment_result` from arbitrary aggregate counts. Use it to roll up timeseries rows, custom date ranges, or manually summed segments into a single decision summary that matches the dashboard. |
 
+### Hypotheses
+
+The record of why a test exists. A hypothesis holds what the team observed, the problem they think
+it causes, the change they want to try, and their own 1 to 5 ratings for confidence, importance and
+difficulty.
+
+| Tool | What it does |
+|---|---|
+| `list_hypotheses` | Lists the project's hypothesis backlog, most recently updated first, with each one's ratings and the experiments run from it. Archived ideas are left out unless you pass `include_archived`. Supports `search`, `limit` and `offset`. |
+| `get_hypothesis` | Gets one hypothesis by `hypothesis_id`, including `linked_test_ids`. |
+| `create_hypothesis` | Adds an idea to the backlog. Needs at least one of `observation`, `problem` or `solution`. |
+| `update_hypothesis` | Changes the wording or ratings on an existing hypothesis. Fields left out keep their current value. |
+| `delete_hypothesis` | Takes an idea off the backlog. Refused if any experiment was run from it. |
+| `link_hypothesis_to_experiment` | Attaches a hypothesis to an experiment, or detaches with `hypothesis_id: 0`. An archived idea cannot be attached. `create_experiment` can do this in one call for new tests. |
+
 ### Goals and events
 
 | Tool | What it does |
@@ -176,6 +191,10 @@ Available only on accounts with Personalization switched on.
 - "Show post-deploy results for test `12345` after we served the winner."
 - "Create a pageview goal for `/thank-you` named `Signup completed`."
 - "Record an event named `DemoBooked` for the visitor with email `customer@example.com`."
+- "What should I test next? Check my hypothesis backlog first."
+- "Why did we run test `12345`?"
+- "Save a hypothesis: mobile visitors never scroll past the first pricing plan, so collapse the comparison into one card. Confidence 4, importance 5, difficulty 2."
+- "Create that experiment and record the reason with it."
 
 For complex creation prompts, include the target URL, desired change, conversion goal, and whether the experiment should remain a draft or go live.
 
@@ -190,6 +209,8 @@ For complex creation prompts, include the target URL, desired change, conversion
 - Treatment names must be `Variant 1`, `Variant 2`, and so on. Put human-friendly labels such as `Blue CTA` or `Short Hero` in `nickname`.
 - Preview URLs use `test-variant=0` for Control. Treatment preview tokens replace spaces with underscores, such as `Variant_1` or `Variant_2`.
 - Targeting can silently exclude traffic. Only create targeting rules that the user explicitly described, and check them first when an experiment receives no traffic.
+- Read `list_hypotheses` before suggesting what to test. The team has usually written down what they want to try, and an idea rated important, not difficult, with no experiment linked to it beats an invented one.
+- The 1 to 5 ratings on a hypothesis are the team's own judgement. Do not fill them in for them. Leave them out unless the user gives a number.
 - Use `get_mida_api_context` when you need the full Mida-specific details for goal types, targeting shapes, preview URL rules, variant data, or result fields.
 
 ---
