@@ -416,8 +416,8 @@ afterwards, the response still returns the experiment and adds a `warning` sayin
 because the experiment is what you asked for. You can then attach it with [Link Hypothesis to
 Experiment](./link-hypothesis-to-experiment).
 
-The hypothesis comes back on [Get Experiment Details](./get-experiment-details), and its `problem`
-shows up in [List Experiments](./list-experiments).
+The hypothesis comes back on [Get Experiment Details](./get-experiment-details), and its text shows
+up as a `hypothesis` object on each row of [List Experiments](./list-experiments).
 
 ### Idempotency
 

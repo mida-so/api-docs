@@ -43,7 +43,11 @@ curl "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experiments?limit
       "status": 1,
       "is_completed": 0,
       "hypothesis_id": 4021,
-      "problem": "The plan comparison is three screens tall on a phone.",
+      "hypothesis": {
+        "hypothesis_id": 4021,
+        "problem": "The plan comparison is three screens tall on a phone.",
+        "solution": "Collapse the comparison into a single card with a plan switcher."
+      },
       "created_at": "2024-01-15T10:30:00.000Z",
       "updated_at": "2024-01-20T14:22:00.000Z"
     },
@@ -54,7 +58,6 @@ curl "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experiments?limit
       "status": 0,
       "is_completed": 1,
       "hypothesis_id": null,
-      "problem": null,
       "created_at": "2024-02-01T08:00:00.000Z",
       "updated_at": "2024-03-01T09:00:00.000Z"
     }
@@ -73,7 +76,7 @@ curl "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experiments?limit
 | `experiments[].status` | integer | Numeric status (see table below) |
 | `experiments[].is_completed` | integer | `1` if the experiment was formally concluded via the dashboard, `0` otherwise. Deactivating via API (`status: 0`) does not set this — it is only set from the Mida dashboard. |
 | `experiments[].hypothesis_id` | integer\|null | The hypothesis this test came from, if any. Pass it to [Get Hypothesis Details](./get-hypothesis-details) |
-| `experiments[].problem` | string\|null | The problem statement from that hypothesis, so a list of tests reads as a list of reasons |
+| `experiments[].hypothesis` | object | Only present when the experiment has one: `hypothesis_id`, `observation`, `problem` and `solution`, so a list of tests reads as a list of reasons. Fields left blank are omitted. Ratings live on [Get Hypothesis Details](./get-hypothesis-details) |
 | `experiments[].created_at` | string | ISO 8601 creation timestamp |
 | `experiments[].updated_at` | string | ISO 8601 last-updated timestamp |
 | `experiments[].serving_variant_id` | string \| null | Present when the experiment is serving a winner at 100% on the same test |
