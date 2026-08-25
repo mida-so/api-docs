@@ -110,6 +110,8 @@ If your VS Code MCP client does not support remote OAuth yet, use Cursor/Claude 
 | `select_project` | Switches the active project for future MCP calls in the current session. |
 | `get_project_configuration` | Returns Global Settings for the active project: default primary goal, secondary metrics, stats engine, and confidence threshold. |
 | `update_project_configuration` | Updates Global Settings — the defaults every new experiment inherits. Partial: send only the fields to change. |
+| `get_global_custom_code` | Reads Global Custom Code: JavaScript and CSS that already run on every page with the Mida pixel. |
+| `update_global_custom_code` | Installs site-wide JS/CSS. Prefer `append_js` so existing code stays. This is how a custom event is installed without changing the customer's site. |
 | `list_team_members` | Lists everyone on the account with role, edit rights, membership kind and last login. Read-only. |
 | `get_my_access` | The caller's own effective role: answers "am I view-only?" for the current connection. |
 | `get_experiment_discussion` | Reads the Discussion thread on a report — the comments where decisions and caveats are recorded. |
@@ -175,7 +177,7 @@ difficulty.
 | `create_goal` | Creates a reusable conversion goal, such as pageview, click, form submit, scroll depth, duration, event, revenue, or script goals. |
 | `delete_goal` | Deletes or archives a reusable goal by `goal_profile_id`. |
 | `list_events` | Lists tracked custom event names summarized from recorded visitor events. |
-| `create_event` | Records a custom event for an already identified visitor by Mida UUID, email, or external ID. |
+| `create_event` | Records a custom event for an already identified visitor by Mida UUID, email, or external ID. It does not install tracking — use `update_global_custom_code` for that. |
 
 ---
 
@@ -191,6 +193,7 @@ difficulty.
 - "Show post-deploy results for test `12345` after we served the winner."
 - "Create a pageview goal for `/thank-you` named `Signup completed`."
 - "Record an event named `DemoBooked` for the visitor with email `customer@example.com`."
+- "Add a custom event that fires when someone clicks the signup button, and install it — don't ask me to paste anything."
 - "What should I test next? Check my hypothesis backlog first."
 - "Why did we run test `12345`?"
 - "Save a hypothesis: mobile visitors never scroll past the first pricing plan, so collapse the comparison into one card. Confidence 4, importance 5, difficulty 2."
@@ -204,6 +207,7 @@ For complex creation prompts, include the target URL, desired change, conversion
 
 - Create experiments as `draft` by default. Ask explicitly before launching an experiment as `live`.
 - Ask explicitly before calling `serve_experiment_winner` or `stop_experiment_serving` — these change live visitor experience.
+- `update_global_custom_code` also changes live visitor experience: the code runs on every page. Prefer `append_js` so existing Global JS is kept, and confirm before replacing the whole file.
 - Public share links always show `pre_deploy` results only; use authenticated result tools with `report_phase=post_deploy` for post-deploy analysis.
 - Control is implicit. Do not add Control to the `variants` array when creating experiments.
 - Treatment names must be `Variant 1`, `Variant 2`, and so on. Put human-friendly labels such as `Blue CTA` or `Short Hero` in `nickname`.

@@ -57,6 +57,8 @@ const sidebars = {
         apiDoc('v2/get-project-details', 'GET'),
         apiDoc('v2/get-project-configuration', 'GET'),
         apiDoc('v2/update-project-configuration', 'PATCH'),
+        apiDoc('v2/get-global-custom-code', 'GET'),
+        apiDoc('v2/update-global-custom-code', 'PATCH'),
         apiDoc('v2/create-project', 'POST'),
         apiDoc('v2/update-project', 'PATCH'),
         apiDoc('v2/delete-project', 'DEL'),

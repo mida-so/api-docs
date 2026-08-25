@@ -134,6 +134,15 @@ Error responses include an `"error"` key and an appropriate HTTP status code:
 | `PATCH` | `/v2/project/{project_key}/event/{event_id}` | Update an event |
 | `DELETE` | `/v2/project/{project_key}/event/{event_id}` | Delete an event |
 
+### Project
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/v2/project/{project_key}/configuration` | Get Global Settings |
+| `PATCH` | `/v2/project/{project_key}/configuration` | Update Global Settings |
+| `GET` | `/v2/project/{project_key}/global-custom-code` | Get Global Custom Code |
+| `PATCH` | `/v2/project/{project_key}/global-custom-code` | Update Global Custom Code |
+
 ### Goals
 
 | Method | Endpoint | Description |
