@@ -9,7 +9,7 @@ import ApiEndpointLayout from '@site/src/components/ApiEndpointLayout';
   title="Update Experiment"
   method="PATCH"
   endpoint="/v2/project/{project_key}/experiment/{test_id}"
-  description="Update an experiment's name, URL, variants, configuration, custom code, or targeting. Only fields you include are changed; all other fields remain unchanged."
+  description="Update an experiment's name, URL, variants, configuration, custom code, targeting, or secondary metrics. Only fields you include are changed; all other fields remain unchanged."
   playgroundUrl="https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experiment/YOUR_EXPERIMENT_ID"
   defaultHeaders={{Authorization: 'Bearer YOUR_GENERATED_API_KEY', 'Content-Type': 'application/json'}}
   defaultBody={{
@@ -42,6 +42,7 @@ import ApiEndpointLayout from '@site/src/components/ApiEndpointLayout';
 | `configuration` | object | Update traffic, statistics, automation, or trigger settings |
 | `targeting` | object | Update experiment-level targeting rules |
 | `tags` | array | Experiment tags for organization |
+| `secondary_goal_keys` | array | Replace the goal-based secondary metrics with these goals, referenced by key |
 
 Partial updates are shallow at the top level: omit a top-level field to leave it unchanged. When you send arrays such as `variants`, `tags`, or grouped targeting rules, the provided array becomes the new value for that field.
 
@@ -102,6 +103,21 @@ Use the same public targeting keys as Create Experiment. Top-level `targeting` a
 Common keys include `referral_rule`, `allowed_country`, `allowed_region`, `allowed_city`, `device_rule`, `browser_rule`, `os_rule`, `user_rule`, `browser_language_rule`, `segment_rule`, `event_rule`, `parameter_rule`, `ga4_rule`, `cookie_rule`, `schedule_rule`, and experiment-only `url_rule`.
 
 `cookie_rule` and `schedule_rule` are browser-runtime rules. Server-side SDK experiments cannot enforce them.
+
+## Secondary metrics
+
+Pass `secondary_goal_keys` to change which of your goals report as secondary metrics on a test that already exists, using the same goal keys as [Create Experiment](./create-experiment) (find them with [List Goals](./list-goals)):
+
+```json
+{ "secondary_goal_keys": ["signup-goal-key", "pricing-view-key"] }
+```
+
+- The array **replaces** the test's goal-based secondary metrics, so include every goal you want to keep. Pass `[]` to remove them all.
+- Mida's built-in metrics (Bounce rate, Engagement) and raw event metrics are never touched by this field — adding a goal cannot drop them.
+- A key that does not match a goal in your project fails the whole request with `400`, so a typo never becomes a metric that silently reports zero.
+- Goals are matched to experiments at report time, so a goal attached mid-test counts its conversions from the start of the test, not from when it was attached.
+
+Unlike Create Experiment, this endpoint does not create goals inline — create the goal first with [Create Goal](./create-goal), then attach its key here.
 
 ## Example: reduce traffic allocation
 

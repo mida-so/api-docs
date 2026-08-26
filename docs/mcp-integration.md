@@ -144,6 +144,7 @@ Available only on accounts with Personalization switched on.
 | `get_experiment` | Gets detailed experiment information by `test_id`. |
 | `get_experiment_distribution` | Gets configured per-variant traffic splits (`traffic_weight`, `variant_status`) without the full experiment payload. |
 | `create_experiment` | Creates a draft A/B test, personalization, split URL test, or multivariate test. It requires a test name, URL, and at least one treatment variant. |
+| `update_experiment` | Edits an experiment's settings: name, confidence level, statistical method, traffic allocation, Smart Optimization, primary goal, secondary metrics (`secondary_goal_keys`), auto-complete thresholds, or scheduled dates. |
 | `update_experiment_status` | Changes an experiment status using labels such as `live`, `inactive`, `paused`, or `draft`. |
 | `delete_experiment` | Deletes an experiment. A running experiment also stops being served. |
 | `serve_experiment_winner` | Sets winner and serves on the same experiment (`variant_id` required, optional `traffic_allocation` 0-100 for rollout %). |
