@@ -13,7 +13,7 @@ This guide walks you through the full experiment lifecycle using the Mida API: c
 
 **You'll need:**
 - Your **Project Key** — from Dashboard → Settings → API
-- Your **API Key** — from Dashboard → Settings → API Keys
+- Your **API Key** — from [app.mida.so/api-keys](https://app.mida.so/api-keys)
 - Your **region** — `us` or `eu`
 
 ---

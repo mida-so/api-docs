@@ -45,9 +45,11 @@ The Project Key is passed as a **path parameter** in every V2 request:
 
 API Keys authenticate every request. To create one:
 
-1. Go to **Dashboard → Settings → API Keys**
+1. Open [app.mida.so/api-keys](https://app.mida.so/api-keys)
 2. Click **Generate New Key**
 3. Copy and store it securely — it is only shown once
+
+You need to be an **Owner** or **Admin** on the project to see this page.
 
 ### 3. Pick your region
 

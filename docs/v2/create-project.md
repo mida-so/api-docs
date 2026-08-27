@@ -75,7 +75,7 @@ The returned `project_key` is the new project's permanent public identifier — 
 | `403` | Project supplied as auth context is inactive |
 
 :::tip After creating
-The new project does not have its own API key yet. Visit the project in the dashboard → Settings → API Keys to generate one before using project-scoped endpoints (experiments, events, goals).
+The new project does not have its own API key yet. Switch to the new project in the dashboard, then visit [app.mida.so/api-keys](https://app.mida.so/api-keys) to generate one before using project-scoped endpoints (experiments, events, goals).
 :::
 
 </ApiEndpointLayout>
