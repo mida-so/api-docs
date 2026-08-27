@@ -66,6 +66,10 @@ const config = {
     ],
   ],
 
+  // Adds `mida-embed` to <html> when this site is inside an iframe, so the
+  // navbar and footer can be hidden where app.mida.so supplies the chrome.
+  clientModules: [require.resolve('./src/embedMode.js')],
+
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({

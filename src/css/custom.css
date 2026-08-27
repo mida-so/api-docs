@@ -220,3 +220,24 @@ body {
   margin-top: 0.85rem;
   opacity: 0.8;
 }
+
+/* ── Embed mode ────────────────────────────────────────────────────────────
+   Set by src/embedMode.js when this site is framed (app.mida.so does that on
+   its API & SDK page). The dashboard already supplies a sidebar, a header and
+   the page frame, so ours would duplicate all three.
+
+   The doc sidebar deliberately stays: without it the embed is a single page
+   with no way to reach the rest of the docs. Note that hiding the navbar also
+   removes the search box inside the frame — the sidebar and in-page links are
+   the way around while embedded.
+
+   --ifm-navbar-height drives the sidebar's height and sticky offset, so it has
+   to go to 0 as well or the sidebar keeps a navbar-sized gap above it. */
+html.mida-embed {
+  --ifm-navbar-height: 0px;
+}
+
+html.mida-embed .navbar,
+html.mida-embed .footer {
+  display: none !important;
+}
