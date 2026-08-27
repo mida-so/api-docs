@@ -1,7 +1,13 @@
+/* Endpoint page shell: docs on the left, request playground on the right.
+   Surfaces follow the dashboard's card (.listing in frontend/static/css/main.css):
+   white, a single 1px #e5e7eb hairline, radius 8-10px and NO drop shadow. The
+   shadows these cards used to carry were the main thing making the docs read as
+   a different, older product than the app they are framed inside. */
+
 .layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(400px, 460px);
-  gap: 1.25rem;
+  gap: 1.6rem; /* 24px, the dashboard's --space-6 */
   align-items: start;
 }
 
@@ -11,10 +17,10 @@
 
 .headerCard {
   border: 1px solid var(--docs-border);
-  border-radius: 14px;
-  padding: 1.2rem 1.2rem 1rem;
+  border-radius: var(--mida-radius-lg);
+  padding: 1.25rem 1.35rem 1.15rem;
   background: var(--docs-card-bg);
-  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
+  box-shadow: none;
 }
 
 .titleRow {
@@ -22,13 +28,14 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: 1rem;
-  margin-bottom: 0.55rem;
+  margin-bottom: 0.75rem;
 }
 
 .title {
   margin: 0;
-  font-size: 2rem;
-  line-height: 1.15;
+  font-size: 1.6rem; /* 24px, the dashboard's h1 */
+  line-height: 1.25;
+  letter-spacing: -0.02em;
   flex: 1;
   min-width: 0;
 }
@@ -36,58 +43,83 @@
 .endpointRow {
   display: flex;
   align-items: center;
-  gap: 0.7rem;
+  gap: 0.55rem;
   flex-wrap: wrap;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.8rem;
 }
 
+/* Same scale and weight as the dashboard's uppercase table headers, and the
+   same per-method colours as the sidebar badges so a method reads the same
+   wherever it appears. */
 .methodBadge {
-  font-size: 0.75rem;
-  font-weight: 700;
-  min-width: 60px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  min-width: 54px;
   text-align: center;
-  padding: 0.35rem 0.45rem;
-  border-radius: 999px;
-  color: var(--ifm-font-color-base);
+  padding: 0.28rem 0.5rem;
+  border-radius: var(--mida-radius-sm);
+  color: var(--mida-muted-dark);
   border: 1px solid var(--docs-border);
-  background: var(--docs-field-bg);
+  background: var(--mida-fill);
 }
 
 .methodGET {
-  background: var(--ifm-background-surface-color);
+  color: #12805c;
+  background: #edf8f3;
+  border-color: #cfe9de;
 }
 
 .methodPOST {
-  background: var(--ifm-background-surface-color);
+  color: #2563eb;
+  background: #eff4ff;
+  border-color: #d3e0fb;
 }
 
 .methodPATCH {
-  background: var(--ifm-background-surface-color);
+  color: #b45309;
+  background: #fdf5e9;
+  border-color: #f0dfc3;
 }
 
 .methodPUT {
-  background: var(--ifm-background-surface-color);
+  color: #b45309;
+  background: #fdf5e9;
+  border-color: #f0dfc3;
 }
 
 .endpointPath {
-  padding: 0.3rem 0.5rem;
-  border-radius: 8px;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--mida-radius-sm);
   border: 1px solid var(--docs-border);
   background: var(--docs-field-bg);
-  font-size: 0.82rem;
+  font-size: 0.8rem;
+  color: var(--mida-heading);
 }
 
 .description {
   margin: 0;
-  color: var(--ifm-color-emphasis-700);
+  font-size: 0.933rem; /* 14px */
+  line-height: 1.55;
+  color: var(--mida-muted-dark);
 }
 
 .contentCard {
-  margin-top: 1rem;
+  margin-top: 1.05rem;
   border: 1px solid var(--docs-border);
-  border-radius: 14px;
-  padding: 1rem 1.2rem;
+  border-radius: var(--mida-radius-lg);
+  padding: 0.4rem 1.35rem 1.35rem;
   background: var(--docs-card-bg);
+}
+
+/* The card supplies the top inset, so the first heading inside it must not add
+   its own section gap on top. */
+.contentCard > :first-child {
+  margin-top: 1rem;
+}
+
+.contentCard > :last-child {
+  margin-bottom: 0;
 }
 
 .right {
@@ -97,7 +129,7 @@
 
 .stickyBox {
   position: sticky;
-  top: calc(var(--ifm-navbar-height) + 0.8rem);
+  top: calc(var(--ifm-navbar-height) + 1rem);
   width: 100%;
 }
 

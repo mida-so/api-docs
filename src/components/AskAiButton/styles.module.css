@@ -11,12 +11,12 @@
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  padding: 0.38rem 0.65rem;
-  border-radius: 8px;
+  padding: 0.32rem 0.6rem;
+  border-radius: var(--mida-radius-sm);
   border: 1px solid var(--docs-border);
   background: var(--docs-field-bg);
   color: var(--ifm-font-color-base);
-  font-size: 0.78rem;
+  font-size: 0.8rem;
   font-weight: 500;
   cursor: pointer;
   white-space: nowrap;
@@ -27,7 +27,7 @@
 .trigger:hover {
   border-color: var(--ifm-color-emphasis-400);
   background: var(--ifm-background-surface-color);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  box-shadow: none;
 }
 
 .trigger:focus-visible {
@@ -45,9 +45,11 @@
   min-width: 210px;
   background: var(--docs-card-bg);
   border: 1px solid var(--docs-border);
-  border-radius: 11px;
-  padding: 0.45rem;
-  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.13), 0 2px 8px rgba(0, 0, 0, 0.07);
+  border-radius: var(--mida-radius-lg);
+  padding: 0.35rem;
+  /* The dashboard's --mac-shadow-medium, for the one surface here that really
+     is floating above the page. */
+  box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.05), 0 4px 12px rgba(0, 0, 0, 0.08);
   animation: dropIn 0.14s ease;
 }
 
@@ -65,12 +67,12 @@
 /* ── Section labels ─────────────────────────────────────────────────────────── */
 
 .sectionLabel {
-  font-size: 0.68rem;
+  font-size: 0.7rem;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.07em;
-  color: var(--ifm-color-emphasis-700);
-  opacity: 0.45;
+  letter-spacing: 0.05em;
+  color: var(--mida-muted);
+  opacity: 1;
   margin: 0.25rem 0.55rem 0.3rem;
   padding: 0;
   line-height: 1;
@@ -85,11 +87,11 @@
   width: 100%;
   padding: 0.48rem 0.6rem;
   border: none;
-  border-radius: 7px;
+  border-radius: var(--mida-radius-sm);
   background: transparent;
   color: var(--ifm-font-color-base);
-  font-size: 0.875rem;
-  font-weight: 450;
+  font-size: 0.933rem;
+  font-weight: 400;
   cursor: pointer;
   text-align: left;
   transition: background 0.12s ease;
@@ -97,13 +99,13 @@
 }
 
 .option:hover {
-  background: var(--ifm-background-surface-color);
+  background: var(--mida-fill);
 }
 
 .option:focus-visible {
   outline: 2px solid var(--ifm-color-primary);
   outline-offset: -2px;
-  border-radius: 7px;
+  border-radius: var(--mida-radius-sm);
 }
 
 .optionCopied {
@@ -127,9 +129,9 @@
 /* ── Copy hint ──────────────────────────────────────────────────────────────── */
 
 .copyHint {
-  font-size: 0.69rem;
-  color: var(--ifm-color-emphasis-700);
-  opacity: 0.4;
+  font-size: 0.72rem;
+  color: var(--mida-muted);
+  opacity: 0.75;
   margin: 0.2rem 0.6rem 0.25rem;
   padding: 0;
   line-height: 1.3;

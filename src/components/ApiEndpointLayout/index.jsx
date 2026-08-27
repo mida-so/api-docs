@@ -14,7 +14,9 @@ export default function ApiEndpointLayout({
   children,
 }) {
   return (
-    <div className={styles.layout}>
+    // The extra global class is a styling hook, not a behaviour: custom.css
+    // uses it to opt endpoint pages out of the prose measure cap.
+    <div className={`${styles.layout} api-endpoint-layout`}>
       <div className={styles.left}>
         <header className={styles.headerCard}>
           <div className={styles.titleRow}>

@@ -1,11 +1,84 @@
 /**
- * Any CSS included here will be global. The classic template
- * bundles Infima by default. Infima is a CSS framework designed to
- * work well for content-centric websites.
+ * Global styles. The classic template bundles Infima, so most of the work here
+ * is retuning Infima's variables rather than writing rules.
+ *
+ * The target is the Mida dashboard (frontend/static/css/main.css and
+ * frontend/src/App.vue), because this site is framed inside it on the
+ * /api-sdk page and the two sit side by side. Every value below that says
+ * "dashboard" is copied from there rather than picked by eye:
+ *
+ *   body            14px / 1.5 / -0.01em / #4b4b4a
+ *   nav rows        14px / 400 / #586069 / 34px tall / active fill #f1f5f9
+ *   headings        24 / 20 / 18 / 16 / 14px, weight 500-600, line-height 1.25
+ *   cards           #fff, 1px solid #e5e7eb, radius 8px, NO shadow
+ *   table headers   12px / 600 / uppercase / 0.3px / #64748b
+ *   surfaces        --space-* 4/8/12/16/20/24/32, --radius-* 4/6/8/10/12
+ *
+ * Docs prose runs one notch larger than the app's 14px chrome (15px base) —
+ * app UI and long-form documentation want different measures — but everything
+ * that is chrome rather than prose (sidebar, breadcrumbs, TOC, table headers)
+ * matches the dashboard exactly.
  */
 
-/* You can override the default Infima variables here. */
 :root {
+  /* ── Palette, lifted from the dashboard ─────────────────────────────────
+     Named --mida-* rather than reusing Infima's names so it stays obvious
+     which values are ours and which are Infima's own. */
+  --mida-text: #4b4b4a;          /* dashboard --color */
+  --mida-heading: #232527;       /* dashboard active nav text, its darkest */
+  --mida-muted: #64748b;         /* dashboard --color-muted */
+  --mida-muted-dark: #616770;    /* dashboard --color-muted-darker */
+  --mida-side-text: #586069;     /* dashboard --side-color */
+  --mida-border: #e5e7eb;        /* dashboard --surface-border-color */
+  --mida-border-soft: #edf2f7;   /* dashboard table borders */
+  --mida-fill: #f1f5f9;          /* dashboard --background-muted */
+  --mida-fill-hover: #f6f8fa;
+  --mida-surface: #ffffff;
+
+  /* Dashboard --radius-xs/sm/md/lg/xl */
+  --mida-radius-xs: 4px;
+  --mida-radius-sm: 6px;
+  --mida-radius-md: 8px;
+  --mida-radius-lg: 10px;
+  --mida-radius-xl: 12px;
+
+  /* ── Type ───────────────────────────────────────────────────────────────
+     Same family declaration as the dashboard, character for character, so the
+     two render identically today and stay in step if the app's font changes.
+     93.75% = 15px against a 16px browser default; a percentage rather than a
+     px value so a reader who has raised their browser font size keeps the
+     increase. Every rem below is therefore 15px. */
+  --ifm-font-family-base: 'Inter Variable', system-ui, -apple-system,
+    BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol', 'Noto Color Emoji';
+  --ifm-font-size-base: 93.75%;
+  --ifm-line-height-base: 1.6;
+  --ifm-font-color-base: var(--mida-text);
+  --ifm-heading-color: var(--mida-heading);
+  --ifm-heading-font-weight: 600;
+  --ifm-heading-line-height: 1.3;
+  --ifm-font-weight-bold: 600;
+
+  /* 24 / 20 / 17 / 15 / 14 / 13px — the dashboard's scale, with h3 pulled to
+     17px so it still steps clearly above a 15px body. */
+  --ifm-h1-font-size: 1.6rem;
+  --ifm-h2-font-size: 1.333rem;
+  --ifm-h3-font-size: 1.133rem;
+  --ifm-h4-font-size: 1rem;
+  --ifm-h5-font-size: 0.933rem;
+  --ifm-h6-font-size: 0.866rem;
+  --ifm-heading-margin-bottom: 0.6rem;
+  --ifm-paragraph-margin-bottom: 1.05rem;
+
+  --ifm-global-radius: var(--mida-radius-md);
+  /* 24px, the dashboard's .page-content inset (--space-6). Drives the gutter
+     between the sidebar and the prose, and between the prose and the TOC. */
+  --ifm-spacing-horizontal: 1.6rem;
+
+  /* ── Primary and greys ──────────────────────────────────────────────────
+     Primary stays near-black: links and active states read as ink, not as a
+     brand accent, which is how the dashboard treats them too. */
   --ifm-color-primary: #171717;
   --ifm-color-primary-dark: #171717;
   --ifm-color-primary-darker: #171717;
@@ -13,38 +86,120 @@
   --ifm-color-primary-light: #171717;
   --ifm-color-primary-lighter: #171717;
   --ifm-color-primary-lightest: #171717;
-  --ifm-code-font-size: 95%;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.08);
   --ifm-background-surface-color: #f8f9fa;
   --ifm-background-color: #f8f9fa;
-  --ifm-font-color-base: #171717;
-  --ifm-color-emphasis-100: #fafafa;
-  --ifm-color-emphasis-200: #d4d4d4;
-  --ifm-color-emphasis-300: #d4d4d4;
-  --ifm-color-emphasis-400: #d4d4d4;
-  --ifm-color-emphasis-700: #171717;
+  --ifm-color-emphasis-100: #f8f9fa;
+  --ifm-color-emphasis-200: var(--mida-border);
+  --ifm-color-emphasis-300: #dfe3e8;
+  --ifm-color-emphasis-400: #c4cad2;
+  --ifm-color-emphasis-600: var(--mida-muted);
+  --ifm-color-emphasis-700: var(--mida-muted-dark);
+
   --ifm-navbar-background-color: rgba(255, 255, 255, 0.96);
+  --ifm-navbar-shadow: none;
   --docs-sidebar-bg: #ffffff;
-  --ifm-code-background: #ffffff;
   --docs-card-bg: #ffffff;
   --docs-field-bg: #ffffff;
-  --docs-border: #d4d4d4;
-  --ifm-navbar-search-input-background-color: rgba(23, 23, 23, 0.06);
-  --ifm-navbar-search-input-color: #171717;
-  --ifm-navbar-search-input-placeholder-color: #71717a;
+  --docs-border: var(--mida-border);
+  --ifm-toc-border-color: var(--mida-border);
+  --ifm-hr-border-color: var(--mida-border);
+  --ifm-hr-margin-vertical: 2rem;
+
+  --ifm-navbar-search-input-background-color: var(--mida-fill);
+  --ifm-navbar-search-input-color: var(--mida-heading);
+  --ifm-navbar-search-input-placeholder-color: var(--mida-muted);
+
+  /* ── Sidebar nav ────────────────────────────────────────────────────────
+     280px rather than Infima's 300: closer to the dashboard's 240px rail
+     without wrapping the longest label ("Update Project Configuration" plus
+     its PATCH badge). */
+  --doc-sidebar-width: 280px;
+  --ifm-menu-color: var(--mida-side-text);
+  --ifm-menu-color-active: var(--mida-heading);
+  --ifm-menu-color-background-active: var(--mida-fill);
+  --ifm-menu-color-background-hover: var(--mida-fill-hover);
+  --ifm-menu-link-padding-vertical: 0.42rem;
+  --ifm-menu-link-padding-horizontal: 0.7rem;
+
+  /* ── Code ───────────────────────────────────────────────────────────────
+     0.875em keeps inline code proportional to whatever it sits in rather than
+     jumping to a fixed size inside a heading. */
+  --ifm-code-font-size: 0.875em;
+  --ifm-code-background: var(--mida-fill);
+  --ifm-code-border-radius: var(--mida-radius-sm);
+  --ifm-code-padding-horizontal: 0.4em;
+  --ifm-code-padding-vertical: 0.15em;
+  --ifm-pre-background: #f8fafc;
+  --ifm-pre-border-radius: var(--mida-radius-lg);
+  --ifm-pre-padding: 1rem;
+
+  /* ── Tables ─────────────────────────────────────────────────────────────
+     Header treatment copied from the dashboard's .table th. */
+  --ifm-table-border-color: var(--mida-border-soft);
+  --ifm-table-head-background: #f7fafc;
+  --ifm-table-head-color: var(--mida-muted);
+  --ifm-table-head-font-weight: 600;
+  --ifm-table-cell-padding: 0.65rem 0.85rem;
+  --ifm-table-stripe-background: rgba(241, 245, 249, 0.45);
+
+  /* ── Admonitions ────────────────────────────────────────────────────────
+     Infima's defaults are saturated blocks. These are tints in the same
+     register as the dashboard's .bg-success (#f2fff5) — a wash, not a slab. */
+  --ifm-alert-border-left-width: 3px;
+  --ifm-alert-border-radius: var(--mida-radius-lg);
+  --ifm-alert-padding-vertical: 0.85rem;
+  --ifm-alert-padding-horizontal: 1.05rem;
+  --ifm-alert-shadow: none;
+
+  --ifm-color-success-contrast-background: #f1faf5;
+  --ifm-color-success-contrast-foreground: #1a6b42;
+  --ifm-color-success-dark: #3f9d6d;
+  --ifm-color-info-contrast-background: #f0f6ff;
+  --ifm-color-info-contrast-foreground: #1c4f9c;
+  --ifm-color-info-dark: #6d9fe8;
+  --ifm-color-warning-contrast-background: #fff8ed;
+  --ifm-color-warning-contrast-foreground: #8a5a12;
+  --ifm-color-warning-dark: #e3ac5f;
+  --ifm-color-danger-contrast-background: #fef3f4;
+  --ifm-color-danger-contrast-foreground: #9b2c37;
+  --ifm-color-danger-dark: #e08a94;
+  --ifm-color-secondary-contrast-background: #f6f8fa;
+  --ifm-color-secondary-contrast-foreground: var(--mida-text);
+  --ifm-color-secondary-dark: #cfd6de;
+
+  /* ── Breadcrumbs ────────────────────────────────────────────────────────*/
+  --ifm-breadcrumb-color-active: var(--mida-heading);
+  --ifm-breadcrumb-item-background-active: var(--mida-fill);
+  --ifm-breadcrumb-border-radius: var(--mida-radius-sm);
+  --ifm-breadcrumb-padding-horizontal: 0.5rem;
+  --ifm-breadcrumb-padding-vertical: 0.25rem;
+  --ifm-breadcrumb-size-multiplier: 0.85;
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
 [data-theme='dark'] {
-  --ifm-color-primary: #171717;
-  --ifm-color-primary-dark: #171717;
-  --ifm-color-primary-darker: #171717;
-  --ifm-color-primary-darkest: #171717;
-  --ifm-color-primary-light: #171717;
-  --ifm-color-primary-lighter: #171717;
-  --ifm-color-primary-lightest: #171717;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
-  --ifm-background-surface-color: #171717;
+  --mida-text: #d7dbe0;
+  --mida-heading: #eceff3;
+  --mida-muted: #aeb4bb;
+  --mida-muted-dark: #aeb4bb;
+  --mida-side-text: #aeb4bb;
+  --mida-border: #1f2630;
+  --mida-border-soft: #1a212a;
+  --mida-fill: #1f2630;
+  --mida-fill-hover: #171d25;
+  --mida-surface: #10141a;
+
+  --ifm-color-primary: #eceff3;
+  --ifm-color-primary-dark: #eceff3;
+  --ifm-color-primary-darker: #eceff3;
+  --ifm-color-primary-darkest: #eceff3;
+  --ifm-color-primary-light: #ffffff;
+  --ifm-color-primary-lighter: #ffffff;
+  --ifm-color-primary-lightest: #ffffff;
+  --docusaurus-highlighted-code-line-bg: rgba(255, 255, 255, 0.08);
+  --ifm-background-surface-color: #10141a;
   --ifm-background-color: #0a0b0e;
   --ifm-font-color-base: #d7dbe0;
   --ifm-heading-color: #eceff3;
@@ -53,31 +208,70 @@
   --ifm-color-emphasis-200: #1f2630;
   --ifm-color-emphasis-300: #2b3542;
   --ifm-color-emphasis-400: #4c5a6c;
+  --ifm-color-emphasis-600: #aeb4bb;
   --ifm-color-emphasis-700: #aeb4bb;
   --ifm-navbar-background-color: rgba(10, 11, 14, 0.96);
   --docs-sidebar-bg: #10141a;
-  --ifm-code-background: #0d1117;
   --docs-card-bg: #10141a;
   --docs-field-bg: #0d1117;
   --docs-border: #1f2630;
+  --ifm-code-background: #1a212a;
+  --ifm-pre-background: #0d1117;
+  --ifm-table-head-background: #10141a;
+  --ifm-table-border-color: #1f2630;
+  --ifm-table-stripe-background: rgba(31, 38, 48, 0.4);
   --ifm-navbar-search-input-background-color: rgba(255, 255, 255, 0.08);
   --ifm-navbar-search-input-color: #eceff3;
   --ifm-navbar-search-input-placeholder-color: #aeb4bb;
+
+  --ifm-color-success-contrast-background: #12211a;
+  --ifm-color-success-contrast-foreground: #a7e0c2;
+  --ifm-color-info-contrast-background: #111a26;
+  --ifm-color-info-contrast-foreground: #a8c8f5;
+  --ifm-color-warning-contrast-background: #221c11;
+  --ifm-color-warning-contrast-foreground: #e8c48f;
+  --ifm-color-danger-contrast-background: #241416;
+  --ifm-color-danger-contrast-foreground: #eda6ae;
+  --ifm-color-secondary-contrast-background: #151b23;
+  --ifm-color-secondary-contrast-foreground: #d7dbe0;
 }
 
 body {
   background: var(--ifm-background-color);
+  /* The dashboard's -0.01em. At 15px that is 0.15px, the same optical tightness
+     its 14px text has. */
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
+
+/* ── Navbar (standalone site only; hidden in embed mode) ──────────────────*/
 
 .navbar {
   backdrop-filter: blur(6px);
-  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+  border-bottom: 1px solid var(--mida-border);
+  box-shadow: none;
+}
+
+.navbar__title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.navbar__link {
+  font-size: 0.9rem;
+  font-weight: 500;
 }
 
 .navbar__search-input {
   background-color: var(--ifm-navbar-search-input-background-color);
   color: var(--ifm-navbar-search-input-color);
-  border: 1px solid var(--docs-border);
+  border: 1px solid transparent;
+  border-radius: var(--mida-radius-sm);
+  font-size: 0.85rem;
+  height: 32px;
 }
 
 .navbar__search-input::placeholder {
@@ -86,24 +280,81 @@ body {
 
 .navbar__search-input:focus {
   border-color: var(--ifm-color-emphasis-400);
+  background-color: var(--mida-surface);
   box-shadow: none;
 }
 
+/* ── Doc sidebar ──────────────────────────────────────────────────────────
+   Nav rows follow the dashboard rail: 14px, weight 400, #586069, a 34px row,
+   and a flat fill for the active row instead of an outlined box. */
+
 .theme-doc-sidebar-container {
   background: var(--docs-sidebar-bg);
-  border-right: 1px solid var(--ifm-color-emphasis-200);
+  border-right: 1px solid var(--mida-border);
+}
+
+.theme-doc-sidebar-menu {
+  padding: 0.75rem 0.5rem 2rem;
 }
 
 .menu__link {
-  border-radius: 8px;
+  font-size: 0.933rem; /* 14px */
+  font-weight: 400;
+  line-height: 1.35;
+  min-height: 34px;
+  border-radius: var(--mida-radius-sm);
+  transition: background-color 0.15s ease, color 0.15s ease;
 }
 
+.menu__list-item:not(:first-child) {
+  margin-top: 1px;
+}
+
+/* Category rows are interactive (they collapse), so they stay rows rather than
+   becoming static section headers — the weight is what separates them from the
+   leaves under them. */
+.menu__list-item-collapsible > .menu__link {
+  font-weight: 500;
+  color: var(--mida-heading);
+}
+
+.menu__list-item-collapsible:hover,
+.menu__list-item-collapsible > .menu__link:hover {
+  background: var(--mida-fill-hover);
+}
+
+/* Infima rotates these with `transform`, so this must not set one — only the
+   weight of the mark. */
+.menu__link--sublist-caret::after,
+.menu__caret::before {
+  opacity: 0.5;
+  background-size: 1.4rem 1.4rem;
+}
+
+.menu__link--active,
+.menu__link--active:hover {
+  font-weight: 500;
+  color: var(--mida-heading);
+  background: var(--mida-fill);
+  border: 0;
+}
+
+/* Nested lists get a hairline rail so depth reads without indentation alone. */
+.menu__list .menu__list {
+  margin-left: 0.7rem;
+  padding-left: 0.4rem;
+  border-left: 1px solid var(--mida-border);
+}
+
+/* Method badges on endpoint rows. Sized like the dashboard's 12px uppercase
+   table headers and darkened to carry contrast on white — the previous pastels
+   sat around 1.9:1. */
 .sidebar-method .menu__link,
 .menu__link.sidebar-method {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.75rem;
+  gap: 0.6rem;
 }
 
 .sidebar-method .menu__link::after,
@@ -111,114 +362,306 @@ body {
   flex-shrink: 0;
   padding: 0;
   font-size: 0.7rem;
-  font-weight: 800;
+  font-weight: 600;
   line-height: 1.2;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.9;
 }
 
 .sidebar-method--get .menu__link::after,
 .menu__link.sidebar-method--get::after {
   content: 'GET';
-  color: #59c7a0;
+  color: #12805c;
 }
 
 .sidebar-method--post .menu__link::after,
 .menu__link.sidebar-method--post::after {
   content: 'POST';
-  color: #6aa9ff;
+  color: #2563eb;
 }
 
 .sidebar-method--patch .menu__link::after,
 .menu__link.sidebar-method--patch::after {
   content: 'PATCH';
-  color: #f1b35d;
+  color: #b45309;
 }
 
 .sidebar-method--del .menu__link::after,
 .menu__link.sidebar-method--del::after {
   content: 'DEL';
-  color: #f08a98;
+  color: #be123c;
 }
 
-.menu__link--active {
-  font-weight: 700;
-  background: var(--ifm-background-surface-color);
-  border: 1px solid var(--ifm-color-emphasis-200);
-}
+/* ── Content column ───────────────────────────────────────────────────────
+   Infima gives the markdown column the full width left over, which on a wide
+   screen with no table of contents is a ~1130px line — about 150 characters.
+   840px matches what a page WITH a table of contents already gets, so every
+   page now reads at the same measure.
 
-.pagination-nav__link {
-  color: var(--ifm-font-color-base);
-}
-
-.pagination-nav__label,
-.pagination-nav__sublabel {
-  color: inherit;
-}
-
-[data-theme='dark'] .menu__link--active,
-[data-theme='dark'] .menu__link--active:hover,
-[data-theme='dark'] .menu__link--active:focus {
-  color: #eceff3;
-  background: #1f2630;
-  border-color: #2b3542;
-}
-
-[data-theme='dark'] .navbar__link,
-[data-theme='dark'] .navbar__brand,
-[data-theme='dark'] .navbar__title,
-[data-theme='dark'] .pagination-nav__link,
-[data-theme='dark'] .pagination-nav__label,
-[data-theme='dark'] .pagination-nav__sublabel {
-  color: #eceff3;
-}
-
-[data-theme='dark'] .navbar__link--active,
-[data-theme='dark'] .navbar__link:hover,
-[data-theme='dark'] .menu__link:hover {
-  color: #ffffff;
-}
-
+   Endpoint pages are the exception: they are not prose but a two-column
+   layout (docs on the left, request playground on the right) that needs the
+   whole width. Two selectors do the same job, deliberately: the :has() rule
+   keys off the layout component itself and so covers any future endpoint page,
+   and the docs-doc-id rule is a plain-selector fallback for browsers without
+   :has() (every v2/* page uses the layout). */
 .theme-doc-markdown {
+  max-width: 840px;
+}
+
+.theme-doc-markdown:has(> .api-endpoint-layout),
+html[class*='docs-doc-id-v2/'] .theme-doc-markdown {
   max-width: none;
 }
 
-.theme-doc-markdown pre,
-.theme-doc-markdown table {
-  border-radius: 10px;
-  overflow: hidden;
+/* Infima re-declares the heading sizes locally on `.markdown` (3rem / 2rem /
+   1.5rem), which beats anything set on :root — that is why the page title and
+   the first section heading both used to land at 32px with no step between
+   them. Same selectors, same variables, later in the cascade. */
+.markdown h1:first-child {
+  --ifm-h1-font-size: 1.6rem;
+}
+
+.markdown > h2 {
+  --ifm-h2-font-size: 1.333rem;
+}
+
+.markdown > h3 {
+  --ifm-h3-font-size: 1.133rem;
 }
 
 .theme-doc-markdown h1 {
-  font-size: 2rem;
-  margin-bottom: 0.4rem;
+  letter-spacing: -0.02em;
 }
 
 .theme-doc-markdown h2 {
-  margin-top: 2rem;
+  margin-top: 2.4rem;
+  letter-spacing: -0.015em;
 }
 
-.theme-doc-markdown h2,
 .theme-doc-markdown h3 {
+  margin-top: 1.9rem;
   letter-spacing: -0.01em;
 }
 
+.theme-doc-markdown h4 {
+  margin-top: 1.5rem;
+}
+
+/* An h2 immediately after the page title would otherwise open with the full
+   section gap above it. */
+.theme-doc-markdown > h1 + h2 {
+  margin-top: 1.6rem;
+}
+
+.theme-doc-markdown li {
+  margin-top: 0.25rem;
+}
+
+.theme-doc-markdown a {
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+
+/* ── Code ─────────────────────────────────────────────────────────────────*/
+
+code {
+  border: 0;
+  font-variant-ligatures: none;
+}
+
+a code {
+  color: inherit;
+}
+
+.theme-doc-markdown pre,
+.theme-code-block {
+  border-radius: var(--mida-radius-lg);
+}
+
+div[class*='codeBlockContainer'] {
+  border: 1px solid var(--mida-border);
+  border-radius: var(--mida-radius-lg);
+  box-shadow: none;
+  margin-bottom: 1.15rem;
+}
+
+div[class*='codeBlockContainer'] code {
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
+/* ── Tables ───────────────────────────────────────────────────────────────*/
+
+.theme-doc-markdown table {
+  display: table;
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid var(--mida-border);
+  border-radius: var(--mida-radius-lg);
+  overflow: hidden;
+  font-size: 0.933rem; /* 14px, the dashboard's table body size */
+}
+
+.theme-doc-markdown table thead {
+  border-bottom: 0;
+}
+
+.theme-doc-markdown table th {
+  /* The dashboard's .table th, exactly. */
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  color: var(--mida-muted);
+  text-align: left;
+  border: 0;
+  border-bottom: 1px solid var(--mida-border);
+}
+
+.theme-doc-markdown table td {
+  border: 0;
+  border-top: 1px solid var(--mida-border-soft);
+  vertical-align: top;
+}
+
+.theme-doc-markdown table tr:first-child td {
+  border-top: 0;
+}
+
+.theme-doc-markdown table tr:nth-child(2n) {
+  background: transparent;
+}
+
+.theme-doc-markdown table tbody tr:hover {
+  background: var(--ifm-table-stripe-background);
+}
+
+/* ── Admonitions ──────────────────────────────────────────────────────────*/
+
+.theme-admonition {
+  border: 1px solid var(--mida-border);
+  border-left-width: 3px;
+  box-shadow: none;
+  margin-bottom: 1.15rem;
+}
+
+.theme-admonition [class*='admonitionHeading'] {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.35rem;
+}
+
+.theme-admonition [class*='admonitionHeading'] svg {
+  width: 0.95rem;
+  height: 0.95rem;
+}
+
+.theme-admonition [class*='admonitionContent'] > :last-child {
+  margin-bottom: 0;
+}
+
+/* ── Breadcrumbs ──────────────────────────────────────────────────────────*/
+
+.breadcrumbs {
+  margin-bottom: 1.1rem;
+}
+
+.breadcrumbs__link {
+  font-size: 0.8rem;
+  color: var(--mida-muted);
+  border-radius: var(--mida-radius-sm);
+}
+
+.breadcrumbs__item--active .breadcrumbs__link {
+  color: var(--mida-heading);
+  font-weight: 500;
+  background: var(--mida-fill);
+}
+
+.breadcrumbs__item:not(:last-child)::after {
+  opacity: 0.4;
+  margin: 0 0.1rem;
+}
+
+/* ── Table of contents ────────────────────────────────────────────────────*/
+
+.table-of-contents {
+  font-size: 0.8rem;
+  border-left: 1px solid var(--mida-border);
+}
+
+.table-of-contents__link {
+  color: var(--mida-muted);
+  line-height: 1.45;
+  display: block;
+  padding: 0.1rem 0;
+}
+
+.table-of-contents__link--active,
+.table-of-contents__link:hover,
+.table-of-contents__link--active code,
+.table-of-contents__link:hover code {
+  color: var(--mida-heading);
+  font-weight: 500;
+}
+
+/* ── Pagination ───────────────────────────────────────────────────────────*/
+
+.pagination-nav__link {
+  color: var(--ifm-font-color-base);
+  border: 1px solid var(--mida-border);
+  border-radius: var(--mida-radius-md);
+  padding: 0.75rem 0.95rem;
+  background: var(--mida-surface);
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.pagination-nav__link:hover {
+  border-color: var(--ifm-color-emphasis-400);
+  background: var(--mida-fill-hover);
+}
+
+.pagination-nav__label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: inherit;
+}
+
+.pagination-nav__sublabel {
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--mida-muted);
+  margin-bottom: 0.2rem;
+}
+
+/* ── Footer (standalone site only; hidden in embed mode) ──────────────────*/
+
 .footer {
-  padding: 1.5rem 0 1.1rem;
+  padding: 1.75rem 0 1.5rem;
+  border-top: 1px solid var(--mida-border);
 }
 
 .footer__title {
-  margin-bottom: 0.45rem;
-  font-size: 0.8rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .footer__link-item,
 .footer__copyright {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
 
 .footer__copyright {
-  margin-top: 0.85rem;
-  opacity: 0.8;
+  margin-top: 1rem;
+  opacity: 0.7;
 }
 
 /* ── Embed mode ────────────────────────────────────────────────────────────
@@ -240,4 +683,18 @@ html.mida-embed {
 html.mida-embed .navbar,
 html.mida-embed .footer {
   display: none !important;
+}
+
+/* With no navbar there is nothing above the content, so both columns need
+   their own top inset — otherwise they sit flush against the frame's top edge,
+   which the dashboard's own pages never do. 20px is the inset the dashboard
+   gives its own content (.page-wrapper). */
+html.mida-embed .theme-doc-sidebar-menu {
+  padding-top: 1.1rem;
+}
+
+/* !important because Docusaurus puts Infima's `padding-top--md` utility on this
+   container, and that class ships its own !important. */
+html.mida-embed main > .container {
+  padding-top: 20px !important;
 }
