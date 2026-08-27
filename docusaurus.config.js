@@ -83,6 +83,9 @@ const config = {
         logo: {
           alt: 'Mida Developer Docs Logo',
           src: 'img/mida-logo-square.png',
+          // Straight to the intro rather than to '/', which only redirects here
+          // anyway — this saves the logo a bounce through that hop.
+          href: '/docs/intro',
         },
         items: [
           {
