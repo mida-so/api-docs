@@ -34,7 +34,8 @@ import ApiEndpointLayout from '@site/src/components/ApiEndpointLayout';
 |---|---|---|
 | `test_name` | string | New display name for the experiment |
 | `url` | string | Change the test page URL |
-| `variants` | array | Replace treatment variant definitions using the same shape as Create Experiment |
+| `variants` | array | **Replaces** every treatment variant. Send the ones you are keeping as well — see the warning below. Same shape as Create Experiment |
+| `variants_data_key` | string | Which key inside the experiment's stored variant data your `variants` array writes to. Required when editing variants on a multi-page or sitewide test — see below |
 | `control` | object | Update Control nickname/custom JS/custom CSS helper fields |
 | `control_attr` | object/string | Raw Control attributes (`name`, `js`, `css`) if you are not using `control` |
 | `custom_js` | string | Experiment-wide JavaScript applied to all assigned visitors, including Control |
@@ -45,6 +46,49 @@ import ApiEndpointLayout from '@site/src/components/ApiEndpointLayout';
 | `secondary_goal_keys` | array | Replace the goal-based secondary metrics with these goals, referenced by key |
 
 Partial updates are shallow at the top level: omit a top-level field to leave it unchanged. When you send arrays such as `variants`, `tags`, or grouped targeting rules, the provided array becomes the new value for that field.
+
+:::warning Sending `variants` replaces all of them
+
+`variants` is not a merge and not an append. Whatever array you send becomes the complete set of treatment variants, so any variant you leave out is **deleted**, along with its custom code.
+
+To change one variant, or to add a new one, read the experiment first and send the full array back with your edit applied:
+
+```bash
+# 1. read
+curl https://api-us.mida.so/v2/project/YOUR_PROJECT_KEY/experiment/35174 \
+  -H "Authorization: Bearer YOUR_GENERATED_API_KEY"
+
+# 2. send every variant back, with the new one appended
+curl -X PATCH https://api-us.mida.so/v2/project/YOUR_PROJECT_KEY/experiment/35174 \
+  -H "Authorization: Bearer YOUR_GENERATED_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "variants": [
+      { "name": "Variant 1", "nickname": "Start for free",      "customJS": "/* unchanged */" },
+      { "name": "Variant 2", "nickname": "Create free account", "customJS": "/* the new arm */" }
+    ]
+  }'
+```
+
+Treatment names are positional (`Variant 1`, `Variant 2`, …), so append rather than renumber: reusing a name that an earlier variant had attributes that variant's recorded conversions to the new one.
+:::
+
+## Editing variants on a multi-page or sitewide test
+
+An experiment stores its variants under a key. On a single-page test that key is the page URL, and you can leave `variants_data_key` out. On a **multi-page or sitewide** test the variants live under a pattern such as `https://*` while the experiment's `url` stays a real page — the address the visual editor and preview links open.
+
+Send `variants_data_key` with the key the experiment already uses so the two do not get confused:
+
+```json
+{
+  "variants_data_key": "https://*",
+  "variants": [{ "name": "Variant 1", "nickname": "Sitewide heading", "customJS": "/* ... */" }]
+}
+```
+
+:::caution Do not pass the data key as `url`
+`url` sets the **editor page**, not the variant key. Passing a pattern like `https://*` as `url` is rejected, and if it were accepted it would overwrite the experiment's real page address and break every preview link for that test. `variants_data_key` names the key and changes nothing else.
+:::
 
 ## Variants and Control
 
