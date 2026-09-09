@@ -116,6 +116,7 @@ const sidebars = {
         apiDoc('v2/get-personalization-campaign', 'GET'),
         apiDoc('v2/create-personalization-campaign', 'POST'),
         apiDoc('v2/add-personalization-accounts', 'POST'),
+        apiDoc('v2/set-personalization-goal', 'PATCH'),
         apiDoc('v2/personalization-suggested-pages', 'GET'),
         apiDoc('v2/list-saved-target-accounts', 'GET'),
       ],
