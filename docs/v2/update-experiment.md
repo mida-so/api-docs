@@ -42,7 +42,7 @@ import ApiEndpointLayout from '@site/src/components/ApiEndpointLayout';
 | `custom_css` | string | Experiment-wide CSS applied to all assigned visitors, including Control |
 | `configuration` | object | Update traffic, statistics, automation, or trigger settings |
 | `targeting` | object | Update experiment-level targeting rules |
-| `sitewide` | boolean | Confirms the experiment should run on every page. Only needed when this update would leave a multi-page experiment with no URL rule, which is otherwise refused |
+| `sitewide` | boolean | Confirms the experiment should run on every page. Only needed when this update would leave its variants stored for all pages with no URL rule. See [Changing the pages an experiment runs on](#changing-the-pages-an-experiment-runs-on) |
 | `tags` | array | Experiment tags for organization |
 | `secondary_goal_keys` | array | Replace the goal-based secondary metrics with these goals, referenced by key |
 
@@ -153,8 +153,18 @@ Only the rules you send are changed. Sending `{ "targeting": { "device_rule": ["
 
 A non-empty `url_rule` is saved as sent. You do not need a separate flag to turn URL rules on.
 
+### Changing the pages an experiment runs on
+
+`url_rule` works the same way as page targeting in the Mida visual editor:
+
+- **Adding pages.** Send a `url_rule` that lists pages for a single-page experiment, and its variants move to all-pages storage (`https://*`), like switching to **Multiple pages** in the editor. The changes then apply on every page the rule allows. The experiment's `url` has to be one of those pages, because the editor and previews open it. Send a new `url` in the same request if it is not.
+- **Removing every page.** Send an empty `url_rule` (`[]`) and the experiment goes back to running only on its `url`, like switching back to **Single page**.
+- **Every page on purpose.** Send `"sitewide": true` with an empty `url_rule`.
+
+When variants move, the response includes `variants_moved` with the old and new keys. Split URL experiments keep their variants on the page the redirect starts from.
+
 :::caution An experiment with no URL rule runs on every page
-An experiment whose variants are stored for all pages (data key `https://*`, which is how multi-page experiments are saved) and that has no `url_rule` runs on every page the Mida tag is on. An update that would put an experiment in that state is refused with `400` and `"code": "would_run_sitewide"`. If every page is really what you want, send `"sitewide": true` with the update.
+An experiment whose variants are stored for all pages (`https://*`) and that has no `url_rule` runs on every page the Mida tag is on. An update that would put an experiment in that state without going through the steps above is refused with `400` and `"code": "would_run_sitewide"`. If every page is really what you want, send `"sitewide": true`.
 :::
 
 ## Secondary metrics
@@ -261,6 +271,7 @@ curl -X PATCH "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experime
 |---|---|
 | `400` | Invalid field values or malformed request body |
 | `400` | `"code": "would_run_sitewide"`: the update would make the experiment run on every page. Add a `url_rule`, or send `"sitewide": true` |
+| `400` | `"code": "editor_page_not_in_url_rule"`: the new `url_rule` does not allow the experiment's `url`. Send a `url` that is one of the listed pages |
 | `401` | Invalid or missing API key |
 | `404` | Experiment not found or belongs to a different project |
 
