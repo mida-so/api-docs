@@ -42,6 +42,7 @@ import ApiEndpointLayout from '@site/src/components/ApiEndpointLayout';
 | `custom_css` | string | Experiment-wide CSS applied to all assigned visitors, including Control |
 | `configuration` | object | Update traffic, statistics, automation, or trigger settings |
 | `targeting` | object | Update experiment-level targeting rules |
+| `sitewide` | boolean | Confirms the experiment should run on every page. Only needed when this update would leave a multi-page experiment with no URL rule, which is otherwise refused |
 | `tags` | array | Experiment tags for organization |
 | `secondary_goal_keys` | array | Replace the goal-based secondary metrics with these goals, referenced by key |
 
@@ -148,6 +149,14 @@ Common keys include `referral_rule`, `allowed_country`, `allowed_region`, `allow
 
 `cookie_rule` and `schedule_rule` are browser-runtime rules. Server-side SDK experiments cannot enforce them.
 
+Only the rules you send are changed. Sending `{ "targeting": { "device_rule": ["desktop"] } }` sets the device rule and leaves the URL rule, geo rules, custom code and every other rule as they are. To remove a rule, send it as an empty array, for example `"allowed_country": []`.
+
+A non-empty `url_rule` is saved as sent. You do not need a separate flag to turn URL rules on.
+
+:::caution An experiment with no URL rule runs on every page
+An experiment whose variants are stored for all pages (data key `https://*`, which is how multi-page experiments are saved) and that has no `url_rule` runs on every page the Mida tag is on. An update that would put an experiment in that state is refused with `400` and `"code": "would_run_sitewide"`. If every page is really what you want, send `"sitewide": true` with the update.
+:::
+
 ## Secondary metrics
 
 Pass `secondary_goal_keys` to change which of your goals report as secondary metrics on a test that already exists, using the same goal keys as [Create Experiment](./create-experiment) (find them with [List Goals](./list-goals)):
@@ -233,15 +242,25 @@ curl -X PATCH "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experime
 ```json
 {
   "success": true,
-  "test_id": 1234
+  "test_id": 1234,
+  "updated_fields": ["test_device_rule", "targeting", "updated_at"],
+  "saved_targeting": {
+    "runs_on": "pages allowed by url_rule",
+    "url_rule": [{ "allowed": true, "url": "/products/", "rule": "contain" }],
+    "data_keys": ["https://*"],
+    "targeting": { "url_rule": [{ "allowed": true, "url": "/products/", "rule": "contain" }], "device_rule": ["desktop"] }
+  }
 }
 ```
+
+`saved_targeting` is read back from the saved experiment, not copied from your request. Use `runs_on` to confirm where the experiment will run.
 
 ## Error responses
 
 | Status | Meaning |
 |---|---|
 | `400` | Invalid field values or malformed request body |
+| `400` | `"code": "would_run_sitewide"`: the update would make the experiment run on every page. Add a `url_rule`, or send `"sitewide": true` |
 | `401` | Invalid or missing API key |
 | `404` | Experiment not found or belongs to a different project |
 

@@ -555,11 +555,19 @@ curl --request POST \
   "company_id": 1001,
   "goal_profile_id": 8936,
   "secondary_goals_count": 0,
+  "saved_targeting": {
+    "runs_on": "pages matching https://example.com/",
+    "url_rule": [],
+    "data_keys": ["https://example.com/"],
+    "targeting": {}
+  },
   "warnings": []
 }
 ```
 
 Save the `test_id` — you will use it in every subsequent call for this experiment.
+
+`saved_targeting` is read back from the saved experiment, not copied from your request. Check `runs_on` before you launch: it says which pages the experiment will run on.
 
 :::tip No goal provided?
 If you omit `primary_goal` and `primary_goal_key`, the experiment is still created but `warnings` will include `"No goal payload provided. Draft was created without a primary goal mapping."` You can add a goal later via the Update Experiment endpoint.
