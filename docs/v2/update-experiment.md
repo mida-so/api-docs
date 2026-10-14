@@ -149,7 +149,7 @@ Common keys include `referral_rule`, `allowed_country`, `allowed_region`, `allow
 
 `cookie_rule` and `schedule_rule` are browser-runtime rules. Server-side SDK experiments cannot enforce them.
 
-Only the rules you send are changed. Sending `{ "targeting": { "device_rule": ["desktop"] } }` sets the device rule and leaves the URL rule, geo rules, custom code and every other rule as they are. To remove a rule, send it as an empty array, for example `"allowed_country": []`.
+Only the rules you send are changed. Sending `{ "targeting": { "device_rule": ["desktop"] } }` sets the device rule and leaves the URL rule, geo rules, custom code and every other rule as they are. To remove a rule, send it as an empty array, for example `"allowed_country": []`. An empty rule is stored as no rule, so it never blocks visitors.
 
 A non-empty `url_rule` is saved as sent. You do not need a separate flag to turn URL rules on.
 

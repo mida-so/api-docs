@@ -82,7 +82,6 @@ See [Create Experiment — Plan limits](./create-experiment#public-v2-plan-limit
 | Status | Meaning |
 |---|---|
 | `400` | Invalid status value — must be `0`, `1`, or `9` |
-| `400` | `"code": "would_run_sitewide"`: the experiment has no URL rule while its variants are stored for all pages (`https://*`), so going live would run it on every page. Set its pages with [Update Experiment](./update-experiment) `targeting.url_rule`, or send `"sitewide": true` with the status if every page is intended |
 | `401` | Invalid or missing API key |
 | `403` | [Plan limit](./create-experiment#public-v2-plan-limits) — maximum concurrent live experiments per project reached |
 | `404` | Experiment not found |
