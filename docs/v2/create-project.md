@@ -31,6 +31,12 @@ import ApiEndpointLayout from '@site/src/components/ApiEndpointLayout';
 
 At least one of `website_name`, `name`, or `allowed_website` must be supplied. Anything else in the body is ignored.
 
+## Plan limits (free &amp; Agency Lite) {#public-v2-plan-limits}
+
+**Sandbox** (`paid_plan` **300**) and **Agency Lite** (`paid_plan` **305**) include **1** project. If the account already has one, this endpoint returns **`403`** with `"code": "project_limit"`. Inactive projects still count. Deleted projects do not, so deleting a project you no longer use frees the slot.
+
+Accounts that already have more projects than their plan allows keep them. Only creating another one is refused.
+
 ## Example
 
 ```bash
@@ -73,6 +79,7 @@ The returned `project_key` is the new project's permanent public identifier — 
 | `400` | None of `website_name`, `name`, or `allowed_website` supplied |
 | `401` | Invalid or missing API key |
 | `403` | Project supplied as auth context is inactive |
+| `403` | `"code": "project_limit"`: the account already has as many projects as its plan includes. See [Plan limits](#public-v2-plan-limits) |
 
 :::tip After creating
 The new project does not have its own API key yet. Switch to the new project in the dashboard, then visit [app.mida.so/api-keys](https://app.mida.so/api-keys) to generate one before using project-scoped endpoints (experiments, events, goals).
