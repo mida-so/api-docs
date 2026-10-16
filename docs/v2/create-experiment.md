@@ -508,8 +508,9 @@ For accounts on **Sandbox** (`paid_plan` **300**) or **Agency Lite** (`paid_plan
 
 | Limit | Value | When it applies |
 |---|---|---|
-| Concurrent **live** experiments | **2** per project | Experiments with `status: 1`, `is_completed: 0`, and not deploy experiments (`is_deploy` not set). Counted when you create as live (`status: 1`) or when you [activate](./update-experiment-status) an experiment. Draft (`9`) or inactive (`0`) experiments do not count until they are live. |
-| Goals per project | **2** goal profiles | Creating **new** goals via inline `primary_goal` / `secondary_goals`, or any insert that would add another row to the project’s goal library. Referencing existing goals by key does not consume additional slots. |
+| Concurrent **live** experiments | **3** per project | Experiments with `status: 1`, `is_completed: 0`, and not deploy experiments (`is_deploy` not set). Counted when you create as live (`status: 1`) or when you [activate](./update-experiment-status) an experiment. Draft (`9`) or inactive (`0`) experiments do not count until they are live. |
+| Variants per experiment | **1** treatment variant (A/B: Control plus `Variant 1`) | Sending more than one entry in `variants` returns `403` with `"code": "variant_limit"`. The same applies when [Update Experiment](./update-experiment) or the variant add route would grow an experiment past one variant. An experiment that already has more variants can still be edited, but not given more. |
+| Goals | No limit | Free plans can create as many goals as they need. |
 
 Paid plans above these tiers are not limited by these checks in the Public API.
 
@@ -579,7 +580,7 @@ If you omit `primary_goal` and `primary_goal_key`, the experiment is still creat
 |---|---|
 | `400` | Missing required field (`test_name`, `url`, or `variants`), invalid `status` value, or malformed request body |
 | `401` | Invalid or missing API key |
-| `403` | [Plan limit](#public-v2-plan-limits) — too many concurrent **live** experiments for the project, or too many **goals** when creating new goal profiles |
+| `403` | [Plan limit](#public-v2-plan-limits): too many concurrent **live** experiments for the project, or more than one variant (`"code": "variant_limit"`) |
 | `404` | Project not found |
 | `500` | Server error |
 

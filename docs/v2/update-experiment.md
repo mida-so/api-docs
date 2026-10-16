@@ -273,6 +273,7 @@ curl -X PATCH "https://api-{region}.mida.so/v2/project/YOUR_PROJECT_KEY/experime
 | `400` | `"code": "would_run_sitewide"`: the update would make the experiment run on every page. Add a `url_rule`, or send `"sitewide": true` |
 | `400` | `"code": "editor_page_not_in_url_rule"`: the new `url_rule` does not allow the experiment's `url`. Send a `url` that is one of the listed pages |
 | `401` | Invalid or missing API key |
+| `403` | `"code": "variant_limit"`: on Sandbox or Agency Lite, the update would give the experiment more than one variant. See [Plan limits](./create-experiment#public-v2-plan-limits) |
 | `404` | Experiment not found or belongs to a different project |
 
 :::info Updating live experiments
