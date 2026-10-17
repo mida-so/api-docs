@@ -1,0 +1,11 @@
+# docs.mida.so: the Docusaurus build served as static assets by a Cloudflare Worker (free: static asset requests aren't billed).
+# Deploys from GitHub Actions (.github/workflows/deploy.yml): main -> production, pull requests -> preview URL.
+name = "mida-docs"
+compatibility_date = "2026-10-01"
+workers_dev = true
+preview_urls = true
+
+[assets]
+directory = "./build"
+html_handling = "drop-trailing-slash"
+not_found_handling = "404-page"
