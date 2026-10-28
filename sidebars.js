@@ -102,6 +102,20 @@ const sidebars = {
     },
     {
       type: 'category',
+      label: 'Surveys',
+      items: [
+        apiDoc('v2/list-surveys', 'GET'),
+        apiDoc('v2/get-survey-details', 'GET'),
+        apiDoc('v2/create-survey', 'POST'),
+        apiDoc('v2/update-survey', 'PATCH'),
+        apiDoc('v2/update-survey-status', 'PATCH'),
+        apiDoc('v2/delete-survey', 'DEL'),
+        apiDoc('v2/get-survey-results', 'GET'),
+        apiDoc('v2/get-survey-responses', 'GET'),
+      ],
+    },
+    {
+      type: 'category',
       label: 'Account',
       items: [
         apiDoc('v2/list-team-members', 'GET'),

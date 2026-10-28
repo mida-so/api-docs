@@ -170,6 +170,23 @@ difficulty.
 | `delete_hypothesis` | Takes an idea off the backlog. Refused if any experiment was run from it. |
 | `link_hypothesis_to_experiment` | Attaches a hypothesis to an experiment, or detaches with `hypothesis_id: 0`. An archived idea cannot be attached. `create_experiment` can do this in one call for new tests. |
 
+### Surveys
+
+On-site surveys: short questions asked on the customer's pages to learn who visitors are and what
+stops them. Questions are numbered from 1 in the order asked, and branching rules, filters and
+`compare` all name a question by that number.
+
+| Tool | What it does |
+|---|---|
+| `list_surveys` | Lists the project's surveys with status (draft, live, paused, ended, archived), number of questions, and how many people saw and answered each. Archived surveys are left out unless you pass `include_archived`. |
+| `get_survey` | Gets one survey by `survey_id`: questions with any branching, when and how often it asks, look, response limits, page targeting, and answers per question. |
+| `create_survey` | Creates a survey as a draft, with 1 to 10 questions. Optional branching (`next`, an answer's `next`, or `branch` for Yes / No and NPS groups) and `save_as` to save an answer to the visitor for later targeting. |
+| `update_survey` | Changes a survey. Only the fields sent change; `questions` replaces the list, so send each question back with its `qid` to keep its answers. Editing a live survey needs the user's confirmation. |
+| `update_survey_status` | Sets a survey `live`, `paused` or `ended`. Always needs the user's confirmation. |
+| `delete_survey` | Archives a survey; its answers stay. Needs `confirm_delete: "Delete survey <survey_id>"`. |
+| `get_survey_results` | The funnel (shown, answered, finished their path) and every question's answers. `filters` keeps only people who gave certain answers; `compare` splits every other question by one question's answers. |
+| `get_survey_responses` | One row per respondent, newest first: answers by question number, device, source, country, and an email only when the site identified the visitor with `mida.identify`. Paged with `limit` and `offset`. |
+
 ### Goals and events
 
 | Tool | What it does |
@@ -198,6 +215,9 @@ difficulty.
 - "What should I test next? Check my hypothesis backlog first."
 - "Why did we run test `12345`?"
 - "Save a hypothesis: mobile visitors never scroll past the first pricing plan, so collapse the comparison into one card. Confidence 4, importance 5, difficulty 2."
+- "Draft a survey for blog readers asking if they are a student or an instructor. Ask students about an Education Plan and instructors whether they would teach with Mida."
+- "In my 'Who is visiting' survey, what did instructors answer to question 2?"
+- "Compare students and instructors in that survey."
 - "Create that experiment and record the reason with it."
 
 For complex creation prompts, include the target URL, desired change, conversion goal, and whether the experiment should remain a draft or go live.
