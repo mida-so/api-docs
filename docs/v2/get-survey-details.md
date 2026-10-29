@@ -87,7 +87,7 @@ and send it back.
 | `min`, `max` | integer | `scale` only: 1 to 5, 1 to 7 or 0 to 10 |
 | `minLabel`, `maxLabel` | string | Optional end labels for `scale` and `nps` |
 | `optional`, `short` | boolean | `text` only: people can skip it (default `true`); a one-line box |
-| `save_as` | string | Optional, click questions only: saves the answer to the visitor under this attribute name, so segment rules can target it in later tests |
+| `save_as` | string | Optional, click questions only, paid plans only: saves the answer to the visitor under this attribute name, so segment rules can target it in later tests. On a free plan a save with it is refused with `403` and `"code": "save_as_paid_only"` |
 | `next` | integer or `"end"` | Where everyone goes after this question: a later question's number, or `"end"` |
 | `options[].next` | integer or `"end"` | Single choice: where people who pick this answer go |
 | `branch` | object | Yes / No: `{ "yes", "no" }`. NPS: `{ "detractor", "passive", "promoter" }`. Each a later question's number or `"end"` |

@@ -65,6 +65,7 @@ The survey as saved, in the same shape as [Get Survey Details](./get-survey-deta
 | `400` | An invalid question, setting or branching rule, `status` in the body, or an archived survey |
 | `401` | Invalid or missing API key |
 | `403` with `code: branching_paid_only` | The survey branches and the account is on a free plan |
+| `403` with `code: save_as_paid_only` | A question saves its answer to the visitor and the account is on a free plan |
 | `403` | Surveys need a paid plan, or the key's user is a Viewer (for changes) |
 | `404` | Project or survey not found. A survey from another project is not found |
 
