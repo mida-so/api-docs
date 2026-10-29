@@ -132,6 +132,9 @@ and send it back.
 | `options[].next` | integer or `"end"` | Single choice: where people who pick this answer go |
 | `branch` | object | Yes / No: `{ "yes", "no" }`. NPS: `{ "detractor", "passive", "promoter" }`. Each a later question's number or `"end"` |
 
+Branching is on paid plans. On a free plan, saving a survey with any jump is refused with `403`
+and `"code": "branching_paid_only"`; a survey that asks its questions in order saves as usual.
+
 An answer's own rule wins over the question's `next`. With neither, people go on to the next
 question in order. Jumps only go forward, so a survey can't loop: a rule pointing back is refused
 with `400`. The first question must be one people answer with a click, not `text`. A survey has 1 to
@@ -144,6 +147,7 @@ each person only the questions that fit them.
 |---|---|
 | `400` | A missing name, no questions or more than 10, open text as the first question, a branching rule that points back or nowhere, an invalid setting, or `status` other than `draft` |
 | `401` | Invalid or missing API key |
+| `403` with `code: branching_paid_only` | The survey branches and the account is on a free plan |
 | `403` | Surveys need a paid plan, or the key's user is a Viewer (for changes) |
 | `404` | Project or survey not found. A survey from another project is not found |
 

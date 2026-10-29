@@ -92,6 +92,9 @@ and send it back.
 | `options[].next` | integer or `"end"` | Single choice: where people who pick this answer go |
 | `branch` | object | Yes / No: `{ "yes", "no" }`. NPS: `{ "detractor", "passive", "promoter" }`. Each a later question's number or `"end"` |
 
+Branching is on paid plans. On a free plan, saving a survey with any jump is refused with `403`
+and `"code": "branching_paid_only"`; a survey that asks its questions in order saves as usual.
+
 An answer's own rule wins over the question's `next`. With neither, people go on to the next
 question in order. Jumps only go forward, so a survey can't loop: a rule pointing back is refused
 with `400`. The first question must be one people answer with a click, not `text`. A survey has 1 to
