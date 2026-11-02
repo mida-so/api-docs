@@ -18,3 +18,6 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Built from docs/v2 by scripts/build-openapi.mjs
+/static/openapi.json

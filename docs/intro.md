@@ -62,6 +62,8 @@ Your account is hosted in either the **US** or **EU** region. Use the correct ba
 
 If you're unsure, check **Dashboard → Settings** — your region is shown there.
 
+An OpenAPI 3.1 description of every endpoint below is at [`https://docs.mida.so/openapi.json`](https://docs.mida.so/openapi.json), for code generators and AI agents.
+
 ---
 
 ## Authentication
