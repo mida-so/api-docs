@@ -60,25 +60,30 @@ In Cursor, open MCP settings and add a remote MCP server:
 
 Cursor should open the Mida dashboard authorization flow. Approve the connection, choose a project if prompted, then return to Cursor and confirm that the Mida tools are listed.
 
+### Claude (claude.ai and Claude Desktop)
+
+Mida is listed in the Claude connector directory as [Mida A/B Testing](https://claude.ai/directory/mida-a-b-testing). Open it, click **Connect**, sign in with your Mida account, and choose a project. You can also find it in Claude under **Settings → Connectors → Browse connectors**. Claude Desktop uses the same connector, so you only add it once.
+
+If your workspace only allows custom connectors, add `https://mcp.mida.so/mcp` as a custom connector instead.
+
 ### Claude Code
 
-If your Claude Code version supports remote HTTP MCP with OAuth, add Mida as an HTTP MCP server:
+If you added Mida A/B Testing to Claude, Claude Code loads it automatically when you are signed in with the same Claude account. Run `/mcp` and look for it with a `claude.ai` prefix.
+
+Or install the Mida plugin, which adds the MCP server plus two Mida skills:
 
 ```bash
-claude mcp add --transport http mida https://mcp.mida.so/mcp
+claude plugin marketplace add mida-so/mida-plugin
+claude plugin install mida-so@mida
 ```
 
-Then follow the browser authorization prompt. If your CLI uses a different MCP command format, choose the remote HTTP transport and use `https://mcp.mida.so/mcp` as the server URL.
+Or add only the MCP server:
 
-### Claude Desktop
-
-Claude Desktop support for remote OAuth MCP depends on the version and release channel. If your version includes remote connectors or remote MCP servers, add Mida with:
-
-```text
-https://mcp.mida.so/mcp
+```bash
+claude mcp add --transport http --scope user mida https://mcp.mida.so/mcp
 ```
 
-If your version only supports local stdio MCP servers, remote OAuth will not work directly. In that case, either use Cursor/Claude Code for remote MCP or use the advanced local stdio package setup documented in the MCP server package. The local fallback requires `MIDA_API_KEY` and `MIDA_PROJECT_KEY`, while the recommended remote setup does not.
+Pick one route, so Mida does not load twice. Then run `/mcp`, select Mida, and complete the browser sign-in.
 
 ### VS Code
 
