@@ -6,8 +6,8 @@ hide_title: true
 import ApiEndpointLayout from '@site/src/components/ApiEndpointLayout';
 import Admonition from '@theme/Admonition';
 
-<Admonition type="info" title="Client-side experiments only">
-  This endpoint creates <strong>client-side</strong> experiments — Mida applies variant CSS/JS in the visitor's browser via the Mida script. For experiments that run in your backend, mobile app, or API, create the experiment in the dashboard and integrate a <a href="/docs/server-side/sdks">Server-side SDK</a> instead.
+<Admonition type="info" title="Client-side by default, server-side with experiment_key">
+  Without <code>experiment_key</code>, this endpoint creates a <strong>client-side</strong> experiment: Mida applies variant CSS/JS in the visitor's browser via the Mida script. With <code>experiment_key</code>, it creates a <strong>server-side</strong> experiment, which your own code executes through a <a href="/docs/server-side/sdks">Mida SDK</a> — see <a href="#server-side-experiments">Server-side experiments</a> below.
 </Admonition>
 
 <ApiEndpointLayout
@@ -44,6 +44,32 @@ import Admonition from '@theme/Admonition';
 | `url` | string | The **editor URL**: the single page the visual editor and every preview link open, e.g. `https://example.com/pricing`. Must be a specific page — a wildcard pattern returns `400`, because a pattern cannot be opened in a browser. Optional when `page_urls` is given, in which case the first entry is used |
 | `page_urls` | array | Optional. Where the experiment runs, when it is more than the one page in `url`. Entries are a plain page address or a `{ url, rule, allowed }` object — see below. At most 50 |
 | `variants` | array | **Required.** One or more treatment variant objects — **do not include a "Control" entry** (see Variants section) |
+
+## Server-side experiments
+
+A server-side experiment is executed by your own code through a Mida SDK. Your backend, API or mobile app calls `getExperiment(experiment_key, distinctId)`, gets back `"Control"`, `"Variant 1"`, …, and runs that branch itself. Mida changes nothing on any page; it only assigns variants and counts conversions.
+
+Send `experiment_key` (or `"type": "server-side"` together with it):
+
+```json
+{
+  "test_name": "Pricing page CTA",
+  "experiment_key": "pricing-page-cta",
+  "variants": [{ "name": "Variant 1", "nickname": "Annual plan first" }],
+  "primary_goal_key": "abc123"
+}
+```
+
+| Field | Notes |
+|---|---|
+| `experiment_key` | The key your code passes to `getExperiment()`. 1–100 letters, digits, `.`, `_` or `-`. Must be unique in the project: a key already used by another experiment returns `409` |
+| `variants` | Names and nicknames only. Your code holds the variant logic |
+| `configuration.distribution` | Optional custom split, e.g. `{ "Control": 50, "Variant 1": 50 }` |
+| goals | Same as client-side. Record conversions with the SDK's `setEvent()` |
+
+Fields the SDK does not use return `400` instead of being saved: `url`, `page_urls`, `targeting`, `custom_js`, `custom_css`, `control`, variant `customJS` / `customCSS` / `customHTML` / `data` / `targeting`, a `traffic_allocation` other than 100, and the split, MVT, A/A and personalization flags. To limit who is tested, decide in your own code before calling `getExperiment()`.
+
+The response adds `type: "server-side"`, `experiment_key` and `sdk_next_step`. The experiment is a draft: `getExperiment()` returns `null` until you launch it, so deploy your code first, then set it live.
 
 ### Running across several pages: `page_urls`
 

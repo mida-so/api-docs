@@ -14,9 +14,9 @@ This guide walks you through running your first server-side A/B experiment with 
 
 ---
 
-## Step 1 — Create a server-side experiment in the dashboard
+## Step 1 — Create a server-side experiment
 
-Server-side experiments are created in the Mida dashboard, not via the REST API.
+Create it in the dashboard, or with the REST API / MCP server (send an `experiment_key` to [Create Experiment](/docs/v2/create-experiment#server-side-experiments)). In the dashboard:
 
 1. Open your project → **Experiments → New Experiment**
 2. Choose **Server-side Test**
@@ -24,7 +24,7 @@ Server-side experiments are created in the Mida dashboard, not via the REST API.
 4. Configure your primary goal (click, event, revenue, etc.)
 5. Save as draft — do **not** launch yet
 
-The dashboard will generate an **Experiment key** (e.g. `homepage-pricing-v2`). Copy it — you'll use it in your code.
+Set the **Experiment key** (e.g. `homepage-pricing-v2`). You'll pass the same key to `getExperiment()` in your code.
 
 ---
 

@@ -14,7 +14,7 @@ Mida offers two ways to run experiments, depending on where your variant logic l
 | **Where variants run** | Browser (Mida JS script) | Your app/server (SDK) |
 | **What you can test** | Page appearance — CSS, text, HTML, redirects | Backend logic — pricing, algorithms, APIs, mobile app rendering |
 | **Flicker risk** | Yes (mitigated by Mida's anti-flicker) | None — response is already the right variant |
-| **Setup** | Install Mida script → use REST API or dashboard | Create in dashboard → install SDK → call `getExperiment()` |
+| **Setup** | Install Mida script → use REST API or dashboard | Create in dashboard, REST API or MCP → install SDK → call `getExperiment()` |
 | **Requires Mida script on page** | Yes | No (but recommended for goal tracking) |
 | **Platforms** | Websites | Node.js, Python, PHP, Ruby, Flutter, Android, iOS |
 
@@ -32,8 +32,8 @@ Most Mida users start with **client-side** experiments — they require no code 
 ## How server-side testing works in Mida
 
 ```
-1. You create the experiment in the dashboard (server-side type)
-2. Mida assigns a stable experiment_key (e.g. "homepage-pricing-v2")
+1. You create the experiment (dashboard, REST API or MCP), server-side type
+2. You give it a stable experiment_key (e.g. "homepage-pricing-v2")
 3. On each request, your server calls the SDK:
       variant = await mida.getExperiment(experimentKey, distinctUserId)
 4. Your code branches on "Control", "Variant 1", "Variant 2", …
@@ -51,7 +51,7 @@ The SDK handles **bucketing** (deterministically assigning a user to a variant),
 | Key | What it is | Where to find it |
 |-----|------------|-----------------|
 | **Project key** | Identifies your Mida site/project | Dashboard → Settings → API |
-| **Experiment key** | Identifies a specific server-side experiment | Dashboard → Experiment → SDK panel |
+| **Experiment key** | Identifies a specific server-side experiment | Set when you create it; shown in Dashboard → Experiment → SDK panel and returned by Get Experiment |
 
 Both are needed for SDK usage. The REST API uses **Project key** for management. The SDK uses **Project key** (to init the client) and **Experiment key** (to get variant assignments).
 
