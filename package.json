@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
-    "prestart": "node scripts/build-openapi.mjs",
+    "prestart": "node scripts/build-openapi.mjs && node scripts/build-llms.mjs",
     "start": "docusaurus start",
-    "prebuild": "node scripts/build-openapi.mjs",
+    "prebuild": "node scripts/build-openapi.mjs && node scripts/build-llms.mjs",
     "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
