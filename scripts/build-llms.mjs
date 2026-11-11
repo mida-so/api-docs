@@ -47,7 +47,7 @@ if (unknown.length) throw new Error(`build-llms: add ${unknown.join(', ')} to OR
 
 const out = `# Mida Developer Docs
 
-> Mida is an A/B testing and personalization platform. These docs cover the V2 REST API, the remote MCP server, and the server-side and mobile SDKs (Node.js, Python, PHP, Ruby, Next.js, Vue, Flutter, iOS, Android).
+> Mida is an A/B testing and personalization platform. These docs cover the V2 REST API, the remote MCP server, and the server-side and mobile SDKs (Node.js, Python, Go, PHP, Ruby, Next.js, Vue, Flutter, iOS, Android).
 
 - API base URL: \`https://api-us.mida.so\` or \`https://api-eu.mida.so\`, matching the project's data region.
 - Auth: \`Authorization: Bearer <API key>\`, generated in the Mida dashboard under Projects → [your project] → Settings → API. Every project-scoped endpoint takes the project key in its path.
