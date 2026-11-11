@@ -44,7 +44,7 @@ npm install mida-node
 <TabItem value="python" label="Python">
 
 ```bash
-pip install git+https://github.com/mida-so/mida-python.git
+pip install mida-python
 ```
 
 </TabItem>

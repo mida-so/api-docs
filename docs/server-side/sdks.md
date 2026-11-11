@@ -16,7 +16,7 @@ All SDKs are open source under the MIT license and hosted in the [mida-so GitHub
 | Language / Platform | Install | GitHub |
 |---|---|---|
 | **Node.js** | `npm install mida-node` | [mida-so/mida-node](https://github.com/mida-so/mida-node) |
-| **Python** | `pip install git+https://github.com/mida-so/mida-python.git` | [mida-so/mida-python](https://github.com/mida-so/mida-python) |
+| **Python** | `pip install mida-python` | [mida-so/mida-python](https://github.com/mida-so/mida-python) |
 | **Go** | `go get github.com/mida-so/mida-go` | [mida-so/mida-go](https://github.com/mida-so/mida-go) |
 | **PHP** | `composer require mida-so/mida-php` | [mida-so/mida-php](https://github.com/mida-so/mida-php) |
 | **Ruby** | `gem install mida-ruby` | [mida-so/mida-ruby](https://github.com/mida-so/mida-ruby) |
