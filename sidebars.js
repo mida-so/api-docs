@@ -51,6 +51,14 @@ const sidebars = {
     },
     {
       type: 'category',
+      label: 'Agent Registration',
+      items: [
+        apiDoc('v2/register-agent-account', 'POST'),
+        apiDoc('v2/claim-agent-account', 'POST'),
+      ],
+    },
+    {
+      type: 'category',
       label: 'Projects',
       items: [
         apiDoc('v2/list-projects', 'GET'),
